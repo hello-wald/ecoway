@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -15,44 +9,41 @@ datasource db {
 }
 
 model MsUser {
-  user_id       String          @id
-  user_email    String          @unique
-  user_password String
-  user_name     String
-  user_phone    String
-
-  vehicles          MsVehicle[]
-  trips_as_customer TripTransaction[] @relation("CustomerTrips")
-  trips_as_driver   TripTransaction[] @relation("DriverTrips")
+  user_id              String            @id
+  user_email           String            @unique
+  user_password        String
+  user_name            String
+  user_phone           String
+  user_profile_picture String
+  vehicles             MsVehicle[]
+  trips_as_customer    TripTransaction[] @relation("CustomerTrips")
+  trips_as_driver      TripTransaction[] @relation("DriverTrips")
 }
 
-model MsVehicle { 
-  vehicle_id     String       @id
+model MsVehicle {
+  vehicle_id     String @id
   user_id        String
   vehicle_name   String
   vehicle_number String
-
-  user           MsUser       @relation(fields: [user_id], references: [user_id])
+  user           MsUser @relation(fields: [user_id], references: [user_id])
 }
 
 model TripTransaction {
-  trip_id         String        @id
-  customer_id     String
-  driver_id       String
-  destination_id  String
-  trip_date       DateTime
-  trip_point      Int
-
-  customer      MsUser        @relation("CustomerTrips", fields: [customer_id], references: [user_id])
-  driver        MsUser        @relation("DriverTrips", fields: [driver_id], references: [user_id])
-  destination   MsDestination @relation(fields: [destination_id], references: [destination_id])
+  trip_id        String        @id
+  customer_id    String
+  driver_id      String
+  destination_id String
+  trip_date      DateTime
+  trip_point     Int
+  customer       MsUser        @relation("CustomerTrips", fields: [customer_id], references: [user_id])
+  destination    MsDestination @relation(fields: [destination_id], references: [destination_id])
+  driver         MsUser        @relation("DriverTrips", fields: [driver_id], references: [user_id])
 }
 
 model MsDestination {
-  destination_id   String     @id
+  destination_id   String            @id
   destination_name String
   latitude         Float
   longitude        Float
-
   trips            TripTransaction[]
 }

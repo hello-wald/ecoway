@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { UserModel } from "../model/userModel";
+import { PrismaClient } from "../generated/prisma";
 
 const prisma = new PrismaClient();
 
@@ -14,7 +14,7 @@ export class UserRepository {
     }
   }
 
-  async getUserById(user_id: number): Promise<UserModel | null> {
+  async getUserById(user_id: string): Promise<UserModel | null> {
     return await prisma.msUser.findUnique({
       where: { user_id },
     });
@@ -25,7 +25,7 @@ export class UserRepository {
   }
 
   async updateUser(
-    user_id: number,
+    user_id: string,
     data: Partial<Omit<UserModel, "user_id">>
   ): Promise<boolean> {
     try {
@@ -40,7 +40,7 @@ export class UserRepository {
     }
   }
 
-  async deleteUser(user_id: number): Promise<boolean> {
+  async deleteUser(user_id: string): Promise<boolean> {
     try {
       await prisma.msUser.delete({
         where: { user_id },
@@ -51,4 +51,11 @@ export class UserRepository {
       return false;
     }
   }
+
+  async getUserByEmail(email: string): Promise<UserModel | null> {
+    return await prisma.msUser.findUnique({
+      where: { user_email :email },
+    });
+  }
+  
 }
