@@ -18,12 +18,25 @@ export async function handleRegister(req: Request, res: Response): Promise<void>
 }
 
 export async function handleLogin(req: Request, res: Response): Promise<void> {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    try {
-        const result = await login(email, password);
-        res.status(result.success ? 200 : 401).json(result);
-    } catch (err) {
-        res.status(500).json({ success: false, message: 'Something went wrong' });
+  try {
+    const result = await login(email, password);
+
+    if (result.success && result.user_id) {
+      res.cookie('user_id', result.user_id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', 
+        maxAge:  24 * 60 * 60 * 1000, 
+        sameSite: 'lax',
+      });
+
+      res.status(200).json(result);
+    } else {
+      res.status(401).json(result);
     }
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ success: false, message: 'Something went wrong' });
+  }
 }

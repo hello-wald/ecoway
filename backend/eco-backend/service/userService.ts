@@ -28,12 +28,20 @@ export async function register(email: string, password: string, name: string, ph
     return { success: true, message: 'User registered successfully' };
 }
 
-export async function login(email: string, password: string): Promise<{ success: boolean; message: string; }> {
-    const user = await userRepo.getUserByEmail(email);
-    if (!user) return { success: false, message: 'User not found' };
+export async function login(email: string, password: string): Promise<{
+  success: boolean;
+  message: string;
+  user_id?: string; 
+}> {
+  const user = await userRepo.getUserByEmail(email);
+  if (!user) return { success: false, message: 'User not found' };
 
-    const isMatch = await bcrypt.compare(password, user.user_password);
-    if (!isMatch) return { success: false, message: 'Invalid credentials' };
+  const isMatch = await bcrypt.compare(password, user.user_password);
+  if (!isMatch) return { success: false, message: 'Invalid credentials' };
 
-    return { success: true, message:'Login Success' };
+  return {
+    success: true,
+    message: 'Login Success',
+    user_id: user.user_id
+  };
 }
