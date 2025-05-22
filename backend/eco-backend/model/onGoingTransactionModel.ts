@@ -1,3 +1,4 @@
+import { Location } from "./locationModel"
 export interface onGoingTransactionModel{
     on_transaction_id: string
     driver_id:string

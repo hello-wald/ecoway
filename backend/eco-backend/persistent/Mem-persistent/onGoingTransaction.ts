@@ -1,6 +1,7 @@
 // Import the model
 import "../../model/onGoingTransactionModel"
 import { onGoingTransactionModel } from "../../model/onGoingTransactionModel"
+import { Location } from "../../model/locationModel"
 
 // In-memory store for ongoing transactions
 const OnGoingTransactionMap: Map<string, onGoingTransactionModel> = new Map();

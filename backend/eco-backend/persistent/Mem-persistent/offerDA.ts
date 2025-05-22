@@ -1,10 +1,11 @@
 import "../../model/offerModel"
 import { OfferModel } from "../../model/offerModel"
+import { Location } from "../../model/locationModel"
 // pair offer id and offer object
 
 const OfferMap: Map<string, any> = new Map();
 
-export function createOffer(driverID:string, vehicleID, location:Location, destinationID:string):Boolean{
+export function createOffer(driverID:string, vehicleID, location:Location, destinationID:string):string{
     const offerID:string = generateOfferID(5)
     const newOffer:OfferModel = {
         offer_id: offerID,
@@ -13,7 +14,11 @@ export function createOffer(driverID:string, vehicleID, location:Location, desti
         destination_id: destinationID,
         location: location
     }
-    return false
+    if (OfferMap.has(offerID)){
+        return "" // offer id already exists
+    }
+    OfferMap.set(offerID, newOffer)
+    return offerID
 }
 
 export function getOfferByOfferID(offerID:string):OfferModel{
@@ -40,4 +45,23 @@ function generateOfferID(length): string{
         generatedID+=randNum
     }
     return generatedID
+
+}
+
+export function getOfferByDriverID(driverID:string):OfferModel[]{
+    let offers:OfferModel[] = []
+    for (let offer of OfferMap.values()){
+        if (offer.driver_id === driverID){
+            offers.push(offer)
+        }
+    }
+    return offers
+}
+
+export function getAllOffer():OfferModel[]{
+    let offers:OfferModel[] = []
+    for (let offer of OfferMap.values()){
+        offers.push(offer)
+    }
+    return offers
 }

@@ -16,16 +16,16 @@ function generateRequestID(length: number): string {
 }
 
 // Create a new request
-export function createRequest(userId: string, offerId: string, date: string): boolean {
+export function createRequest(userId: string, offerId: string): string {
     const requestID: string = generateRequestID(6);
     const newRequest: requestModel = {
         request_id: requestID,
-        userId: userId,
-        offerid: offerId,
-        date: date
+        user_id: userId,
+        offer_id: offerId,
+        date: Date.now().toString(),
     };
     RequestMap.set(requestID, newRequest);
-    return true;
+    return requestID;
 }
 
 // Retrieve a request by ID
