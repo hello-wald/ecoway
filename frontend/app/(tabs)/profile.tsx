@@ -1,0 +1,258 @@
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Settings, User, MapPin, Shield, CreditCard, Bell, HelpCircle, LogOut } from 'lucide-react-native';
+import { useTheme } from '@/theme/context/theme-context';
+import {Theme} from "@/types/theme";
+import {router} from "expo-router";
+
+export default function ProfileScreen() {
+  const {theme} = useTheme();
+  const styles = createStyles(theme);
+
+  const userProfile = {
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg',
+    co2Saved: 124.5,
+    rides: 15,
+  };
+
+  const menuItems = [
+    { icon: User, label: 'Personal Information', screen: 'personal-info' },
+    { icon: MapPin, label: 'Saved Locations', screen: 'saved-locations' },
+    { icon: Shield, label: 'Safety & Security', screen: 'safety' },
+    { icon: CreditCard, label: 'Payment Methods', screen: 'payment' },
+    { icon: Bell, label: 'Notifications', screen: 'notifications' },
+    { icon: HelpCircle, label: 'Help & Support', screen: 'help' },
+  ];
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Profile</Text>
+        <TouchableOpacity style={styles.settingsButton}>
+          <Settings size={20} color={theme.color.text} />
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.profileCard}>
+          <Image source={{ uri: userProfile.avatar }} style={styles.avatar} />
+          <View style={styles.profileInfo}>
+            <Text style={styles.name}>{userProfile.name}</Text>
+            <Text style={styles.email}>{userProfile.email}</Text>
+          </View>
+          <TouchableOpacity style={styles.editButton}>
+            <Text style={styles.editButtonText}>Edit</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.statsContainer}>
+          <View style={styles.statItem}>
+            <Text style={styles.statValue}>{userProfile.co2Saved} kg</Text>
+            <Text style={styles.statLabel}>CO₂ Saved</Text>
+          </View>
+          <View style={styles.statDivider} />
+          <View style={styles.statItem}>
+            <Text style={styles.statValue}>{userProfile.rides}</Text>
+            <Text style={styles.statLabel}>Rides Taken</Text>
+          </View>
+        </View>
+
+        <View style={styles.menuContainer}>
+          {menuItems.map((item, index) => (
+            <TouchableOpacity key={index} style={styles.menuItem}>
+              <View style={styles.menuIconContainer}>
+                <item.icon size={20} color={theme.color.primary} />
+              </View>
+              <Text style={styles.menuLabel}>{item.label}</Text>
+              <View style={styles.menuArrow} />
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <TouchableOpacity style={styles.logoutButton} onPress={() => router.replace('/(auth)')}>
+          <LogOut size={20} color={theme.color.error} />
+          <Text style={styles.logoutText}>Log Out</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.versionText}>EcoWay v1.0.0</Text>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const createStyles = (theme: Theme) => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.color.background,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: theme.size.lg,
+    paddingVertical: theme.size.md,
+  },
+  headerTitle: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 22,
+    color: theme.color.text,
+  },
+  settingsButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: theme.color.background,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  scrollContent: {
+    paddingHorizontal: theme.size.lg,
+    paddingBottom: theme.size.xl,
+  },
+  profileCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.color.background,
+    borderRadius: theme.br.lg,
+    padding: theme.size.lg,
+    marginBottom: theme.size.lg,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  profileInfo: {
+    flex: 1,
+    marginLeft: theme.size.md,
+  },
+  name: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 18,
+    color: theme.color.text,
+  },
+  email: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: theme.color.textMuted,
+  },
+  editButton: {
+    backgroundColor: 'rgba(30, 136, 229, 0.1)',
+    paddingHorizontal: theme.size.md,
+    paddingVertical: theme.size.xs,
+    borderRadius: theme.br.full,
+  },
+  editButtonText: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 14,
+    color: theme.color.primary,
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    backgroundColor: theme.color.background,
+    borderRadius: theme.br.lg,
+    padding: theme.size.md,
+    marginBottom: theme.size.lg,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  statItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  statValue: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 18,
+    color: theme.color.text,
+  },
+  statLabel: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: theme.color.textMuted,
+    marginTop: 2,
+  },
+  statDivider: {
+    width: 1,
+    height: '80%',
+    backgroundColor: theme.color.border,
+  },
+  menuContainer: {
+    backgroundColor: theme.color.background,
+    borderRadius: theme.br.lg,
+    marginBottom: theme.size.lg,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    overflow: 'hidden',
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: theme.size.md,
+    paddingHorizontal: theme.size.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.color.border,
+  },
+  menuIconContainer: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(30, 136, 229, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: theme.size.md,
+  },
+  menuLabel: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 16,
+    color: theme.color.text,
+    flex: 1,
+  },
+  menuArrow: {
+    borderTopWidth: 2,
+    borderRightWidth: 2,
+    borderColor: theme.color.textMuted,
+    width: 8,
+    height: 8,
+    transform: [{ rotate: '45deg' }],
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(244, 67, 54, 0.1)',
+    borderRadius: theme.br.lg,
+    paddingVertical: theme.size.md,
+    marginBottom: theme.size.lg,
+  },
+  logoutText: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 16,
+    color: theme.color.error,
+    marginLeft: theme.size.sm,
+  },
+  versionText: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: theme.color.textMuted,
+    textAlign: 'center',
+  },
+});

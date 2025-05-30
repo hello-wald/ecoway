@@ -1,29 +1,41 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import {useEffect} from 'react';
+import {Stack, SplashScreen} from 'expo-router';
+import {StatusBar} from 'expo-status-bar';
+import {useFonts} from 'expo-font';
+import LoadingScreen from '@/components/loading';
+import {ThemeProvider} from '@/theme/context/theme-context';
+import {useFrameworkReady} from "@/hooks/useFrameworkReady";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  useFrameworkReady();
+
+  const [fontsLoaded, fontError] = useFonts({
+    'PJS-Regular': require("@/assets/fonts/PlusJakartaSans-Regular.ttf"),
+    'PJS-Medium': require("@/assets/fonts/PlusJakartaSans-Medium.ttf"),
+    'PJS-SemiBold': require("@/assets/fonts/PlusJakartaSans-SemiBold.ttf"),
+    'PJS-Bold': require("@/assets/fonts/PlusJakartaSans-Bold.ttf"),
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return <LoadingScreen/>;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+    <ThemeProvider>
+      <Stack screenOptions={{headerShown: false}}>
+        <Stack.Screen name="(auth)" options={{headerShown: false}}/>
+        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+        <Stack.Screen name="+not-found" options={{title: 'Oops!'}}/>
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style="auto"/>
     </ThemeProvider>
   );
 }
