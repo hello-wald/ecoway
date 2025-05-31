@@ -1,6 +1,6 @@
 import { authApi, AuthResponse } from "@/api/auth/auth.api";
-import { UserCredentials, RegisterCredentials, User } from "@/types/user.types";
-import { TokenService } from "./token.service";
+import { UserCredentials, RegisterCredentials, User } from "@/types";
+import { TokenService } from "@/services";
 import { AuthError } from "@/lib/utils/error-handler";
 
 export class AuthService {

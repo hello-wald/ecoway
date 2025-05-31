@@ -1,7 +1,7 @@
 import { THEME_STORAGE_KEY } from "@/lib/constants/storage-keys";
 import { DarkColors, LightColors, ThemeColors } from "@/theme/colors";
 import { ThemeContext } from "@/theme/hooks/useTheme";
-import { ThemeContextType, ThemeMode } from "@/types/theme.types";
+import { ThemeContextType, ThemeMode } from "@/theme/types/theme.types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { ReactNode, useEffect, useState } from "react";
 import { ColorSchemeName, useColorScheme } from "react-native";

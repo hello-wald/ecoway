@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { useTheme } from "@/theme/context/theme-context";
-import { BorderWidth, Spacing, Font } from "@/theme";
+import { BorderWidth, Spacing, Font, useTheme } from "@/theme";
 import { ThemeColors } from "@/theme/colors";
 
 export function OrDivider() {

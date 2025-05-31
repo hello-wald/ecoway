@@ -1,8 +1,7 @@
-import { useTheme } from "@/theme/context/theme-context";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { ReactNode } from "react";
 import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
-import { BorderRadius, Font, Shadow, Spacing } from "@/theme";
+import { BorderRadius, Font, Shadow, Spacing, useTheme } from "@/theme";
 import { ThemeColors } from "@/theme/colors";
 
 interface GradientButtonProps extends TouchableOpacityProps {
