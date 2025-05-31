@@ -10,7 +10,6 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
-	Alert,
 } from "react-native";
 import { Lock, Mail, User } from "lucide-react-native";
 import { createAuthStyles, IconSize, useTheme } from "@/theme";
@@ -18,56 +17,54 @@ import { GoogleButton } from "@/components/buttons/google-button";
 import { OrDivider } from "@/components/form/or-divider";
 import { GradientButton } from "@/components/buttons/gradient-button";
 import { Input } from "@/components/form/input";
-import { useAuth } from "@/hooks/useAuth";
-import { useAuthForm } from "@/hooks/useAuthForm";
 
 export default function SignUpScreen() {
 	const { Colors } = useTheme();
 	const authStyles = createAuthStyles(Colors);
 
-	const { signUp, isLoading, error, clearError } = useAuth();
-	const { 
-		getFieldProps, 
-		validateForm, 
-		hasRequiredFields 
-	} = useAuthForm({ type: 'signup' });
+	// const { signUp, isLoading, error, clearError } = useAuth();
+	// const {
+	// 	getFieldProps,
+	// 	validateForm,
+	// 	hasRequiredFields
+	// } = useAuthForm({ type: 'signup' });
 
-	const handleSignUp = async () => {
-		try {
-			clearError();
-			
-			const validation = validateForm();
-			if (!validation.isValid) {
-				return;
-			}
-
-			const nameProps = getFieldProps('name');
-			const emailProps = getFieldProps('email');
-			const passwordProps = getFieldProps('password');
-			
-			await signUp({
-				name: nameProps.value,
-				email: emailProps.value,
-				password: passwordProps.value,
-			});
-		} catch (error) {
-			// Error is handled by useAuth hook
-			console.error('Sign up failed:', error);
-		}
-	};
+	// const handleSignUp = async () => {
+	// 	try {
+	// 		clearError();
+	//
+	// 		const validation = validateForm();
+	// 		if (!validation.isValid) {
+	// 			return;
+	// 		}
+	//
+	// 		const nameProps = getFieldProps('name');
+	// 		const emailProps = getFieldProps('email');
+	// 		const passwordProps = getFieldProps('password');
+	//
+	// 		await signUp({
+	// 			name: nameProps.value,
+	// 			email: emailProps.value,
+	// 			password: passwordProps.value,
+	// 		});
+	// 	} catch (error) {
+	// 		// Error is handled by useAuth hook
+	// 		console.error('Sign up failed:', error);
+	// 	}
+	// };
 
 	// Show error alert when error changes
-	React.useEffect(() => {
-		if (error) {
-			Alert.alert('Sign Up Failed', error, [
-				{ text: 'OK', onPress: clearError }
-			]);
-		}
-	}, [error, clearError]);
+	// React.useEffect(() => {
+	// 	if (error) {
+	// 		Alert.alert('Sign Up Failed', error, [
+	// 			{ text: 'OK', onPress: clearError }
+	// 		]);
+	// 	}
+	// }, [error, clearError]);
 
-	const nameProps = getFieldProps('name');
-	const emailProps = getFieldProps('email');
-	const passwordProps = getFieldProps('password');
+	// const nameProps = getFieldProps('name');
+	// const emailProps = getFieldProps('email');
+	// const passwordProps = getFieldProps('password');
 
 	return (
 		<KeyboardAvoidingView
@@ -87,38 +84,36 @@ export default function SignUpScreen() {
 
 					<View style={authStyles.formContainer}>
 						<View style={authStyles.form}>
-							<Input 
+							<Input
 								label='Name'
 								icon={<User color={Colors.mutedForeground} size={IconSize.sm}/>}
 								placeholder="Enter name"
 								textContentType='name'
-								{...nameProps}
 							/>
 
-							<Input 
+							<Input
 								label='Email'
 								icon={<Mail color={Colors.mutedForeground} size={IconSize.sm}/>}
 								placeholder="Enter email"
 								keyboardType='email-address'
 								textContentType='emailAddress'
-								{...emailProps}
 							/>
 
-							<Input 
+							<Input
 								label='Password'
 								icon={<Lock color={Colors.mutedForeground} size={IconSize.sm}/>}
 								isPassword
 								placeholder="Enter password"
-								{...passwordProps}
 							/>
 						</View>
 
 						<View style={authStyles.buttonContainer}>
-							<GradientButton 
-								onPress={handleSignUp}
-								disabled={isLoading || !hasRequiredFields}
+							<GradientButton
+								// onPress={handleSignUp}
+								// disabled={isLoading || !hasRequiredFields}
 							>
-								{isLoading ? 'Creating Account...' : 'Sign Up'}
+								{/*{isLoading ? 'Creating Account...' : 'Sign Up'}*/}
+								Sign Up
 							</GradientButton>
 
 							<OrDivider/>

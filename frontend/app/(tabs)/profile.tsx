@@ -1,5 +1,5 @@
-import { useTheme } from "@/theme/context/theme-context";
-import { Theme } from "@/types/theme.types";
+import { useTheme } from "@/theme/provider/theme-provider";
+import { Theme } from "@/theme/types/theme.types";
 import { router } from "expo-router";
 import {
 	Bell,
