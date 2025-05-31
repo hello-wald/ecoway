@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { UserRepository } from '../persistent/userDA';
 import { v4 as uuidv4 } from 'uuid';
+import { UserModel } from '../model/userModel';
 
 const userRepo = new UserRepository()
 
@@ -31,7 +32,7 @@ export async function register(email: string, password: string, name: string, ph
 export async function login(email: string, password: string): Promise<{
   success: boolean;
   message: string;
-  user_id?: string; 
+  user?: UserModel; 
 }> {
   const user = await userRepo.getUserByEmail(email);
   if (!user) return { success: false, message: 'User not found' };
@@ -42,6 +43,6 @@ export async function login(email: string, password: string): Promise<{
   return {
     success: true,
     message: 'Login Success',
-    user_id: user.user_id
+    user: user
   };
 }
