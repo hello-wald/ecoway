@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { UserRepository } from '../persistent/userDA';
 import { v4 as uuidv4 } from 'uuid';
 import { UserModel } from '../model/userModel';
+import jwt from 'jsonwebtoken';
 
 const userRepo = new UserRepository()
 
@@ -32,7 +33,7 @@ export async function register(email: string, password: string, name: string, ph
 export async function login(email: string, password: string): Promise<{
   success: boolean;
   message: string;
-  user?: UserModel; 
+  token?: string;
 }> {
   const user = await userRepo.getUserByEmail(email);
   if (!user) return { success: false, message: 'User not found' };
@@ -40,9 +41,50 @@ export async function login(email: string, password: string): Promise<{
   const isMatch = await bcrypt.compare(password, user.user_password);
   if (!isMatch) return { success: false, message: 'Invalid credentials' };
 
+  const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET!, {
+    expiresIn: '7d',
+  });
+
   return {
     success: true,
-    message: 'Login Success',
-    user: user
+    message: 'Login successful',
+    token
   };
 }
+
+export async function changePassword(
+  new_password: string,
+  old_password: string,
+  user_id: string
+): Promise<{
+  success: boolean;
+  message: string;
+}> {
+  try {
+    const user = await userRepo.getUserById(user_id);
+    if (!user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    const isOldPasswordCorrect = await bcrypt.compare(old_password, user.user_password);
+    if (!isOldPasswordCorrect) {
+      return { success: false, message: 'Old password is incorrect' };
+    }
+
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+
+    const updated = await userRepo.updateUser(user_id, {
+      user_password: hashedPassword,
+    });
+
+    if (!updated) {
+      return { success: false, message: 'Failed to update password' };
+    }
+
+    return { success: true, message: 'Password updated successfully' };
+  } catch (error) {
+    console.error('Error in changePassword:', error);
+    return { success: false, message: 'An error occurred while updating password' };
+  }
+}
+
