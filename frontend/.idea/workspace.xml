@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="391ec150-0d67-4fd2-bdb0-fa45fea0b0a5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/signin.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/signup.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(tabs)/home.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(tabs)/rides.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/rides.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/+not-found.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/+not-found.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/buttons/gradient-button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/buttons/gradient-button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme/context/theme-context.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/theme/context/theme-context.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/theme/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme/styles/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/zustand/auth-store.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;hello-wald&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/hello-wald/ecoway.git&quot;,
+    &quot;accountId&quot;: &quot;f2519d8a-0f41-4f24-b8cd-6679e7d530dc&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/View/ViewPropTypes.d.ts" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2wo0v0NSEeOwQmyFPhaNku0k1Gf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;frontend&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/catherinealyssa/Documents/02 College/Software Engineering/03. Project/ecoway/frontend/assets/fonts&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.JavaScript&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/catherinealyssa/Documents/02 College/Software Engineering/03. Project/ecoway/frontend/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/fonts" />
+      <recent name="$PROJECT_DIR$/assets/images/auth" />
+      <recent name="$PROJECT_DIR$/app" />
+      <recent name="$PROJECT_DIR$/app/(tabs)" />
+      <recent name="$PROJECT_DIR$/app/(auth)" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/theme/context" />
+      <recent name="$PROJECT_DIR$/theme" />
+      <recent name="$PROJECT_DIR$/theme/styles" />
+      <recent name="$PROJECT_DIR$/components/form" />
+      <recent name="$PROJECT_DIR$/components" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="391ec150-0d67-4fd2-bdb0-fa45fea0b0a5" name="Changes" comment="" />
+      <created>1745378236360</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745378236360</updated>
+      <workItem from="1745378237470" duration="48000" />
+      <workItem from="1746692846668" duration="5041000" />
+      <workItem from="1746767102578" duration="18000" />
+      <workItem from="1747048269642" duration="4601000" />
+      <workItem from="1747054061367" duration="2753000" />
+      <workItem from="1747057622937" duration="167000" />
+      <workItem from="1747057799565" duration="31549000" />
+      <workItem from="1747222052195" duration="50537000" />
+      <workItem from="1747706209422" duration="1944000" />
+      <workItem from="1747809683245" duration="4604000" />
+      <workItem from="1748062012266" duration="1555000" />
+      <workItem from="1748066759267" duration="3286000" />
+      <workItem from="1748072053132" duration="21970000" />
+      <workItem from="1748320999347" duration="31539000" />
+      <workItem from="1748437130417" duration="21129000" />
+      <workItem from="1748511563010" duration="1644000" />
+      <workItem from="1748513214570" duration="18714000" />
+      <workItem from="1748582526106" duration="1001000" />
+      <workItem from="1748583540543" duration="436000" />
+      <workItem from="1748583984161" duration="500000" />
+      <workItem from="1748584494803" duration="21164000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
