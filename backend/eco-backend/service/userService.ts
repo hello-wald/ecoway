@@ -88,3 +88,27 @@ export async function changePassword(
   }
 }
 
+export async function updateProfilePicture(file_path: string, user_id: string): Promise<{
+  success: boolean;
+  message: string;
+}> {
+  try {
+    const user = await userRepo.getUserById(user_id);
+    if (!user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    const updated = await userRepo.updateUser(user_id, {
+      user_profile_picture: file_path,
+    });
+
+    if (!updated) {
+      return { success: false, message: 'Failed to update profile picture' };
+    }
+
+    return { success: true, message: 'Profile picture updated successfully' };
+  } catch (error) {
+    console.error('Error in updateProfilePicture:', error);
+    return { success: false, message: 'An error occurred while updating profile picture' };
+  }
+}
