@@ -5,76 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="391ec150-0d67-4fd2-bdb0-fa45fea0b0a5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/endpoints.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(auth)/_layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(auth)/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(auth)/signin.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(auth)/signup.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(tabs)/carbon.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(tabs)/community.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(tabs)/home.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(tabs)/profile.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(tabs)/rides.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/fonts/PlusJakartaSans-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/fonts/PlusJakartaSans-Medium.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/fonts/PlusJakartaSans-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/fonts/PlusJakartaSans-SemiBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/auth/green-city.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/buttons/google-button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/form/input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/form/or-divider.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/icons/GoogleLogo.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/loading.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/constants/storage-keys.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useFrameworkReady.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/theme/colors.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/theme/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/theme/outlines.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/theme/sizing.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/theme/styles/auth-styles.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/theme/styles/common-styles.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/theme/styles/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/theme/text-style.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/types/theme.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/style-helper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/signin.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/signup.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/explore.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(tabs)/home.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(tabs)/rides.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/rides.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/+not-found.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/+not-found.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/SpaceMono-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/adaptive-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/partial-react-logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/react-logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/react-logo@2x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/react-logo@3x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/splash-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Collapsible.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ExternalLink.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/HapticTab.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/HelloWave.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ParallaxScrollView.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ThemedText.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ThemedView.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/IconSymbol.ios.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/IconSymbol.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/TabBarBackground.ios.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/TabBarBackground.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/Colors.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eslint.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useColorScheme.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useColorScheme.web.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useThemeColor.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/reset-project.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/buttons/gradient-button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/buttons/gradient-button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme/context/theme-context.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/theme/context/theme-context.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/theme/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme/styles/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/zustand/auth-store.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,25 +66,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "frontend",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/catherinealyssa/Documents/02 College/Software Engineering/03. Project/ecoway/frontend/assets/fonts",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.JavaScript",
-    "ts.external.directory.path": "/Users/catherinealyssa/Documents/02 College/Software Engineering/03. Project/ecoway/frontend/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;frontend&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/catherinealyssa/Documents/02 College/Software Engineering/03. Project/ecoway/frontend/assets/fonts&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.JavaScript&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/catherinealyssa/Documents/02 College/Software Engineering/03. Project/ecoway/frontend/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -156,10 +103,10 @@
       <recent name="$PROJECT_DIR$/app/(auth)" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/theme/styles" />
-      <recent name="$PROJECT_DIR$/components/form" />
       <recent name="$PROJECT_DIR$/theme/context" />
       <recent name="$PROJECT_DIR$/theme" />
+      <recent name="$PROJECT_DIR$/theme/styles" />
+      <recent name="$PROJECT_DIR$/components/form" />
       <recent name="$PROJECT_DIR$/components" />
     </key>
   </component>
@@ -197,7 +144,7 @@
       <workItem from="1748582526106" duration="1001000" />
       <workItem from="1748583540543" duration="436000" />
       <workItem from="1748583984161" duration="500000" />
-      <workItem from="1748584494803" duration="8031000" />
+      <workItem from="1748584494803" duration="21164000" />
     </task>
     <servers />
   </component>

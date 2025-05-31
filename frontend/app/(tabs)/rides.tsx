@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Platform } 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChevronLeft, MapPin, Map, Search, Clock, Eye } from 'lucide-react-native';
 import {useTheme} from "@/theme/context/theme-context";
-import {Theme} from "@/types/theme";
+import { BorderRadius, IconSize, Spacing } from "@/theme";
+import { ThemeColors } from "@/theme/colors";
 
 let MapView: any = () => null;
 let Marker: any = () => null;
@@ -28,8 +29,8 @@ const AVAILABLE_RIDES = [
 ];
 
 export default function RidesScreen() {
-  const {theme} = useTheme();
-  const styles = createStyles(theme);
+  const {Colors} = useTheme();
+  const styles = createStyles(Colors);
 
   const [region, setRegion] = useState({
     latitude: 37.785834,
@@ -92,7 +93,7 @@ export default function RidesScreen() {
                 longitude: ride.longitude,
               }}
               radius={200}
-              fillColor={theme.color.primary + '33'}
+              fillColor={Colors.primary + '33'}
               strokeWidth={0}
             />
           </React.Fragment>
@@ -105,7 +106,7 @@ export default function RidesScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton}>
-          <ChevronLeft size={24} color={theme.color.text} />
+          <ChevronLeft size={IconSize.md} color={Colors.foreground} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Ride</Text>
       </View>
@@ -123,11 +124,11 @@ export default function RidesScreen() {
           <View style={styles.locationHeader}>
             <Text style={styles.locationLabel}>From</Text>
             <TouchableOpacity>
-              <Eye size={18} color={theme.color.primary} />
+              <Eye size={18} color={Colors.primary} />
             </TouchableOpacity>
           </View>
           <View style={styles.locationInput}>
-            <MapPin size={20} color={theme.color.primary} />
+            <MapPin size={20} color={Colors.primary} />
             <TextInput
               style={styles.input}
               value={origin}
@@ -140,17 +141,17 @@ export default function RidesScreen() {
           <View style={styles.locationHeader}>
             <Text style={styles.locationLabel}>To</Text>
             <TouchableOpacity>
-              <Map size={18} color={theme.color.primary} />
+              <Map size={18} color={Colors.primary} />
             </TouchableOpacity>
           </View>
           <View style={styles.locationInput}>
-            <MapPin size={20} color={theme.color.secondary} />
+            <MapPin size={20} color={Colors.secondary} />
             <TextInput
               style={styles.input}
               value={destination}
               onChangeText={setDestination}
               placeholder="To location"
-              placeholderTextColor={theme.color.textMuted}
+              placeholderTextColor={Colors.mutedForeground}
             />
           </View>
         </View>
@@ -163,24 +164,24 @@ export default function RidesScreen() {
   );
 }
 
-const createStyles = (theme: Theme) => StyleSheet.create({
+const createStyles = (Colors: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.color.background,
+    backgroundColor: Colors.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: theme.size.lg,
-    paddingVertical: theme.size.md,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
   },
   backButton: {
-    marginRight: theme.size.md,
+    marginRight: Spacing.md,
   },
   headerTitle: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 22,
-    color: theme.color.text,
+    color: Colors.foreground,
   },
   mapContainer: {
     flex: 1,
@@ -197,12 +198,12 @@ const createStyles = (theme: Theme) => StyleSheet.create({
   webMapText: {
     fontSize: 24,
     fontFamily: 'Poppins-SemiBold',
-    color: theme.color.textMuted,
+    color: Colors.mutedForeground,
   },
   webMapSubtext: {
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
-    color: theme.color.textMuted,
+    color: Colors.mutedForeground,
     marginTop: 8,
   },
   userMarker: {
@@ -211,7 +212,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     borderRadius: 20,
     backgroundColor: '#FFF',
     borderWidth: 2,
-    borderColor: theme.color.primary,
+    borderColor: Colors.primary,
     overflow: 'hidden',
   },
   userMarkerImage: {
@@ -219,10 +220,10 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     height: '100%',
   },
   carMarker: {
-    backgroundColor: theme.color.success,
+    backgroundColor: Colors.success,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: theme.br.full,
+    borderRadius: BorderRadius.full,
   },
   markerText: {
     color: '#FFF',
@@ -233,7 +234,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     position: 'absolute',
     bottom: 16,
     right: 16,
-    backgroundColor: theme.color.primary,
+    backgroundColor: Colors.primary,
     width: 44,
     height: 44,
     borderRadius: 22,
@@ -246,11 +247,11 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     elevation: 4,
   },
   formContainer: {
-    backgroundColor: theme.color.background,
-    paddingHorizontal: theme.size.lg,
-    paddingVertical: theme.size.lg,
-    borderTopLeftRadius: theme.br.lg,
-    borderTopRightRadius: theme.br.lg,
+    backgroundColor: Colors.background,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.lg,
+    borderTopLeftRadius: BorderRadius.lg,
+    borderTopRightRadius: BorderRadius.lg,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
@@ -258,39 +259,39 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     elevation: 4,
   },
   locationContainer: {
-    marginBottom: theme.size.md,
+    marginBottom: Spacing.md,
   },
   locationHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: theme.size.xs,
+    marginBottom: Spacing.xs,
   },
   locationLabel: {
     fontFamily: 'Poppins-Medium',
     fontSize: 16,
-    color: theme.color.text,
+    color: Colors.foreground,
   },
   locationInput: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.color.background,
-    borderRadius: theme.br.md,
-    paddingHorizontal: theme.size.md,
-    paddingVertical: theme.size.sm,
+    backgroundColor: Colors.background,
+    borderRadius: BorderRadius.md,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
   },
   input: {
     flex: 1,
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
-    color: theme.color.text,
-    marginLeft: theme.size.sm,
+    color: Colors.foreground,
+    marginLeft: Spacing.sm,
   },
   findRideButton: {
-    backgroundColor: theme.color.primary,
-    borderRadius: theme.br.full,
-    paddingVertical: theme.size.md,
-    marginTop: theme.size.sm,
+    backgroundColor: Colors.primary,
+    borderRadius: BorderRadius.full,
+    paddingVertical: Spacing.md,
+    marginTop: Spacing.sm,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

@@ -3,14 +3,11 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
-import { useTheme } from "@/theme/context/theme-context";
 import { GradientButton } from "@/components/buttons/gradient-button";
 import { GoogleButton } from "@/components/buttons/google-button";
 import { OrDivider } from "@/components/form/or-divider";
 import { ThemeColors } from "@/theme/colors";
-import { Font, IconSize, Spacing } from "@/theme";
-import { createAuthStyles } from "@/theme/styles";
-import { responsiveFontSize as rf } from "react-native-responsive-dimensions";
+import { createAuthStyles, Font, IconSize, Spacing, useTheme } from "@/theme";
 
 export default function WelcomeScreen() {
 	const { Colors } = useTheme();
@@ -43,19 +40,19 @@ export default function WelcomeScreen() {
 				</View>
 
 				<View style={authStyles.buttonContainer}>
-					<GradientButton onPress={() => router.push("/signup")}>
+					<GradientButton onPress={() => router.push("/sign-up")}>
 						<Text style={styles.buttonText}>Get Started</Text>
 						<ChevronRight size={IconSize.md} color={Colors.primaryForeground}/>
 					</GradientButton>
 
 					<OrDivider/>
 
-					<GoogleButton onPress={() => router.push("/signin")}/>
+					<GoogleButton onPress={() => router.push("/sign-in")}/>
 				</View>
 
 				<View style={authStyles.footer}>
 					<Text style={authStyles.footerText}>Already have an account?</Text>
-					<TouchableOpacity onPress={() => router.push("/signin")}>
+					<TouchableOpacity onPress={() => router.push("/sign-in")}>
 						<Text style={authStyles.footerLink}>Sign in</Text>
 					</TouchableOpacity>
 				</View>

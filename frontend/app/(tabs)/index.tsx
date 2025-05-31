@@ -200,7 +200,7 @@ const createStyles = (Colors: ThemeColors) => StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingVertical: Spacing.md,
+		marginVertical: Spacing.md,
 	},
 	welcomeText: {
 		...Font.h5,

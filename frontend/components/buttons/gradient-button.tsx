@@ -46,9 +46,9 @@ const createStyles = (Colors: ThemeColors) =>
 		},
 		gradientButton: {
 			borderRadius: BorderRadius.full,
-			flexDirection: "row",
-			justifyContent: "center",
-			alignItems: "center",
+			flexDirection: 'row',
+			justifyContent: 'center',
+			alignItems: 'center',
 			paddingVertical: Spacing.md,
 		},
 		buttonText: {
