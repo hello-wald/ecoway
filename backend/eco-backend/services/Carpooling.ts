@@ -13,7 +13,9 @@ import { createConnection, getSSEConnection, sseConnections } from '../persisten
 import { OfferModel } from '../model/offerModel';
 import { createRequest, getRequestByID } from '../persistent/Mem-persistent/requestDA';
 import { Location} from '../model/locationModel';
-import { createOnGoingTransaction } from '../persistent/Mem-persistent/onGoingTransaction';
+import { createOnGoingTransaction, deleteOnGoingTransactionByID, getOnGoingTransactionByID } from '../persistent/Mem-persistent/onGoingTransaction';
+import { onGoingTransactionModel } from '../model/onGoingTransactionModel';
+import { DestinationModel } from '../model/destinationModel';
 
 function makeCarpoolOfferService(
     driverId: string, // this is user id
@@ -131,8 +133,50 @@ function getAllOffer(){
         } else {
             reject(new Error("Failed to get offers"));
         }
+        
     });
 }
 
+function updatePostiion(onGoingTransactionID:string, userId,location:Location): boolean{
+    let onGoingTransaction:onGoingTransactionModel? = getOnGoingTransactionByID(onGoingTransactionID)
+    if (onGoingTransaction == undefined){
+        return false
+    }
+    if (onGoingTransaction.driver_id == userId){
+        onGoingTransaction.driver_location = location;
+        return true
+    }else if( onGoingTransaction.passenger_id == userId){
+        onGoingTransaction.passenger_location = location
+        return true
+    }else{
+        return false;
+    }
+}
 
-export { makeCarpoolOfferService, cancelCarpoolOfferService, getCarpoolOfferService, getOfferByDriverIDService };
+function endTrip(onGoingTransactionId: string):boolean{
+    return deleteOnGoingTransactionByID(onGoingTransactionId)
+}
+
+function getDestinationData(destinationID:string):DestinationModel{
+    const destination = getDestinationData(destinationID)
+    return destination;
+}
+
+function getAllDestination():DestinationModel[]{
+    const destinations = getAllDestination();
+    return destinations; 
+}
+
+
+export { createRequestService,
+    getAllOffer,
+    acceptRequest,
+    makeCarpoolOfferService,
+    cancelCarpoolOfferService,
+    getCarpoolOfferService,
+    getOfferByDriverIDService,
+    endTrip,
+    updatePostiion,
+    getDestinationData,
+    getAllDestination
+}
