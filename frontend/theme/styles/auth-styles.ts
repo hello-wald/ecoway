@@ -1,6 +1,8 @@
 import { ThemeColors } from "@/theme/colors";
 import { StyleSheet } from "react-native";
-import { BorderRadius, Font, Shadow, Spacing } from "@/theme";
+import { BorderRadius, Shadow} from "../outlines";
+import { Font } from "../text-style";
+import { Spacing } from "../sizing";
 
 export const createAuthStyles = (Colors: ThemeColors) => StyleSheet.create({
 	container: {

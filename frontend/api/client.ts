@@ -15,9 +15,9 @@ export interface ApiError {
 }
 
 class ApiClient {
-	private baseURL: string;
+	private readonly baseURL: string;
 
-	constructor(baseURL: string = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000/api') {
+	constructor(baseURL: string = process.env.API_BASE_URL || 'http://localhost:3000/') {
 		this.baseURL = baseURL;
 	}
 
@@ -45,7 +45,7 @@ class ApiClient {
 		};
 
 		try {
-			const url = endpoint.startsWith('http') ? endpoint : `${this.baseURL}${endpoint}`;
+			const url = `${this.baseURL}${endpoint}`;
 			const response = await fetch(url, config);
 			const data = await response.json();
 

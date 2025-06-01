@@ -1,8 +1,7 @@
 import React, { ReactNode } from "react";
 import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
-import { useTheme } from "@/theme/context/theme-context";
 import { ThemeColors } from "@/theme/colors";
-import { BorderRadius, BorderWidth, IconSize, Spacing, Font } from "@/theme";
+import { BorderRadius, BorderWidth, IconSize, Spacing, Font, useTheme } from "@/theme";
 import { GoogleLogo } from "@/components/icons/GoogleLogo";
 
 interface OutlineButtonProps extends TouchableOpacityProps {

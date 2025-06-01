@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChevronLeft, MapPin, Map, Search, Clock, Eye } from 'lucide-react-native';
-import {useTheme} from "@/theme/context/theme-context";
+import {useTheme} from "@/theme/provider/theme-provider";
 import { BorderRadius, IconSize, Spacing } from "@/theme";
 import { ThemeColors } from "@/theme/colors";
 

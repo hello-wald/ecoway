@@ -1,5 +1,5 @@
-import { useTheme } from "@/theme/context/theme-context";
-import { Theme } from "@/types/theme.types";
+import { useTheme } from "@/theme/provider/theme-provider";
+import { Theme } from "@/theme/types/theme.types";
 import { LinearGradient } from "expo-linear-gradient";
 import { Award, BarChart2, Info, Leaf, TrendingUp } from "lucide-react-native";
 import React from "react";
