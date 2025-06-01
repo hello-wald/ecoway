@@ -1,5 +1,6 @@
 import { apiClient } from '@/api/client';
 import { UserCredentials, RegisterCredentials, User } from '@/types/user.types';
+import { ENDPOINTS } from "@/api";
 
 export interface AuthResponse {
 	user: User;
@@ -18,7 +19,7 @@ export const authApi = {
 	 */
 	signIn: async (credentials: UserCredentials): Promise<AuthResponse> => {
 		const response = await apiClient.post<AuthResponse>(
-			'/auth/signin',
+			ENDPOINTS.AUTH.SIGN_IN,
 			credentials
 		);
 		return response.data;
@@ -29,7 +30,7 @@ export const authApi = {
 	 */
 	signUp: async (userData: RegisterCredentials): Promise<AuthResponse> => {
 		const response = await apiClient.post<AuthResponse>(
-			'/auth/signup',
+			ENDPOINTS.AUTH.SIGN_UP,
 			userData
 		);
 		return response.data;
@@ -40,7 +41,7 @@ export const authApi = {
 	 */
 	refreshToken: async (refreshToken: string): Promise<RefreshTokenResponse> => {
 		const response = await apiClient.post<RefreshTokenResponse>(
-			'/auth/refresh',
+			ENDPOINTS.AUTH.REFRESH,
 			{ refreshToken }
 		);
 		return response.data;
@@ -50,7 +51,7 @@ export const authApi = {
 	 * Get current user profile
 	 */
 	getCurrentUser: async (): Promise<User> => {
-		const response = await apiClient.get<User>('/auth/me');
+		const response = await apiClient.get<User>(ENDPOINTS.AUTH.ME);
 		return response.data;
 	},
 
@@ -58,6 +59,6 @@ export const authApi = {
 	 * Logout user
 	 */
 	logout: async (): Promise<void> => {
-		await apiClient.post('/auth/logout');
+		await apiClient.post(ENDPOINTS.AUTH.LOGOUT);
 	},
 };
