@@ -1,0 +1,9 @@
+Node version 
+
+3 Layer architure
+
+1. controller / interface layer  -> isinya api
+2. servlice layer -> domain logic
+3. persistent layer -> database query
+
+4. model -> model yang dipakai
