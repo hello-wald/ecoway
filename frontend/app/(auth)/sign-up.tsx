@@ -66,6 +66,12 @@ export default function SignUpScreen() {
 	// const emailProps = getFieldProps('email');
 	// const passwordProps = getFieldProps('password');
 
+	const handleSignUp = () => {
+		// Placeholder for sign-up logic
+		// This is where you would handle the sign-up process
+		router.push("/(tabs)");
+	}
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -109,7 +115,7 @@ export default function SignUpScreen() {
 
 						<View style={authStyles.buttonContainer}>
 							<GradientButton
-								// onPress={handleSignUp}
+								onPress={handleSignUp}
 								// disabled={isLoading || !hasRequiredFields}
 							>
 								{/*{isLoading ? 'Creating Account...' : 'Sign Up'}*/}

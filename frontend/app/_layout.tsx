@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 SplashScreen.preventAutoHideAsync();
 
-const isLoggedIn = false; // TODO: replace with actual authentication logic
+const isLoggedIn = true; // TODO: replace with actual authentication logic
 function AppContent() {
 	const { isLoading } = useAuth();
 
@@ -20,9 +20,9 @@ function AppContent() {
 	return (
 		<>
 			<Stack screenOptions={{ headerShown: false }}>
-				{/*<Stack.Protected guard={!isLoggedIn}>*/}
+				<Stack.Protected guard={!isLoggedIn}>
 					<Stack.Screen name="(auth)" options={{ headerShown: false }}/>
-				{/*</Stack.Protected>*/}
+				</Stack.Protected>
 
 				<Stack.Protected guard={isLoggedIn}>
 					<Stack.Screen name="(tabs)" options={{ headerShown: false }}/>

@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Car, MapPin, Search, User as UserIcon } from 'lucide-react-native';
-import { useTheme } from '@/theme/provider/theme-provider';
 import { ThemeColors } from "@/theme/colors";
-import { BorderRadius, Font, IconSize, Spacing } from "@/theme";
+import { BorderRadius, Font, IconSize, Spacing, useTheme } from "@/theme";
 import { Input } from "@/components/form/input";
 
 let MapView: any = () => null;

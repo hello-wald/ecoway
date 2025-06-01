@@ -1,6 +1,6 @@
 import { apiClient } from '@/api/client';
 import { UserCredentials, RegisterCredentials, User } from '@/types/user.types';
-import { ENDPOINTS } from "@/api";
+import { ENDPOINTS } from "@/api/endpoints";
 
 export interface AuthResponse {
 	user: User;
