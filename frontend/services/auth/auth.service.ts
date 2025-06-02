@@ -6,7 +6,6 @@ import { ApiResponse } from "@/types/api.types";
 import * as SecureStore from "expo-secure-store";
 import { AUTH_TOKEN_KEY } from "@/lib/constants";
 import { router } from "expo-router";
-import { useAuthForm } from "@/hooks";
 
 const { setUser } = useAuthStore.getState();
 
@@ -44,20 +43,16 @@ export const AuthService = {
 			const result: ApiResponse<AuthData> = await AuthApi.login(credentials);
 
 			if (result?.success && result.data?.user) {
-				useAuthStore.getState().setUser(result.data.user);
-				return {
-					success: true,
-					message: result.message || "Login successful",
-				};
+				setUser(result.data.user);
+				await SecureStore.setItemAsync(AUTH_TOKEN_KEY, result.data.token ?? '');
+				router.replace('/(tabs)');
 			} else {
 				return {
-					success: false,
-					message: result.message || "Login failed",
+					errors: result.data?.errors,
 				};
 			}
 		} catch (error) {
-			const err = handleApiError(error);
-			return { success: false, message: err.message };
+			handleApiError(error);
 		}
 	}
 };
