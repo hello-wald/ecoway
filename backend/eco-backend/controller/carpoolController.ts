@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import {
   createRequestService,
-  getAllOffer,
+  getAllOfferService,
   acceptRequest,
   makeCarpoolOfferService,
   cancelCarpoolOfferService,
@@ -12,16 +12,20 @@ import {
   getDestinationData,
   getAllDestination,
 } from "../services/Carpooling"; // adjust path as needed
+import { Location } from "../model/locationModel";
 
 const router = express.Router();
 
 // Create Offer
 router.post("/offer", async (req: Request, res: Response) => {
-  const { driverId, vehicleId, location, destination } = req.body;
+  const { driverId, longitude, latitude, destination } = req.body;
+  const location:Location = {
+    longitude,
+    latitude
+  }
   try {
     const offerId = await makeCarpoolOfferService(
       driverId,
-      vehicleId,
       location,
       destination,
       res
@@ -87,7 +91,7 @@ router.post("/accept", async (req: Request, res: Response) => {
 // Get All Offers
 router.get("/offers", async (req: Request, res: Response) => {
   try {
-    const offers = await getAllOffer();
+    const offers = await getAllOfferService();
     res.status(200).json(offers);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -96,7 +100,11 @@ router.get("/offers", async (req: Request, res: Response) => {
 
 // Update User Position
 router.post("/position", (req: Request, res: Response) => {
-  const { onGoingTransactionID, userId, location } = req.body;
+  const { onGoingTransactionID, userId, longitude, latitude } = req.body;
+  const location:Location = {
+    longitude,
+    latitude
+  }
   const success = updatePostiion(onGoingTransactionID, userId, location);
   if (success) {
     res.status(200).json({ message: "Position updated" });

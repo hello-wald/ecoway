@@ -20,7 +20,6 @@ function generateTransactionID(length: number): string {
 export function createOnGoingTransaction(
     driverId: string,
     passengerId: string,
-    vehicleId: string,
     destinationId: string,
     driverLocation: Location,
     passengerLocation: Location
@@ -30,7 +29,6 @@ export function createOnGoingTransaction(
         on_transaction_id: transactionID,
         driver_id: driverId,
         passenger_id: passengerId,
-        vehicle_id: vehicleId,
         destination_id: destinationId,
         driver_location: driverLocation,
         passenger_location: passengerLocation

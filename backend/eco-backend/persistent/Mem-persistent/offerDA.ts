@@ -5,12 +5,11 @@ import { Location } from "../../model/locationModel"
 
 const OfferMap: Map<string, any> = new Map();
 
-export function createOffer(driverID:string, vehicleID: string, location:Location, destinationID:string):string{
+export function createOffer(driverID:string, location:Location, destinationID:string):string{
     const offerID:string = generateOfferID(5)
     const newOffer:OfferModel = {
         offer_id: offerID,
         driver_id:driverID,
-        vehicle_id:vehicleID,
         destination_id: destinationID,
         location: location
     }

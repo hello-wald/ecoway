@@ -8,7 +8,7 @@
     //output offer id
     
 import { v4 as uuidv4 } from 'uuid';
-import { createOffer, deleteOfferByOfferID, getOfferByDriverID, getOfferByOfferID } from '../persistent/Mem-persistent/offerDA';
+import { createOffer, deleteOfferByOfferID, getAllOffer, getOfferByDriverID, getOfferByOfferID } from '../persistent/Mem-persistent/offerDA';
 import { createConnection, getSSEConnection, sseConnections } from '../persistent/Mem-persistent/sseConnectionDA';
 import { OfferModel } from '../model/offerModel';
 import { createRequest, getRequestByID } from '../persistent/Mem-persistent/requestDA';
@@ -20,7 +20,6 @@ import express from "express";
 
 function makeCarpoolOfferService(
     driverId: string, // this is user id
-    vehicleId: string,
     location: Location,
     destination: string, // this is destination id
     res:  express.Response
@@ -28,7 +27,7 @@ function makeCarpoolOfferService(
     return new Promise((resolve, reject) => {
         // generate a unique offer ID using uuid
         const offerId = uuidv4()
-        let offerID = createOffer(driverId, vehicleId, location, destination)
+        let offerID = createOffer(driverId, location, destination)
         if (offerID=="") {
             reject(new Error("Failed to create offer"));
         } else {
@@ -117,7 +116,6 @@ function acceptRequest(offerId:string, requestId:string):Promise<string>{
         createOnGoingTransaction(
             offerData.driver_id,
             requestData!.user_id,
-            offerData.vehicle_id,
             offerData.destination_id,
             offerData.location,
             emptyLoc
@@ -126,16 +124,22 @@ function acceptRequest(offerId:string, requestId:string):Promise<string>{
 )
 }
 
-function getAllOffer(){
+function getAllOfferByDriverID(driverID:string){
     return new Promise((resolve, reject) => {
-        let offers = getOfferByDriverID("all");
+        let offers = getOfferByDriverID(driverID);
+        // console.log(offers.length)
         if (offers.length > 0) {
             resolve(offers);
+            console.log("failed to get offers")
         } else {
             reject(new Error("Failed to get offers"));
         }
         
     });
+}
+
+function getAllOfferService(){
+    return getAllOffer()
 }
 
 function updatePostiion(onGoingTransactionID:string, userId:string,location:Location): boolean{
@@ -170,7 +174,7 @@ function getAllDestination():DestinationModel[]{
 
 
 export { createRequestService,
-    getAllOffer,
+    getAllOfferByDriverID,
     acceptRequest,
     makeCarpoolOfferService,
     cancelCarpoolOfferService,
@@ -179,5 +183,6 @@ export { createRequestService,
     endTrip,
     updatePostiion,
     getDestinationData,
-    getAllDestination
+    getAllDestination,
+    getAllOfferService
 }
