@@ -1,29 +1,50 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { useEffect } from 'react';
+import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useFonts } from 'expo-font';
+import LoadingScreen from '@/components/loading';
+import { ThemeProvider } from '@/theme/provider/theme-provider';
+import { useFrameworkReady } from "@/hooks/useFrameworkReady";
+import 'react-native-get-random-values';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+SplashScreen.preventAutoHideAsync();
+
+const isLoggedIn = false; // TODO: replace with actual authentication logic
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+	useFrameworkReady();
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+	const [fontsLoaded] = useFonts({
+		'PJS-Regular': require("@/assets/fonts/PlusJakartaSans-Regular.ttf"),
+		'PJS-Medium': require("@/assets/fonts/PlusJakartaSans-Medium.ttf"),
+		'PJS-SemiBold': require("@/assets/fonts/PlusJakartaSans-SemiBold.ttf"),
+		'PJS-Bold': require("@/assets/fonts/PlusJakartaSans-Bold.ttf"),
+	});
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+	useEffect(() => {
+		if (fontsLoaded) {
+			SplashScreen.hideAsync();
+		}
+	}, [fontsLoaded]);
+
+	if (!fontsLoaded) {
+		return <LoadingScreen/>;
+	}
+
+	return (
+		<ThemeProvider>
+			<Stack screenOptions={{ headerShown: false }}>
+				<Stack.Protected guard={!isLoggedIn}>
+					<Stack.Screen name="(auth)" options={{ headerShown: false }}/>
+				</Stack.Protected>
+
+				<Stack.Protected guard={isLoggedIn}>
+					<Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
+				</Stack.Protected>
+
+				<Stack.Screen name="+not-found" options={{ title: 'Oops!' }}/>
+			</Stack>
+			<StatusBar style="auto"/>
+		</ThemeProvider>
+	);
 }
