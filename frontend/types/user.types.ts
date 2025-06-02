@@ -1,7 +1,9 @@
 export interface User {
-	id?: string;
+	id: string;
 	name: string;
 	email: string;
+	phone: string;
+	profilePicture: string;
 }
 
 export interface LoginCredentials {

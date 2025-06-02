@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { router } from "expo-router";
 import {
 	Image,
@@ -23,22 +23,12 @@ import { AuthService } from "@/services";
 export default function SignUpScreen() {
 	const { Colors } = useTheme();
 	const authStyles = createAuthStyles(Colors);
-	const { formData, validateForm, getFieldProps, setErrors } = useAuthForm({
-		type: "register",
-	});
+	const { formData, validateForm, getFieldProps, setErrors } = useAuthForm({ type: "register" });
 
 	const handleRegister = async () => {
-		console.log("Registering with:", formData);
-
 		if (!validateForm().isValid) return;
-
 		const result = await AuthService.register(formData);
-		console.log('result from register:', result);
-		if (result) {
-			setErrors(result.errors ?? {});
-		} else {
-			router.replace('/(tabs)');
-		}
+		setErrors(result?.errors ?? {});
 	};
 
 	return (
@@ -111,7 +101,7 @@ export default function SignUpScreen() {
 								Sign Up
 							</GradientButton>
 
-							<OrDivider />
+							<OrDivider/>
 
 							<GoogleButton
 								onPress={() => router.push("/login")}

@@ -6,6 +6,7 @@ import { ThemeColors } from "@/theme/colors";
 import { BorderRadius, Font, IconSize, Spacing, useTheme } from "@/theme";
 import { Input } from "@/components/form/input";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { useAuthStore } from "@/lib/store";
 
 let MapView: any = () => null;
 let Marker: any = () => null;
@@ -47,6 +48,9 @@ const RECENT_RIDES = [
 export default function HomeScreen() {
 	const { Colors } = useTheme();
 	const styles = createStyles(Colors);
+	const { user } = useAuthStore();
+
+	console.log(user);
 
 	const [region, setRegion] = useState({
 		latitude: 37.785834,
@@ -121,9 +125,9 @@ export default function HomeScreen() {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.header}>
-				<Text style={styles.welcomeText}>Welcome John</Text>
+				<Text style={styles.welcomeText}>Welcome {user?.name}</Text>
 				<TouchableOpacity style={styles.profileButton}>
-					<UserIcon size={20} color={Colors.foreground}/>
+					<UserIcon size={IconSize.sm} color={Colors.foreground}/>
 				</TouchableOpacity>
 			</View>
 
