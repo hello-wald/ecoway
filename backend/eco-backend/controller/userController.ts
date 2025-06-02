@@ -20,6 +20,7 @@ export async function handleRegister(req: Request, res: Response): Promise<void>
 
     try {
         const result = await register(email, password, name);
+        console.log(result);
         res.status(result.success ? 201 : 400).json(result);
     } catch (err) {
         res.status(500).json({ success: false, message: err });
