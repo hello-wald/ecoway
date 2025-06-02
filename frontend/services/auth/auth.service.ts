@@ -19,8 +19,11 @@ export const AuthService = {
 	 */
 	async register(credentials: RegisterCredentials) {
 		try {
+			console.log('register service')
 			const result: ApiResponse<AuthData> = await AuthApi.register(credentials);
+			console.log('res ser', result)
 			if (result?.success && result.data?.user) {
+				console.log('serv res',result)
 				setUser(result.data.user);
 				await SecureStore.setItemAsync(AUTH_TOKEN_KEY, result.data.token ?? '');
 				router.replace('/(tabs)');

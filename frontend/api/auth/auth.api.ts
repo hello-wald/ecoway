@@ -8,7 +8,11 @@ export const AuthApi = {
 	 * Register with name, email and password.
 	 */
 	register: async (payload: RegisterCredentials) => {
-		const res = await ApiClient.post<ApiResponse<AuthData>>(
+		console.log('testt')
+		console.log('ep',ENDPOINTS.AUTH.REGISTER)
+		console.log('pay',payload)
+
+		const res = await ApiClient.post(
 			ENDPOINTS.AUTH.REGISTER,
 			payload
 		);
