@@ -3,13 +3,11 @@ import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import LoadingScreen from '@/components/loading';
-import { ThemeProvider } from '@/theme/provider/theme-provider';
 import { useFrameworkReady } from "@/hooks/useFrameworkReady";
-import 'react-native-get-random-values';
+import { ThemeProvider } from '@/theme';
+import { useAuthStore } from "@/lib/store";
 
 SplashScreen.preventAutoHideAsync();
-
-const isLoggedIn = false; // TODO: replace with actual authentication logic
 
 export default function RootLayout() {
 	useFrameworkReady();
@@ -31,17 +29,17 @@ export default function RootLayout() {
 		return <LoadingScreen/>;
 	}
 
+	const { isAuthenticated } = useAuthStore.getState();
+
 	return (
 		<ThemeProvider>
 			<Stack screenOptions={{ headerShown: false }}>
-				<Stack.Protected guard={!isLoggedIn}>
+				<Stack.Protected guard={!isAuthenticated} >
 					<Stack.Screen name="(auth)" options={{ headerShown: false }}/>
 				</Stack.Protected>
-
-				<Stack.Protected guard={isLoggedIn}>
+				<Stack.Protected guard={isAuthenticated} >
 					<Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
 				</Stack.Protected>
-
 				<Stack.Screen name="+not-found" options={{ title: 'Oops!' }}/>
 			</Stack>
 			<StatusBar style="auto"/>
