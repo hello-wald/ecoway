@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "../generated/prisma";
 import { VehicleModel } from '../model/vehicleModel'; // adjust path if needed
 
 const prisma = new PrismaClient();
