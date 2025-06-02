@@ -28,7 +28,7 @@ router.post("/offer", async (req: Request, res: Response) => {
     );
     res.status(201).json({ offerId });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error});
   }
 });
 
@@ -38,7 +38,7 @@ router.delete("/offer/:offerId", async (req: Request, res: Response) => {
     const success = await cancelCarpoolOfferService(req.params.offerId);
     res.status(200).json({ success });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error});
   }
 });
 
@@ -48,7 +48,7 @@ router.get("/offer/:offerId", async (req: Request, res: Response) => {
     const offer = await getCarpoolOfferService(req.params.offerId);
     res.status(200).json(offer);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ message: error });
   }
 });
 
@@ -58,7 +58,7 @@ router.get("/offers/driver/:driverId", async (req: Request, res: Response) => {
     const offers = await getOfferByDriverIDService(req.params.driverId);
     res.status(200).json(offers);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ message: error });
   }
 });
 
@@ -69,7 +69,7 @@ router.post("/request", async (req: Request, res: Response) => {
     const requestId = await createRequestService(offerId, userId);
     res.status(201).json({ requestId });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error });
   }
 });
 
@@ -80,7 +80,7 @@ router.post("/accept", async (req: Request, res: Response) => {
     await acceptRequest(offerId, requestId);
     res.status(200).json({ message: "Request accepted" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error });
   }
 });
 
@@ -90,7 +90,7 @@ router.get("/offers", async (req: Request, res: Response) => {
     const offers = await getAllOffer();
     res.status(200).json(offers);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error });
   }
 });
 

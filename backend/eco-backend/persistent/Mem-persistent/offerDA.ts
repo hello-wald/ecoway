@@ -5,7 +5,7 @@ import { Location } from "../../model/locationModel"
 
 const OfferMap: Map<string, any> = new Map();
 
-export function createOffer(driverID:string, vehicleID, location:Location, destinationID:string):string{
+export function createOffer(driverID:string, vehicleID: string, location:Location, destinationID:string):string{
     const offerID:string = generateOfferID(5)
     const newOffer:OfferModel = {
         offer_id: offerID,
@@ -38,7 +38,7 @@ export function updateOfferLocation(offerID:string, newLocation:Location):Boolea
     return true
 }
 
-function generateOfferID(length): string{
+function generateOfferID(length: number): string{
     let generatedID =""
     for( let i =0; i< length; i++){
         const randNum = Math.floor(Math.random() * 10)

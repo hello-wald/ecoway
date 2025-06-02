@@ -16,13 +16,14 @@ import { Location} from '../model/locationModel';
 import { createOnGoingTransaction, deleteOnGoingTransactionByID, getOnGoingTransactionByID } from '../persistent/Mem-persistent/onGoingTransaction';
 import { onGoingTransactionModel } from '../model/onGoingTransactionModel';
 import { DestinationModel } from '../model/destinationModel';
+import express from "express";
 
 function makeCarpoolOfferService(
     driverId: string, // this is user id
     vehicleId: string,
     location: Location,
     destination: string, // this is destination id
-    res: Response
+    res:  express.Response
 ): Promise<string> {
     return new Promise((resolve, reject) => {
         // generate a unique offer ID using uuid
@@ -94,8 +95,8 @@ function createRequestService(
             offerId: offerId,
         };
         // send request to driver using SSE (notify the driver)
-        sseConn.setHeader("Content-Type", "text/event-stream");
-        sseConn.write(`data: ${JSON.stringify(request)}\n\n`);
+        sseConn!.setHeader("Content-Type", "text/event-stream");
+        sseConn!.write(`data: ${JSON.stringify(request)}\n\n`);
         // resolve the promise with the generated request ID
         resolve(reqID);
     });
@@ -137,8 +138,8 @@ function getAllOffer(){
     });
 }
 
-function updatePostiion(onGoingTransactionID:string, userId,location:Location): boolean{
-    let onGoingTransaction:onGoingTransactionModel? = getOnGoingTransactionByID(onGoingTransactionID)
+function updatePostiion(onGoingTransactionID:string, userId:string,location:Location): boolean{
+    let onGoingTransaction:onGoingTransactionModel|undefined = getOnGoingTransactionByID(onGoingTransactionID)
     if (onGoingTransaction == undefined){
         return false
     }
