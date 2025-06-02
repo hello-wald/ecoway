@@ -1,84 +1,51 @@
-export interface AppError {
-	message: string;
-	code?: string;
-	statusCode?: number;
-}
-
-export class AuthError extends Error implements AppError {
+export class AppError extends Error {
 	code?: string;
 	statusCode?: number;
 
 	constructor(message: string, code?: string, statusCode?: number) {
 		super(message);
-		this.name = "AuthError";
+		this.name = "AppError";
 		this.code = code;
 		this.statusCode = statusCode;
 	}
 }
 
-export class NetworkError extends Error implements AppError {
-	code?: string;
-	statusCode?: number;
-
-	constructor(message: string, code?: string, statusCode?: number) {
-		super(message);
-		this.name = "NetworkError";
-		this.code = code;
-		this.statusCode = statusCode;
-	}
-}
+const errorMap: Record<number, string> = {
+	400: "Please check your input and try again.",
+	401: "Invalid credentials. Please check your email and password.",
+	403: "Access denied. Please check your permissions.",
+	409: "This email is already registered. Please use a different email or try signing in.",
+};
 
 export const handleApiError = (error: any): AppError => {
-	// Network error
-	if (!error.response) {
-		return new NetworkError(
+	if (!error?.response) {
+		return new AppError(
 			"Network error. Please check your connection and try again."
 		);
 	}
 
 	const { status, data } = error.response;
-	const message = data?.message || "An unexpected error occurred";
+	const message =
+		data?.message || errorMap[status] || "An unexpected error occurred";
 
-	// Authentication errors
-	if (status === 401) {
-		return new AuthError(
-			"Invalid credentials. Please check your email and password."
-		);
+	if (errorMap[status]) {
+		return new AppError(message, undefined, status);
 	}
 
-	if (status === 403) {
-		return new AuthError("Access denied. Please check your permissions.");
-	}
-
-	if (status === 409) {
-		return new AuthError(
-			"This email is already registered. Please use a different email or try signing in."
-		);
-	}
-
-	// Validation errors
-	if (status === 400) {
-		return new AuthError(
-			message || "Please check your input and try again."
-		);
-	}
-
-	// Server errors
 	if (status >= 500) {
-		return new NetworkError("Server error. Please try again later.");
+		return new AppError(
+			"Server error. Please try again later.",
+			undefined,
+			status
+		);
 	}
 
-	return new Error(message);
+	return new AppError(message, undefined, status);
 };
 
-export const getErrorMessage = (error: unknown): string => {
-	if (error instanceof Error) {
-		return error.message;
-	}
-
-	if (typeof error === "string") {
-		return error;
-	}
-
-	return "An unexpected error occurred";
-};
+export const getErrorMessage = (error: unknown): string =>
+	error instanceof Error
+		? error.message
+		: typeof error === "string"
+		? error
+		: "An unexpected error occurred";

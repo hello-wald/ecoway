@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { UserRepository } from '../persistent/userDA';
 import { v4 as uuidv4 } from 'uuid';
-import { UserModel, UserResponse } from '../model/userModel';
+import { UserResponse } from '../model/userModel';
 import jwt from 'jsonwebtoken';
 import { Payload } from "../model/payload";
 
@@ -10,6 +10,7 @@ const userRepo = new UserRepository()
 export async function register(email: string, password: string, name: string, phone: string = ''): Promise<Payload<{
 	errors: Record<string, string>
 	user: UserResponse | null
+	token?: string
 }>> {
 	const existingUser = await userRepo.getUserByEmail(email);
 	if (existingUser) {
@@ -31,7 +32,11 @@ export async function register(email: string, password: string, name: string, ph
 		return { success: false, message: 'Failed to register user', data: { errors: { general: 'Failed to register user' }, user: null } };
 	}
 
-	return { success: true, message: 'User registered successfully', data: { errors: {}, user: { user_id: userId, user_email: email, user_name: name, user_phone: phone, user_profile_picture: "/assets/profile_picture/default.jpeg" } } };
+	const token = jwt.sign({ user_id: userId }, process.env.JWT_SECRET!, {
+		expiresIn: '7d',
+	});
+
+	return { success: true, message: 'User registered successfully', data: { errors: {}, user: { user_id: userId, user_email: email, user_name: name, user_phone: phone, user_profile_picture: "/assets/profile_picture/default.jpeg" }, token } };
 }
 
 export async function login(email: string, password: string): Promise<{
