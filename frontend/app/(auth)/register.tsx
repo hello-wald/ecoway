@@ -23,18 +23,21 @@ import { AuthService } from "@/services";
 export default function SignUpScreen() {
 	const { Colors } = useTheme();
 	const authStyles = createAuthStyles(Colors);
-	const { formData, validateForm, getFieldProps } = useAuthForm({
+	const { formData, validateForm, getFieldProps, setErrors } = useAuthForm({
 		type: "register",
 	});
 
-	const handleRegister = () => {
+	const handleRegister = async () => {
 		console.log("Registering with:", formData);
 
-		if (!validateForm().isValid)
-			// Validate form
-			return;
+		if (!validateForm().isValid) return;
 
-		AuthService.register(formData).then((r) => console.log(r));
+		const result = await AuthService.register(formData);
+		console.log(result);
+		if (result?.errors) {
+			setErrors(result.errors);
+			return;
+		}
 	};
 
 	return (

@@ -56,5 +56,6 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
 		validateForm,
 		resetForm,
 		getFieldProps,
+		setErrors,
 	};
 };
