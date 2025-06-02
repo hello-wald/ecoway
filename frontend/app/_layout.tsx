@@ -5,35 +5,11 @@ import { useFonts } from 'expo-font';
 import LoadingScreen from '@/components/loading';
 import { ThemeProvider } from '@/theme/provider/theme-provider';
 import { useFrameworkReady } from "@/hooks/useFrameworkReady";
-import { useAuth } from "@/hooks/useAuth";
+import 'react-native-get-random-values';
 
 SplashScreen.preventAutoHideAsync();
 
-const isLoggedIn = true; // TODO: replace with actual authentication logic
-function AppContent() {
-	const { isLoading } = useAuth();
-
-	if (isLoading) {
-		return <LoadingScreen/>;
-	}
-
-	return (
-		<>
-			<Stack screenOptions={{ headerShown: false }}>
-				<Stack.Protected guard={!isLoggedIn}>
-					<Stack.Screen name="(auth)" options={{ headerShown: false }}/>
-				</Stack.Protected>
-
-				<Stack.Protected guard={isLoggedIn}>
-					<Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
-				</Stack.Protected>
-
-				<Stack.Screen name="+not-found" options={{ title: 'Oops!' }}/>
-			</Stack>
-			<StatusBar style="auto"/>
-		</>
-	);
-}
+const isLoggedIn = false; // TODO: replace with actual authentication logic
 
 export default function RootLayout() {
 	useFrameworkReady();
@@ -57,7 +33,18 @@ export default function RootLayout() {
 
 	return (
 		<ThemeProvider>
-			<AppContent/>
+			<Stack screenOptions={{ headerShown: false }}>
+				<Stack.Protected guard={!isLoggedIn}>
+					<Stack.Screen name="(auth)" options={{ headerShown: false }}/>
+				</Stack.Protected>
+
+				<Stack.Protected guard={isLoggedIn}>
+					<Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
+				</Stack.Protected>
+
+				<Stack.Screen name="+not-found" options={{ title: 'Oops!' }}/>
+			</Stack>
+			<StatusBar style="auto"/>
 		</ThemeProvider>
 	);
 }

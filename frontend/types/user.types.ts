@@ -4,17 +4,11 @@ export interface User {
 	email: string;
 }
 
-export interface AuthState {
-	user: User | null;
-	isAuthenticated: boolean;
-	loading: boolean;
-}
-
-export interface UserCredentials {
+export interface LoginCredentials {
 	email: string;
 	password: string;
 }
 
-export interface RegisterCredentials extends UserCredentials {
+export interface RegisterCredentials extends LoginCredentials {
 	name: string;
 }

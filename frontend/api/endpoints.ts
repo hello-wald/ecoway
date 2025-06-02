@@ -2,11 +2,8 @@
 export const ENDPOINTS = {
 	// Auth endpoints
 	AUTH: {
-		SIGN_IN: `/users/login`,
-		SIGN_UP: `/users/register`,
-		REFRESH: `/auth/refresh`,
-		LOGOUT: `/auth/logout`,
-		ME: `/auth/me`,
+		REGISTER: '/users/register',
+		LOGIN: '/users/login',
 	},
 	// Future endpoints can be added here
 	// RIDES: {

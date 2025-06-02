@@ -9,7 +9,6 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
-	Alert,
 } from 'react-native';
 import { router } from 'expo-router';
 import { Lock, Mail } from 'lucide-react-native';
@@ -18,53 +17,12 @@ import { OrDivider } from "@/components/form/or-divider";
 import { GoogleButton } from "@/components/buttons/google-button";
 import { createAuthStyles, IconSize, useTheme } from "@/theme";
 import { Input } from "@/components/form/input";
-import { useAuth } from "@/hooks/useAuth";
-import { useAuthForm } from "@/hooks/useAuthForm";
+import { LoginCredentials } from "@/types";
 
 export default function SignInScreen() {
 	const { Colors } = useTheme();
 	const authStyles = createAuthStyles(Colors);
-	
-	// const { signIn, isLoading, error, clearError } = useAuth();
-	// const {
-	// 	getFieldProps,
-	// 	validateForm,
-	// 	hasRequiredFields
-	// } = useAuthForm({ type: 'signin' });
-
-	// const handleSignIn = async () => {
-	// 	try {
-	// 		clearError();
-	//
-	// 		const validation = validateForm();
-	// 		if (!validation.isValid) {
-	// 			return;
-	// 		}
-	//
-	// 		const emailProps = getFieldProps('email');
-	// 		const passwordProps = getFieldProps('password');
-	//
-	// 		await signIn({
-	// 			email: emailProps.value,
-	// 			password: passwordProps.value,
-	// 		});
-	// 	} catch (error) {
-	// 		// Error is handled by useAuth hook
-	// 		console.error('Sign in failed:', error);
-	// 	}
-	// };
-
-	// Show error alert when error changes
-	// React.useEffect(() => {
-	// 	if (error) {
-	// 		Alert.alert('Sign In Failed', error, [
-	// 			{ text: 'OK', onPress: clearError }
-	// 		]);
-	// 	}
-	// }, [error, clearError]);
-	//
-	// const emailProps = getFieldProps('email');
-	// const passwordProps = getFieldProps('password');
+	const [data, setData] = React.useState<LoginCredentials>({ email: '', password: '' });
 
 	return (
 		<KeyboardAvoidingView
@@ -84,7 +42,7 @@ export default function SignInScreen() {
 
 					<View style={authStyles.formContainer}>
 						<View style={authStyles.form}>
-							<Input 
+							<Input
 								label='Email'
 								icon={<Mail color={Colors.mutedForeground} size={IconSize.sm}/>}
 								placeholder="Enter email"
@@ -92,7 +50,7 @@ export default function SignInScreen() {
 								textContentType='emailAddress'
 							/>
 
-							<Input 
+							<Input
 								label='Password'
 								icon={<Lock color={Colors.mutedForeground} size={IconSize.sm}/>}
 								isPassword
@@ -101,7 +59,7 @@ export default function SignInScreen() {
 						</View>
 
 						<View style={authStyles.buttonContainer}>
-							<GradientButton 
+							<GradientButton
 								// onPress={handleSignIn}
 								// disabled={isLoading || !hasRequiredFields}
 							>
@@ -111,12 +69,12 @@ export default function SignInScreen() {
 
 							<OrDivider/>
 
-							<GoogleButton onPress={() => router.replace("/sign-in")}/>
+							<GoogleButton onPress={() => router.replace("/login")}/>
 						</View>
 
 						<View style={authStyles.footer}>
 							<Text style={authStyles.footerText}>Don&#39;t have an account?</Text>
-							<TouchableOpacity onPress={() => router.replace('/sign-up')}>
+							<TouchableOpacity onPress={() => router.replace('/register')}>
 								<Text style={authStyles.footerLink}>Sign up</Text>
 							</TouchableOpacity>
 						</View>

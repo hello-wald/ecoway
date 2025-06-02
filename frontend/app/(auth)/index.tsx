@@ -40,19 +40,19 @@ export default function WelcomeScreen() {
 				</View>
 
 				<View style={authStyles.buttonContainer}>
-					<GradientButton onPress={() => router.push("/sign-up")}>
+					<GradientButton onPress={() => router.push("/register")}>
 						<Text style={styles.buttonText}>Get Started</Text>
 						<ChevronRight size={IconSize.md} color={Colors.primaryForeground}/>
 					</GradientButton>
 
 					<OrDivider/>
 
-					<GoogleButton onPress={() => router.push("/sign-in")}/>
+					<GoogleButton onPress={() => router.push("/login")}/>
 				</View>
 
 				<View style={authStyles.footer}>
 					<Text style={authStyles.footerText}>Already have an account?</Text>
-					<TouchableOpacity onPress={() => router.push("/sign-in")}>
+					<TouchableOpacity onPress={() => router.push("/login")}>
 						<Text style={authStyles.footerLink}>Sign in</Text>
 					</TouchableOpacity>
 				</View>

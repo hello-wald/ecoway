@@ -1,12 +1,8 @@
-import { useState, useCallback } from "react";
-import {
-	validateSignInForm,
-	validateSignUpForm,
-	ValidationResult,
-} from "@/lib/utils/validation";
+import { useCallback, useState } from "react";
+import { validateFields, ValidationResult, validators } from "@/lib/utils";
 
 interface UseAuthFormProps {
-	type: "signin" | "signup";
+	type: "login" | "register";
 }
 
 export const useAuthForm = ({ type }: UseAuthFormProps) => {
@@ -15,103 +11,48 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
 		email: "",
 		password: "",
 	});
-
 	const [errors, setErrors] = useState<Record<string, string>>({});
 	const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-	const updateField = useCallback(
-		(field: string, value: string) => {
-			setFormData((prev) => ({
-				...prev,
-				[field]: value,
-			}));
-
-			// Clear error for this field when user starts typing
-			if (errors[field]) {
-				setErrors((prev) => ({
-					...prev,
-					[field]: "",
-				}));
-			}
-		},
-		[errors]
-	);
-
-	const markFieldTouched = useCallback((field: string) => {
-		setTouched((prev) => ({
-			...prev,
-			[field]: true,
-		}));
-	}, []);
+	const updateField = useCallback((field: string, value: string) => {
+		setFormData(prev => ({ ...prev, [field]: value }));
+		if (errors[field]) {
+			setErrors(prev => ({ ...prev, [field]: '' }));
+		}
+	}, [errors]);
 
 	const validateForm = useCallback((): ValidationResult => {
-		let validation: ValidationResult;
+		const fieldsToValidate = type === "login"
+			? { email: formData.email, password: formData.password }
+			: formData;
 
-		if (type === "signin") {
-			validation = validateSignInForm(formData.email, formData.password);
-		} else {
-			validation = validateSignUpForm(
-				formData.name,
-				formData.email,
-				formData.password
-			);
-		}
-
+		const validation = validateFields(fieldsToValidate);
 		setErrors(validation.errors);
-
-		// Mark all fields as touched when validating
-		const fieldsToTouch =
-			type === "signin"
-				? ["email", "password"]
-				: ["name", "email", "password"];
-
-		setTouched(
-			fieldsToTouch.reduce(
-				(acc, field) => ({ ...acc, [field]: true }),
-				{}
-			)
-		);
+		setTouched(Object.keys(fieldsToValidate).reduce((acc, field) => ({ ...acc, [field]: true }), {}));
 
 		return validation;
 	}, [type, formData]);
 
+	const getFieldProps = useCallback((field: string) => ({
+		value: formData[field as keyof typeof formData],
+		onChangeText: (value: string) => updateField(field, value),
+		onBlur: () => {
+			setTouched(prev => ({ ...prev, [field]: true }));
+			const error = validators[field as keyof typeof validators]?.(formData[field as keyof typeof formData]) || '';
+			setErrors(prev => ({ ...prev, [field]: error }));
+		},
+		error: touched[field] ? errors[field] : undefined,
+		hasError: !!(touched[field] && errors[field]),
+	}), [formData, touched, errors, updateField]);
+
 	const resetForm = useCallback(() => {
-		setFormData({
-			name: "",
-			email: "",
-			password: "",
-		});
+		setFormData({ name: "", email: "", password: "" });
 		setErrors({});
 		setTouched({});
 	}, []);
 
-	const getFieldProps = useCallback(
-		(field: string) => {
-			return {
-				value: formData[field as keyof typeof formData],
-				onChangeText: (value: string) => updateField(field, value),
-				onBlur: () => markFieldTouched(field),
-				error: touched[field] ? errors[field] : undefined,
-				hasError: !!(touched[field] && errors[field]),
-			};
-		},
-		[formData, errors, touched, updateField, markFieldTouched]
-	);
-
-	const isValid = Object.keys(errors).length === 0;
-	const hasRequiredFields =
-		type === "signin"
-			? formData.email && formData.password
-			: formData.name && formData.email && formData.password;
-
 	return {
 		formData,
-		errors,
-		touched,
-		isValid,
-		hasRequiredFields,
-		updateField,
-		markFieldTouched,
 		validateForm,
 		resetForm,
 		getFieldProps,

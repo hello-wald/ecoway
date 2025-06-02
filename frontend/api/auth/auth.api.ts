@@ -1,64 +1,27 @@
-import { apiClient } from '@/api/client';
-import { UserCredentials, RegisterCredentials, User } from '@/types/user.types';
-import { ENDPOINTS } from "@/api/endpoints";
+import { ApiClient } from "../client";
+import { ENDPOINTS } from "../endpoints";
+import { AuthResponse, LoginCredentials, RegisterCredentials } from "@/types";
 
-export interface AuthResponse {
-	user: User;
-	token: string;
-	refreshToken?: string;
-}
-
-export interface RefreshTokenResponse {
-	token: string;
-	refreshToken?: string;
-}
-
-export const authApi = {
+export const AuthApi = {
 	/**
-	 * Sign in with email and password
+	 * Register with name, email and password.
 	 */
-	signIn: async (credentials: UserCredentials): Promise<AuthResponse> => {
-		const response = await apiClient.post<AuthResponse>(
-			ENDPOINTS.AUTH.SIGN_IN,
-			credentials
+	register: async (payload: RegisterCredentials) => {
+		const res = await ApiClient.post<AuthResponse>(
+			ENDPOINTS.AUTH.REGISTER,
+			payload
 		);
-		return response.data;
+		return res.data;
 	},
 
 	/**
-	 * Sign up with name, email and password
+	 * Log in with email and password.
 	 */
-	signUp: async (userData: RegisterCredentials): Promise<AuthResponse> => {
-		const response = await apiClient.post<AuthResponse>(
-			ENDPOINTS.AUTH.SIGN_UP,
-			userData
+	login: async (payload: LoginCredentials) => {
+		const res = await ApiClient.post<AuthResponse>(
+			ENDPOINTS.AUTH.LOGIN,
+			payload
 		);
-		return response.data;
-	},
-
-	/**
-	 * Refresh authentication token
-	 */
-	refreshToken: async (refreshToken: string): Promise<RefreshTokenResponse> => {
-		const response = await apiClient.post<RefreshTokenResponse>(
-			ENDPOINTS.AUTH.REFRESH,
-			{ refreshToken }
-		);
-		return response.data;
-	},
-
-	/**
-	 * Get current user profile
-	 */
-	getCurrentUser: async (): Promise<User> => {
-		const response = await apiClient.get<User>(ENDPOINTS.AUTH.ME);
-		return response.data;
-	},
-
-	/**
-	 * Logout user
-	 */
-	logout: async (): Promise<void> => {
-		await apiClient.post(ENDPOINTS.AUTH.LOGOUT);
+		return res.data;
 	},
 };

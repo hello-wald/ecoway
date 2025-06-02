@@ -29,7 +29,7 @@ lib/
 ├── constants/
 │   └── storage-keys.ts   # Storage key constants
 └── utils/
-    ├── validation.ts     # Form validation logic
+    ├── form-validation.ts     # Form validation logic
     ├── error-handler.ts  # Error handling utilities
     └── index.ts         # Utils exports
 ```

@@ -1,5 +1,3 @@
-import { useTheme } from "@/theme/provider/theme-provider";
-import { Theme } from "@/theme/types/theme.types";
 import { router } from "expo-router";
 import {
 	Bell,
@@ -21,10 +19,11 @@ import {
 	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { BorderRadius, Spacing, ThemeColors, useTheme } from "@/theme";
 
 export default function ProfileScreen() {
-	const { theme } = useTheme();
-	const styles = createStyles(theme);
+	const { Colors } = useTheme();
+	const styles = createStyles(Colors);
 
 	const userProfile = {
 		name: "John Doe",
@@ -48,7 +47,7 @@ export default function ProfileScreen() {
 			<View style={styles.header}>
 				<Text style={styles.headerTitle}>Profile</Text>
 				<TouchableOpacity style={styles.settingsButton}>
-					<Settings size={20} color={theme.color.text} />
+					<Settings size={20} color={Colors.foreground} />
 				</TouchableOpacity>
 			</View>
 
@@ -89,7 +88,7 @@ export default function ProfileScreen() {
 							<View style={styles.menuIconContainer}>
 								<item.icon
 									size={20}
-									color={theme.color.primary}
+									color={Colors.primary}
 								/>
 							</View>
 							<Text style={styles.menuLabel}>{item.label}</Text>
@@ -102,7 +101,7 @@ export default function ProfileScreen() {
 					style={styles.logoutButton}
 					onPress={() => router.replace("/(auth)")}
 				>
-					<LogOut size={20} color={theme.color.error} />
+					<LogOut size={20} color={Colors.error} />
 					<Text style={styles.logoutText}>Log Out</Text>
 				</TouchableOpacity>
 
@@ -112,29 +111,29 @@ export default function ProfileScreen() {
 	);
 }
 
-const createStyles = (theme: Theme) =>
+const createStyles = (Colors: ThemeColors) =>
 	StyleSheet.create({
 		container: {
 			flex: 1,
-			backgroundColor: theme.color.background,
+			backgroundColor: Colors.background,
 		},
 		header: {
 			flexDirection: "row",
 			justifyContent: "space-between",
 			alignItems: "center",
-			paddingHorizontal: theme.size.lg,
-			paddingVertical: theme.size.md,
+			paddingHorizontal: Spacing.lg,
+			paddingVertical: Spacing.md,
 		},
 		headerTitle: {
 			fontFamily: "Poppins-SemiBold",
 			fontSize: 22,
-			color: theme.color.text,
+			color: Colors.foreground,
 		},
 		settingsButton: {
 			width: 40,
 			height: 40,
 			borderRadius: 20,
-			backgroundColor: theme.color.background,
+			backgroundColor: Colors.background,
 			justifyContent: "center",
 			alignItems: "center",
 			shadowColor: "#000",
@@ -144,16 +143,16 @@ const createStyles = (theme: Theme) =>
 			elevation: 2,
 		},
 		scrollContent: {
-			paddingHorizontal: theme.size.lg,
-			paddingBottom: theme.size.xl,
+			paddingHorizontal: Spacing.lg,
+			paddingBottom: Spacing.xl,
 		},
 		profileCard: {
 			flexDirection: "row",
 			alignItems: "center",
-			backgroundColor: theme.color.background,
-			borderRadius: theme.br.lg,
-			padding: theme.size.lg,
-			marginBottom: theme.size.lg,
+			backgroundColor: Colors.background,
+			borderRadius: BorderRadius.lg,
+			padding: Spacing.lg,
+			marginBottom: Spacing.lg,
 			shadowColor: "#000",
 			shadowOffset: { width: 0, height: 2 },
 			shadowOpacity: 0.1,
@@ -167,35 +166,35 @@ const createStyles = (theme: Theme) =>
 		},
 		profileInfo: {
 			flex: 1,
-			marginLeft: theme.size.md,
+			marginLeft: Spacing.md,
 		},
 		name: {
 			fontFamily: "Poppins-SemiBold",
 			fontSize: 18,
-			color: theme.color.text,
+			color: Colors.foreground,
 		},
 		email: {
 			fontFamily: "Poppins-Regular",
 			fontSize: 14,
-			color: theme.color.textMuted,
+			color: Colors.mutedForeground,
 		},
 		editButton: {
 			backgroundColor: "rgba(30, 136, 229, 0.1)",
-			paddingHorizontal: theme.size.md,
-			paddingVertical: theme.size.xs,
-			borderRadius: theme.br.full,
+			paddingHorizontal: Spacing.md,
+			paddingVertical: Spacing.xs,
+			borderRadius: BorderRadius.full,
 		},
 		editButtonText: {
 			fontFamily: "Poppins-Medium",
 			fontSize: 14,
-			color: theme.color.primary,
+			color: Colors.primary,
 		},
 		statsContainer: {
 			flexDirection: "row",
-			backgroundColor: theme.color.background,
-			borderRadius: theme.br.lg,
-			padding: theme.size.md,
-			marginBottom: theme.size.lg,
+			backgroundColor: Colors.background,
+			borderRadius: BorderRadius.lg,
+			padding: Spacing.md,
+			marginBottom: Spacing.lg,
 			shadowColor: "#000",
 			shadowOffset: { width: 0, height: 2 },
 			shadowOpacity: 0.1,
@@ -209,23 +208,23 @@ const createStyles = (theme: Theme) =>
 		statValue: {
 			fontFamily: "Poppins-SemiBold",
 			fontSize: 18,
-			color: theme.color.text,
+			color: Colors.foreground,
 		},
 		statLabel: {
 			fontFamily: "Poppins-Regular",
 			fontSize: 14,
-			color: theme.color.textMuted,
+			color: Colors.mutedForeground,
 			marginTop: 2,
 		},
 		statDivider: {
 			width: 1,
 			height: "80%",
-			backgroundColor: theme.color.border,
+			backgroundColor: Colors.border,
 		},
 		menuContainer: {
-			backgroundColor: theme.color.background,
-			borderRadius: theme.br.lg,
-			marginBottom: theme.size.lg,
+			backgroundColor: Colors.background,
+			borderRadius: BorderRadius.lg,
+			marginBottom: Spacing.lg,
 			shadowColor: "#000",
 			shadowOffset: { width: 0, height: 2 },
 			shadowOpacity: 0.1,
@@ -236,10 +235,10 @@ const createStyles = (theme: Theme) =>
 		menuItem: {
 			flexDirection: "row",
 			alignItems: "center",
-			paddingVertical: theme.size.md,
-			paddingHorizontal: theme.size.lg,
+			paddingVertical: Spacing.md,
+			paddingHorizontal: Spacing.lg,
 			borderBottomWidth: 1,
-			borderBottomColor: theme.color.border,
+			borderBottomColor: Colors.border,
 		},
 		menuIconContainer: {
 			width: 36,
@@ -248,18 +247,18 @@ const createStyles = (theme: Theme) =>
 			backgroundColor: "rgba(30, 136, 229, 0.1)",
 			justifyContent: "center",
 			alignItems: "center",
-			marginRight: theme.size.md,
+			marginRight: Spacing.md,
 		},
 		menuLabel: {
 			fontFamily: "Poppins-Medium",
 			fontSize: 16,
-			color: theme.color.text,
+			color: Colors.foreground,
 			flex: 1,
 		},
 		menuArrow: {
 			borderTopWidth: 2,
 			borderRightWidth: 2,
-			borderColor: theme.color.textMuted,
+			borderColor: Colors.mutedForeground,
 			width: 8,
 			height: 8,
 			transform: [{ rotate: "45deg" }],
@@ -269,20 +268,20 @@ const createStyles = (theme: Theme) =>
 			alignItems: "center",
 			justifyContent: "center",
 			backgroundColor: "rgba(244, 67, 54, 0.1)",
-			borderRadius: theme.br.lg,
-			paddingVertical: theme.size.md,
-			marginBottom: theme.size.lg,
+			borderRadius: BorderRadius.lg,
+			paddingVertical: Spacing.md,
+			marginBottom: Spacing.lg,
 		},
 		logoutText: {
 			fontFamily: "Poppins-Medium",
 			fontSize: 16,
-			color: theme.color.error,
-			marginLeft: theme.size.sm,
+			color: Colors.error,
+			marginLeft: Spacing.sm,
 		},
 		versionText: {
 			fontFamily: "Poppins-Regular",
 			fontSize: 14,
-			color: theme.color.textMuted,
+			color: Colors.mutedForeground,
 			textAlign: "center",
 		},
 	});
