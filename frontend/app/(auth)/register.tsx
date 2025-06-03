@@ -33,10 +33,11 @@ export default function SignUpScreen() {
 		if (!validateForm().isValid) return;
 
 		const result = await AuthService.register(formData);
-		console.log(result);
-		if (result?.errors) {
-			setErrors(result.errors);
-			return;
+		console.log('result from register:', result);
+		if (result) {
+			setErrors(result.errors ?? {});
+		} else {
+			router.replace('/(tabs)');
 		}
 	};
 

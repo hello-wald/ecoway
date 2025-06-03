@@ -17,12 +17,29 @@ import { OrDivider } from "@/components/form/or-divider";
 import { GoogleButton } from "@/components/buttons/google-button";
 import { createAuthStyles, IconSize, useTheme } from "@/theme";
 import { Input } from "@/components/form/input";
-import { LoginCredentials } from "@/types";
+import { useAuthForm } from "@/hooks";
+import { AuthService } from "@/services";
 
 export default function SignInScreen() {
 	const { Colors } = useTheme();
 	const authStyles = createAuthStyles(Colors);
-	const [data, setData] = React.useState<LoginCredentials>({ email: '', password: '' });
+	const { formData, validateForm, getFieldProps, setErrors } = useAuthForm({
+		type: "login"
+	});
+
+	const handleLogin = async () => {
+		console.log("Logging in with:", formData);
+
+		if (!validateForm().isValid) return;
+
+		const result = await AuthService.login(formData);
+		console.log(result);
+
+		if (result?.errors) {
+			setErrors(result.errors);
+			return;
+		}
+	};
 
 	return (
 		<KeyboardAvoidingView
@@ -60,7 +77,7 @@ export default function SignInScreen() {
 
 						<View style={authStyles.buttonContainer}>
 							<GradientButton
-								// onPress={handleSignIn}
+								onPress={handleLogin}
 								// disabled={isLoading || !hasRequiredFields}
 							>
 								{/*{isLoading ? 'Signing In...' : 'Sign In'}*/}

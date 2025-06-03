@@ -8,14 +8,18 @@ export const AuthApi = {
 	 * Register with name, email and password.
 	 */
 	register: async (payload: RegisterCredentials) => {
-		console.log('testt')
-		console.log('ep',ENDPOINTS.AUTH.REGISTER)
-		console.log('pay',payload)
 
-		const res = await ApiClient.post(
+
+		console.log("register api", payload);
+		const res = await ApiClient.post<ApiResponse<AuthData>>(
 			ENDPOINTS.AUTH.REGISTER,
 			payload
-		);
+		).catch((err) => {
+			console.error('Error in AuthApi.register:', err);
+			throw err; // Re-throw the error to be handled by the caller
+		})
+
+		console.log('api', res);
 		return res.data;
 	},
 
