@@ -1,24 +1,32 @@
 import React, { useState } from "react";
-import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from "react-native";
+import {
+	Image,
+	Platform,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+	FlatList,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Car, MapPin, Search, User as UserIcon } from "lucide-react-native";
 import { ThemeColors } from "@/theme/colors";
-import { BorderRadius, Font, IconSize, Spacing, useTheme } from "@/theme";
+import {
+	BorderRadius,
+	BorderWidth,
+	Font,
+	IconSize,
+	Shadow,
+	Spacing,
+	useTheme,
+} from "@/theme";
 import { Input } from "@/components/form/input";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useAuthStore } from "@/lib/store";
-
-let MapView: any = () => null;
-let Marker: any = () => null;
-let Circle: any = () => null;
-
-// Only import MapView on native platforms
-if (Platform.OS !== "web") {
-	const Maps = require("react-native-maps");
-	MapView = Maps.default;
-	Marker = Maps.Marker;
-	Circle = Maps.Circle;
-}
+import { PlacesAutocompleteInput } from "@/components/places-autocomplete-input";
+import { useLocation } from "@/hooks/useLocation";
+import MapView, { Circle, Marker } from "react-native-maps";
 
 // Mock data for available rides
 const AVAILABLE_RIDES = [
@@ -50,14 +58,7 @@ export default function HomeScreen() {
 	const styles = createStyles(Colors);
 	const { user } = useAuthStore();
 
-	console.log(user);
-
-	const [region, setRegion] = useState({
-		latitude: 37.785834,
-		longitude: -122.406417,
-		latitudeDelta: 0.0122,
-		longitudeDelta: 0.0121,
-	});
+	const { coords } = useLocation();
 
 	const renderMap = () => {
 		if (Platform.OS === "web") {
@@ -75,14 +76,19 @@ export default function HomeScreen() {
 			<MapView
 				provider="google"
 				style={styles.map}
-				region={region}
+				region={{
+					latitude: coords?.latitude || 37.78825,
+					longitude: coords?.longitude || -122.4324,
+					latitudeDelta: 0.0922,
+					longitudeDelta: 0.0421,
+				}}
 				showsUserLocation
 			>
 				{/* User's current location */}
 				<Marker
 					coordinate={{
-						latitude: region.latitude,
-						longitude: region.longitude,
+						latitude: coords?.latitude || 37.78825,
+						longitude: coords?.longitude || -122.4324,
 					}}
 					pinColor={Colors.primary}
 				/>
@@ -97,7 +103,7 @@ export default function HomeScreen() {
 							}}
 						>
 							<View style={styles.carMarker}>
-								<Car size={12} color="#FFF"/>
+								<Car size={12} color="#FFF" />
 								<Text style={styles.markerText}>
 									{ride.seats}
 								</Text>
@@ -124,264 +130,121 @@ export default function HomeScreen() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
-				<Text style={styles.welcomeText}>Welcome {user?.name}</Text>
-				<TouchableOpacity style={styles.profileButton}>
-					<UserIcon size={IconSize.sm} color={Colors.foreground}/>
-				</TouchableOpacity>
-			</View>
+				<View style={styles.header}>
+					<Text style={styles.welcomeText}>Welcome {user?.name}</Text>
+					<TouchableOpacity style={styles.profileButton}>
+						<UserIcon
+							size={IconSize.sm}
+							color={Colors.foreground}
+						/>
+					</TouchableOpacity>
+				</View>
 
-			{/*<GooglePlacesAutocomplete*/}
-			{/*	placeholder='Where do you want to go?'*/}
-			{/*	nearbyPlacesAPI='GooglePlacesSearch'*/}
-			{/*	debounce={100}*/}
-			{/*	onPress={(data, details = null) => {*/}
-			{/*		console.log(data, details);*/}
-			{/*	}}*/}
-			{/*	query={{*/}
-			{/*		key: process.env.EXPO_PUBLIC_MAPS_API_KEY,*/}
-			{/*		language: 'en',*/}
-			{/*	}}*/}
-			{/*	predefinedPlaces={[{*/}
-			{/*		description: 'Current Location',*/}
-			{/*		geometry: {*/}
-			{/*			location: {*/}
-			{/*				lat: 37.785834,*/}
-			{/*				lng: -122.406417,*/}
-			{/*				latitude: 37.785834,*/}
-			{/*				longitude: -122.406417,*/}
-			{/*			},*/}
-			{/*		},*/}
-			{/*	}]}*/}
-			{/*	textInputProps={{*/}
-			{/*		onBlur: () => {},*/}
-			{/*		placeholderTextColor: Colors.mutedForeground,*/}
-			{/*	}}*/}
-			{/*	styles={{*/}
-			{/*		container: {flex: 0},*/}
-			{/*		textInputContainer: {},*/}
-			{/*		textInput: {fontSize: 18},*/}
-			{/*		listView: {},*/}
-			{/*		row: {},*/}
-			{/*		description: {},*/}
-			{/*	}}*/}
-			{/*	suppressDefaultStyles={true}*/}
-			{/*/>*/}
-
-			<View style={styles.autocompleteContainer}>
-				<GooglePlacesAutocomplete
-					placeholder='Where do you want to goss?'
-					onPress={(data, details = null) => {
-						console.log('Selected:', data);
-						console.log('Details:', details);
+				<PlacesAutocompleteInput
+					onPlaceSelected={(data, details) => {
+						console.log("place selected:", data, details);
 					}}
-					query={{
-						key: process.env.EXPO_PUBLIC_MAPS_API_KEY,
-						language: 'en',
-						components: 'country:id',
-					}}
-					fetchDetails={true}
-					enablePoweredByContainer={false}
-					nearbyPlacesAPI='GooglePlacesSearch'
-					debounce={400}
-					minLength={2}
-					predefinedPlaces={[
-						{
-							description: 'Current Location',
-							geometry: {
-								location: {
-									lat: 37.785834,
-									lng: -122.406417,
-									latitude: 37.785834,
-									longitude: -122.406417,
-								},
-							},
-						}
-					]}
-					textInputProps={{
-						placeholderTextColor: Colors.mutedForeground,
-						returnKeyType: 'search',
-						onFocus: () => console.log('Input focused'),
-						onBlur: () => console.log('Input blurred'),
-					}}
-					styles={{
-						container: {
-							flex: 0,
-							position: 'relative',
-							zIndex: 1000, // High z-index to ensure dropdown appears above other elements
-						},
-						textInputContainer: {
-							flexDirection: 'row',
-							backgroundColor: Colors.background,
-							borderRadius: BorderRadius.md,
-							paddingHorizontal: Spacing.md,
-							shadowColor: "#000",
-							shadowOffset: { width: 0, height: 2 },
-							shadowOpacity: 0.1,
-							shadowRadius: 4,
-							elevation: 2,
-						},
-						textInput: {
-							backgroundColor: 'transparent',
-							height: 44,
-							borderRadius: 0,
-							paddingVertical: 5,
-							paddingHorizontal: 0,
-							fontSize: 16,
-							flex: 1,
-							color: Colors.foreground,
-							fontFamily: 'Poppins-Regular',
-						},
-						listView: {
-							backgroundColor: Colors.background,
-							borderRadius: BorderRadius.md,
-							marginTop: 5,
-							shadowColor: "#000",
-							shadowOffset: { width: 0, height: 2 },
-							shadowOpacity: 0.15,
-							shadowRadius: 6,
-							elevation: 5,
-							maxHeight: 200, // Limit height to prevent overflow
-						},
-						row: {
-							backgroundColor: 'transparent',
-							padding: Spacing.md,
-							minHeight: 44,
-							flexDirection: 'row',
-							alignItems: 'center',
-						},
-						separator: {
-							height: 1,
-							backgroundColor: Colors.border,
-							marginLeft: Spacing.md,
-						},
-						description: {
-							color: Colors.foreground,
-							fontSize: 15,
-							fontFamily: 'Poppins-Regular',
-							flex: 1,
-						},
-						predefinedPlacesDescription: {
-							color: Colors.primary,
-							fontFamily: 'Poppins-Medium',
-						},
-						loader: {
-							flexDirection: 'row',
-							justifyContent: 'flex-end',
-							height: 20,
-							padding: Spacing.sm,
-						},
-					}}
-					// Add this to debug
-					onFail={(error) => console.error('Places API Error:', error)}
-					onNotFound={() => console.log('No results found')}
-					onTimeout={() => console.log('Request timeout')}
+					containerStyle={styles.searchBar}
 				/>
-			</View>
 
+				<View style={styles.mapContainer}>
+					<Text style={styles.sectionTitle}>
+						Your current location
+					</Text>
+					{renderMap()}
+				</View>
 
-			<Input
-				icon={
-					<Search size={IconSize.sm} color={Colors.mutedForeground}/>
-				}
-				placeholder={
-					"Where do you want to go?"
-				}
-				inputStyle={styles.searchBar}
-			/>
+				{/*<View style={styles.recentRidesContainer}>*/}
+				{/*	<Text style={styles.sectionTitle}>Recent Rides</Text>*/}
+				{/*	<FlatList*/}
+				{/*		data={RECENT_RIDES}*/}
+				{/*		horizontal*/}
+				{/*		showsHorizontalScrollIndicator={false}*/}
+				{/*		contentContainerStyle={styles.recentRidesScrollContent}*/}
+				{/*		keyExtractor={(item) => item.id.toString()}*/}
+				{/*		renderItem={({ item: ride }) => (*/}
+				{/*			<View style={styles.rideCard}>*/}
+				{/*				<View style={styles.rideMap}>*/}
+				{/*				<Image*/}
+				{/*					source={{*/}
+				{/*						uri: "",*/}
+				{/*					}}*/}
+				{/*					style={styles.rideMapImage}*/}
+				{/*				/>*/}
+				{/*				</View>*/}
 
-			<View style={styles.mapContainer}>
-				<Text style={styles.sectionTitle}>Your current location</Text>
-				{renderMap()}
-			</View>
+				{/*				<View style={styles.rideDetails}>*/}
+				{/*					<View style={styles.rideLocationRow}>*/}
+				{/*						<MapPin*/}
+				{/*							size={16}*/}
+				{/*							color={Colors.primary}*/}
+				{/*						/>*/}
+				{/*						<Text style={styles.rideLocationText}>*/}
+				{/*							{ride.from}*/}
+				{/*						</Text>*/}
+				{/*					</View>*/}
 
-			<View style={styles.recentRidesContainer}>
-				<Text style={styles.sectionTitle}>Recent Rides</Text>
-				<ScrollView
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					contentContainerStyle={styles.recentRidesScrollContent}
-				>
-					{RECENT_RIDES.map((ride) => (
-						<View key={ride.id} style={styles.rideCard}>
-							<View style={styles.rideMap}>
-								<Image
-									source={{
-										uri: "https://images.pexels.com/photos/11737156/pexels-photo-11737156.jpeg",
-									}}
-									style={styles.rideMapImage}
-								/>
-							</View>
+				{/*					<View style={styles.rideLocationRow}>*/}
+				{/*						<MapPin*/}
+				{/*							size={16}*/}
+				{/*							color={Colors.secondary}*/}
+				{/*						/>*/}
+				{/*						<Text style={styles.rideLocationText}>*/}
+				{/*							{ride.to}*/}
+				{/*						</Text>*/}
+				{/*					</View>*/}
 
-							<View style={styles.rideDetails}>
-								<View style={styles.rideLocationRow}>
-									<MapPin size={16} color={Colors.primary}/>
-									<Text style={styles.rideLocationText}>
-										{ride.from}
-									</Text>
-								</View>
+				{/*					<View style={styles.rideInfoRow}>*/}
+				{/*						<View style={styles.rideInfoItem}>*/}
+				{/*							<Text style={styles.rideInfoLabel}>*/}
+				{/*								Date & Time*/}
+				{/*							</Text>*/}
+				{/*							<Text style={styles.rideInfoValue}>*/}
+				{/*								{ride.date}, {ride.time}*/}
+				{/*							</Text>*/}
+				{/*						</View>*/}
+				{/*					</View>*/}
 
-								<View style={styles.rideLocationRow}>
-									<MapPin
-										size={16}
-										color={Colors.secondary}
-									/>
-									<Text style={styles.rideLocationText}>
-										{ride.to}
-									</Text>
-								</View>
+				{/*					<View style={styles.rideInfoRow}>*/}
+				{/*						<View style={styles.rideInfoItem}>*/}
+				{/*							<Text style={styles.rideInfoLabel}>*/}
+				{/*								Driver*/}
+				{/*							</Text>*/}
+				{/*							<Text style={styles.rideInfoValue}>*/}
+				{/*								{ride.driver}*/}
+				{/*							</Text>*/}
+				{/*						</View>*/}
 
-								<View style={styles.rideInfoRow}>
-									<View style={styles.rideInfoItem}>
-										<Text style={styles.rideInfoLabel}>
-											Date & Time
-										</Text>
-										<Text style={styles.rideInfoValue}>
-											{ride.date}, {ride.time}
-										</Text>
-									</View>
-								</View>
+				{/*						<View style={styles.rideInfoItem}>*/}
+				{/*							<Text style={styles.rideInfoLabel}>*/}
+				{/*								Car seats*/}
+				{/*							</Text>*/}
+				{/*							<Text style={styles.rideInfoValue}>*/}
+				{/*								{ride.seats}*/}
+				{/*							</Text>*/}
+				{/*						</View>*/}
+				{/*					</View>*/}
 
-								<View style={styles.rideInfoRow}>
-									<View style={styles.rideInfoItem}>
-										<Text style={styles.rideInfoLabel}>
-											Driver
-										</Text>
-										<Text style={styles.rideInfoValue}>
-											{ride.driver}
-										</Text>
-									</View>
-
-									<View style={styles.rideInfoItem}>
-										<Text style={styles.rideInfoLabel}>
-											Car seats
-										</Text>
-										<Text style={styles.rideInfoValue}>
-											{ride.seats}
-										</Text>
-									</View>
-								</View>
-
-								<View style={styles.rideInfoRow}>
-									<View style={styles.rideInfoItem}>
-										<Text style={styles.rideInfoLabel}>
-											Payment Status
-										</Text>
-										<Text
-											style={[
-												styles.rideInfoValue,
-												styles.paidStatus,
-											]}
-										>
-											{ride.status}
-										</Text>
-									</View>
-								</View>
-							</View>
-						</View>
-					))}
-				</ScrollView>
-			</View>
+				{/*					<View style={styles.rideInfoRow}>*/}
+				{/*						<View style={styles.rideInfoItem}>*/}
+				{/*							<Text style={styles.rideInfoLabel}>*/}
+				{/*								Payment Status*/}
+				{/*							</Text>*/}
+				{/*							<Text*/}
+				{/*								style={[*/}
+				{/*									styles.rideInfoValue,*/}
+				{/*									styles.paidStatus,*/}
+				{/*								]}*/}
+				{/*							>*/}
+				{/*								{ride.status}*/}
+				{/*							</Text>*/}
+				{/*						</View>*/}
+				{/*					</View>*/}
+				{/*				</View>*/}
+				{/*			</View>*/}
+				{/*		)}*/}
+				{/*	/>*/}
+				{/*</View>*/}
 		</SafeAreaView>
 	);
 }
@@ -422,7 +285,7 @@ const createStyles = (Colors: ThemeColors) =>
 			elevation: 2,
 		},
 		searchBar: {
-			backgroundColor: Colors.background,
+			marginBottom: Spacing.md,
 		},
 		searchText: {
 			fontFamily: "Poppins-Regular",
@@ -434,13 +297,12 @@ const createStyles = (Colors: ThemeColors) =>
 			marginBottom: Spacing.lg,
 		},
 		sectionTitle: {
-			fontFamily: "Poppins-SemiBold",
-			fontSize: 18,
+			...Font.h6,
 			color: Colors.foreground,
-			marginBottom: Spacing.sm,
+			marginBottom: Spacing.md,
 		},
 		map: {
-			height: 200,
+			height: 300,
 			borderRadius: BorderRadius.lg,
 			overflow: "hidden",
 		},
@@ -483,11 +345,8 @@ const createStyles = (Colors: ThemeColors) =>
 			backgroundColor: Colors.background,
 			borderRadius: BorderRadius.lg,
 			width: 300,
-			shadowColor: "#000",
-			shadowOffset: { width: 0, height: 2 },
-			shadowOpacity: 0.1,
-			shadowRadius: 4,
-			elevation: 2,
+			borderWidth: BorderWidth.thin,
+			borderColor: Colors.border,
 			marginRight: Spacing.md,
 		},
 		rideMap: {

@@ -50,11 +50,11 @@ export async function register(email: string, password: string, name: string, ph
 		data: {
 			errors: {},
 			user: {
-				user_id: userId,
-				user_email: email,
-				user_name: name,
-				user_phone: phone,
-				user_profile_picture: "/assets/profile_picture/default.jpeg"
+				id: userId,
+				email: email,
+				name: name,
+				phone: phone,
+				profilePicture: "/assets/profile_picture/default.jpeg"
 			},
 			token
 		}
@@ -89,7 +89,13 @@ export async function login(email: string, password: string): Promise<Payload<{
 		message: 'Login successful',
 		data: {
 			errors: {},
-			user: user,
+			user: {
+				id: user.user_id,
+				email: user.user_email,
+				name: user.user_name,
+				phone: user.user_phone,
+				profilePicture: user.user_profile_picture
+			},
 			token
 		}
 	};
