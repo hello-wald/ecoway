@@ -8,9 +8,9 @@ export interface UserModel{
 }
 
 export interface UserResponse {
-    user_id: string;
-    user_email: string;
-    user_name: string;
-    user_phone: string;
-    user_profile_picture: string;
+    id: string;
+    email: string;
+    name: string;
+    phone: string;
+    profilePicture: string;
 }

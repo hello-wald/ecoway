@@ -19,11 +19,14 @@ import {
 	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { BorderRadius, Spacing, ThemeColors, useTheme } from "@/theme";
+import { BorderRadius, Font, Spacing, ThemeColors, useTheme } from "@/theme";
+import { useAuthStore } from "@/lib/store";
 
 export default function ProfileScreen() {
 	const { Colors } = useTheme();
 	const styles = createStyles(Colors);
+
+	const {logout} = useAuthStore();
 
 	const userProfile = {
 		name: "John Doe",
@@ -99,7 +102,7 @@ export default function ProfileScreen() {
 
 				<TouchableOpacity
 					style={styles.logoutButton}
-					onPress={() => router.replace("/(auth)")}
+					onPress={logout}
 				>
 					<LogOut size={20} color={Colors.error} />
 					<Text style={styles.logoutText}>Log Out</Text>
@@ -115,7 +118,7 @@ const createStyles = (Colors: ThemeColors) =>
 	StyleSheet.create({
 		container: {
 			flex: 1,
-			backgroundColor: Colors.background,
+			backgroundColor: Colors.muted,
 		},
 		header: {
 			flexDirection: "row",
@@ -125,8 +128,7 @@ const createStyles = (Colors: ThemeColors) =>
 			paddingVertical: Spacing.md,
 		},
 		headerTitle: {
-			fontFamily: "Poppins-SemiBold",
-			fontSize: 22,
+			...Font.h5,
 			color: Colors.foreground,
 		},
 		settingsButton: {

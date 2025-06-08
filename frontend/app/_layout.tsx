@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import { useEffect } from 'react';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +12,8 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
 	useFrameworkReady();
+
+	const { isAuthenticated } = useAuthStore();
 
 	const [fontsLoaded] = useFonts({
 		'PJS-Regular': require("@/assets/fonts/PlusJakartaSans-Regular.ttf"),
@@ -29,7 +32,6 @@ export default function RootLayout() {
 		return <LoadingScreen/>;
 	}
 
-	const { isAuthenticated } = useAuthStore.getState();
 
 	return (
 		<ThemeProvider>

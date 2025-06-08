@@ -23,22 +23,12 @@ import { AuthService } from "@/services";
 export default function SignInScreen() {
 	const { Colors } = useTheme();
 	const authStyles = createAuthStyles(Colors);
-	const { formData, validateForm, getFieldProps, setErrors } = useAuthForm({
-		type: "login"
-	});
+	const { formData, validateForm, getFieldProps, setErrors } = useAuthForm({ type: "login" });
 
 	const handleLogin = async () => {
-		console.log("Logging in with:", formData);
-
 		if (!validateForm().isValid) return;
-
 		const result = await AuthService.login(formData);
-		console.log(result);
-
-		if (result?.errors) {
-			setErrors(result.errors);
-			return;
-		}
+		setErrors(result?.errors ?? {});
 	};
 
 	return (
@@ -65,6 +55,7 @@ export default function SignInScreen() {
 								placeholder="Enter email"
 								keyboardType='email-address'
 								textContentType='emailAddress'
+								{...getFieldProps('email')}
 							/>
 
 							<Input
@@ -72,6 +63,7 @@ export default function SignInScreen() {
 								icon={<Lock color={Colors.mutedForeground} size={IconSize.sm}/>}
 								isPassword
 								placeholder="Enter password"
+								{...getFieldProps('password')}
 							/>
 						</View>
 

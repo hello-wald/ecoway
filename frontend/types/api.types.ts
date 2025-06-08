@@ -1,7 +1,6 @@
 import { User } from "@/types/user.types";
 
 export interface ApiResponse<T> {
-	status: number;
 	success: boolean;
 	message: string;
 	data?: T;

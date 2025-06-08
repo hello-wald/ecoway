@@ -14,7 +14,11 @@ export async function register(email: string, password: string, name: string, ph
 }>> {
 	const existingUser = await userRepo.getUserByEmail(email);
 	if (existingUser) {
-		return { success: false, message: 'Email has already been taken', data: { errors: { email: 'Email has already been taken' }, user: null } };
+		return {
+			success: false,
+			message: 'Email has already been taken',
+			data: { errors: { email: 'Email has already been taken' }, user: null }
+		};
 	}
 
 	const hashedPassword = bcrypt.hashSync(password, 10);
@@ -29,26 +33,52 @@ export async function register(email: string, password: string, name: string, ph
 	});
 
 	if (!success) {
-		return { success: false, message: 'Failed to register user', data: { errors: { general: 'Failed to register user' }, user: null } };
+		return {
+			success: false,
+			message: 'Failed to register user',
+			data: { errors: { general: 'Failed to register user' }, user: null }
+		};
 	}
 
 	const token = jwt.sign({ user_id: userId }, process.env.JWT_SECRET!, {
 		expiresIn: '7d',
 	});
 
-	return { success: true, message: 'User registered successfully', data: { errors: {}, user: { user_id: userId, user_email: email, user_name: name, user_phone: phone, user_profile_picture: "/assets/profile_picture/default.jpeg" }, token } };
+	return {
+		success: true,
+		message: 'User registered successfully',
+		data: {
+			errors: {},
+			user: {
+				id: userId,
+				email: email,
+				name: name,
+				phone: phone,
+				profilePicture: "/assets/profile_picture/default.jpeg"
+			},
+			token
+		}
+	};
 }
 
-export async function login(email: string, password: string): Promise<{
-	success: boolean;
-	message: string;
-	token?: string;
-}> {
+export async function login(email: string, password: string): Promise<Payload<{
+	errors: Record<string, string>
+	user: UserResponse | null
+	token?: string
+}>> {
 	const user = await userRepo.getUserByEmail(email);
-	if (!user) return { success: false, message: 'User not found' };
+	if (!user) return {
+		success: false,
+		message: 'User not found',
+		data: { errors: { email: 'User not found' }, user: null }
+	};
 
 	const isMatch = await bcrypt.compare(password, user.user_password);
-	if (!isMatch) return { success: false, message: 'Invalid credentials' };
+	if (!isMatch) return {
+		success: false,
+		message: 'Invalid credentials',
+		data: { errors: { password: 'Invalid credentials' }, user: null }
+	};
 
 	const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET!, {
 		expiresIn: '7d',
@@ -57,7 +87,17 @@ export async function login(email: string, password: string): Promise<{
 	return {
 		success: true,
 		message: 'Login successful',
-		token
+		data: {
+			errors: {},
+			user: {
+				id: user.user_id,
+				email: user.user_email,
+				name: user.user_name,
+				phone: user.user_phone,
+				profilePicture: user.user_profile_picture
+			},
+			token
+		}
 	};
 }
 

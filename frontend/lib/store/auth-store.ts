@@ -1,20 +1,31 @@
 import { User } from "@/types/user.types";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { USER_DATA_KEY } from "@/lib/constants";
 
 interface AuthStore {
 	user: User | null;
 	isAuthenticated: boolean;
-	isLoading: boolean;
 	setUser: (user: User) => void;
-	setLoading: (loading: boolean) => void;
 	logout: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-	user: null,
-	isAuthenticated: false,
-	isLoading: false,
-	setUser: (user: User | null) => set({ user, isAuthenticated: true }),
-	setLoading: (isLoading) => set({ isLoading }),
-	logout: () => set({ user: null, isAuthenticated: false }),
-}));
+export const useAuthStore = create<AuthStore>()(
+	persist(
+		(set) => ({
+			user: null,
+			isAuthenticated: false,
+			setUser: (user: User) => set({ user, isAuthenticated: !!user }),
+			logout: () => set({ user: null, isAuthenticated: false }),
+		}),
+		{
+			name: USER_DATA_KEY,
+			storage: createJSONStorage(() => AsyncStorage), // or SecureStore
+			partialize: (state) => ({
+				user: state.user,
+				isAuthenticated: state.isAuthenticated
+			}),
+		}
+	)
+);
