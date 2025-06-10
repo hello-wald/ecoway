@@ -5,6 +5,7 @@ import logger from 'morgan';
 import cors from 'cors';
 import usersRouter from './routes/users';
 import vehicleRouter from './routes/vehicle';
+import destinationRouter from './routes/destination';
 import carpoolRouter from './controller/carpoolController'
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(cors());
 app.use('/users', usersRouter);
 app.use('/carpooling', carpoolRouter)
 app.use('/vehicle', vehicleRouter)
+app.use('/destination', destinationRouter)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
