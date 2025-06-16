@@ -1,4 +1,5 @@
 // Import the model
+import { off } from "process";
 import "../../model/requestModel"
 import { requestModel } from "../../model/requestModel"
 
@@ -20,8 +21,8 @@ export function createRequest(userId: string, offerId: string): string {
     const requestID: string = generateRequestID(6);
     const newRequest: requestModel = {
         request_id: requestID,
-        user_id: userId,
-        offer_id: offerId,
+        user_id: offerId,
+        offer_id: userId,
         date: Date.now().toString(),
     };
     RequestMap.set(requestID, newRequest);
