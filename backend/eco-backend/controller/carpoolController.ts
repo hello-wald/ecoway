@@ -13,6 +13,7 @@ import {
   getAllDestination,
   getAllRequestService,
   getRequestsByOffer,
+  declineRequest,
 } from "../services/Carpooling"; // adjust path as needed
 import { Location } from "../model/locationModel";
 
@@ -89,8 +90,10 @@ export async function handleRequestOffer(req: Request, res: Response): Promise<v
 export async function handleAcceptOffer(req: Request, res: Response): Promise<void> {
   const { offerId, requestId } = req.body;
   try {
-    await acceptRequest(offerId, requestId);
-    res.status(200).json({ message: "Request accepted" });
+    let onTransactionId = await acceptRequest(offerId, requestId);
+    res.status(200).json({
+        onTransactionId: onTransactionId
+    });
   } catch (error) {
     res.status(500).json({ message: error });
   }
@@ -115,8 +118,21 @@ export async function handleGetRequestsByOfferId(req: Request, res: Response): P
   }
 }
 
-// Update User Position
-router.post("/position", (req: Request, res: Response) => {
+export async function handleDeclineRequest(req: Request, res: Response): Promise<void> {
+  const { requestId } = req.params;
+  try {
+    const success = await declineRequest(requestId);
+    if (success) {
+      res.status(200).json({ message: "Request declined" });
+    } else {
+      res.status(404).json({ message: "Request not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
+
+export async function handleUpdatePosition(req: Request, res: Response): Promise<void> {
   const { onGoingTransactionID, userId, longitude, latitude } = req.body;
   const location:Location = {
     longitude,
@@ -128,17 +144,17 @@ router.post("/position", (req: Request, res: Response) => {
   } else {
     res.status(400).json({ message: "Failed to update position" });
   }
-});
+}
 
-// End Trip
-router.delete("/trip/:transactionId", (req: Request, res: Response) => {
+export async function handleEndTransaction(req: Request, res: Response): Promise<void> {
   const success = endTrip(req.params.transactionId);
   if (success) {
     res.status(200).json({ message: "Trip ended" });
   } else {
     res.status(400).json({ message: "Failed to end trip" });
   }
-});
+}
+
 
 
 export default router;
