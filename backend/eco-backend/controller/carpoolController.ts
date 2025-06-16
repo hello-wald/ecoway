@@ -12,6 +12,7 @@ import {
   getDestinationData,
   getAllDestination,
   getAllRequestService,
+  getRequestsByOffer,
 } from "../services/Carpooling"; // adjust path as needed
 import { Location } from "../model/locationModel";
 
@@ -98,6 +99,16 @@ export async function handleAcceptOffer(req: Request, res: Response): Promise<vo
 export async function handleGetAllRequests(req: Request, res: Response): Promise<void> {
   try {
     const requests= await getAllRequestService();
+    res.status(200).json(requests);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
+
+export async function handleGetRequestsByOfferId(req: Request, res: Response): Promise<void> {
+  const { offerId } = req.params;
+  try {
+    const requests = await getRequestsByOffer(offerId);
     res.status(200).json(requests);
   } catch (error) {
     res.status(500).json({ message: error });

@@ -57,3 +57,14 @@ export function getAllRequests():requestModel[]{
     }
     return requests
 }
+
+// Get all requests by offer ID
+export function getRequestsByOfferID(offerID: string): requestModel[] {
+    const requests: requestModel[] = [];
+    for (const request of RequestMap.values()) {
+        if (request.offer_id === offerID) {
+            requests.push(request);
+        }
+    }
+    return requests;
+}
