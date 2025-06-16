@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createOffer, deleteOfferByOfferID, getAllOffer, getOfferByDriverID, getOfferByOfferID } from '../persistent/Mem-persistent/offerDA';
 import { createConnection, getSSEConnection, sseConnections } from '../persistent/Mem-persistent/sseConnectionDA';
 import { OfferModel } from '../model/offerModel';
-import { createRequest, getAllRequests, getRequestByID, getRequestsByOfferID } from '../persistent/Mem-persistent/requestDA';
+import { createRequest, deleteRequestByID, getAllRequests, getRequestByID, getRequestsByOfferID } from '../persistent/Mem-persistent/requestDA';
 import { Location} from '../model/locationModel';
 import { createOnGoingTransaction, deleteOnGoingTransactionByID, getOnGoingTransactionByID } from '../persistent/Mem-persistent/onGoingTransaction';
 import { onGoingTransactionModel } from '../model/onGoingTransactionModel';
@@ -124,13 +124,14 @@ function acceptRequest(offerId:string, requestId:string):Promise<string>{
             'longitude':0,
             'latitude':0,
         }
-        createOnGoingTransaction(
+        let onTransactionId = createOnGoingTransaction(
             offerData.driver_id,
             requestData!.user_id,
             offerData.destination_id,
             offerData.location,
             emptyLoc
         )
+        resolve(onTransactionId);      
     }
 )
 }
@@ -190,6 +191,11 @@ function getRequestsByOffer(offerId: string):Promise<Payload<requestModel[]>>{
     });
 }
 
+function declineRequest(requestId: string):boolean{
+    // delete request by id
+    return deleteRequestByID(requestId);
+}
+
 
 export { createRequestService,
     getAllOfferByDriverID,
@@ -204,5 +210,6 @@ export { createRequestService,
     getAllDestination,
     getAllOfferService,
     getAllRequestService,
-    getRequestsByOffer
+    getRequestsByOffer,
+    declineRequest
 }

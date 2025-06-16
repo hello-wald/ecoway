@@ -23,7 +23,7 @@ export function createOnGoingTransaction(
     destinationId: string,
     driverLocation: Location,
     passengerLocation: Location
-): boolean {
+): string{
     const transactionID: string = generateTransactionID(6);
     const newTransaction: onGoingTransactionModel = {
         on_transaction_id: transactionID,
@@ -34,7 +34,7 @@ export function createOnGoingTransaction(
         passenger_location: passengerLocation
     };
     OnGoingTransactionMap.set(transactionID, newTransaction);
-    return true;
+    return transactionID;
 }
 
 // Get an ongoing transaction by ID
