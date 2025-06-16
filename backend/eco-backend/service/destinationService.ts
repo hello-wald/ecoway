@@ -1,6 +1,7 @@
 import { Payload } from "../model/payload";
 import { v4 as uuidv4 } from 'uuid';
 import { DestinationRepository } from "../persistent/destinationDA";
+import { DestinationModel } from "../model/destinationModel";
 
 const destinationRepo = new DestinationRepository();
 
@@ -39,4 +40,23 @@ export async function createDestination(
             data: null
         };
     }   
+}
+
+export async function getAllDestinations(): Promise<Payload<DestinationModel[]>> {
+  try {
+    const destinations = await destinationRepo.getAllDestinations();
+
+    return {
+      success: true,
+      message: 'Destinations retrieved successfully',
+      data: destinations
+    };
+  } catch (error) {
+    console.error('Error retrieving destinations:', error);
+    return {
+      success: false,
+      message: 'Failed to retrieve destinations',
+      data: []
+    };
+  }
 }

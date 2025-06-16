@@ -1,4 +1,4 @@
-import { createDestination } from "../service/destinationService";
+import { createDestination, getAllDestinations } from "../service/destinationService";
 import { Request, Response } from "express";
 
 export async function handleCreateDestination(req: Request, res: Response): Promise<void> {
@@ -25,6 +25,20 @@ export async function handleCreateDestination(req: Request, res: Response): Prom
       success: false,
       message: 'Internal server error',
       data: null,
+    });
+  }
+}
+
+export async function handleGetAllDestinations(req: Request, res: Response): Promise<void> {
+  try {
+    const result = await getAllDestinations();
+    res.status(result.success ? 200 : 500).json(result);
+  } catch (error) {
+    console.error('Error in handleGetAllDestinations:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      data: [],
     });
   }
 }

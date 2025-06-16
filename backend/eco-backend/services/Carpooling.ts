@@ -11,12 +11,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { createOffer, deleteOfferByOfferID, getAllOffer, getOfferByDriverID, getOfferByOfferID } from '../persistent/Mem-persistent/offerDA';
 import { createConnection, getSSEConnection, sseConnections } from '../persistent/Mem-persistent/sseConnectionDA';
 import { OfferModel } from '../model/offerModel';
-import { createRequest, getRequestByID } from '../persistent/Mem-persistent/requestDA';
+import { createRequest, getAllRequests, getRequestByID } from '../persistent/Mem-persistent/requestDA';
 import { Location} from '../model/locationModel';
 import { createOnGoingTransaction, deleteOnGoingTransactionByID, getOnGoingTransactionByID } from '../persistent/Mem-persistent/onGoingTransaction';
 import { onGoingTransactionModel } from '../model/onGoingTransactionModel';
 import { DestinationModel } from '../model/destinationModel';
 import express from "express";
+import { requestModel } from '../model/requestModel';
+import { Payload } from '../model/payload';
 
 function makeCarpoolOfferService(
     driverId: string, // this is user id
@@ -25,19 +27,17 @@ function makeCarpoolOfferService(
     res:  express.Response
 ): Promise<string> {
     return new Promise((resolve, reject) => {
-        // generate a unique offer ID using uuid
-        const offerId = uuidv4()
         let offerID = createOffer(driverId, location, destination)
         if (offerID=="") {
             reject(new Error("Failed to create offer"));
         } else {
             // resolve the promise with the generated offer ID
-            let successCreateConn = createConnection(offerId, res);
+            let successCreateConn = createConnection(offerID, res);
             if (!successCreateConn) {
-                deleteOfferByOfferID(offerId)
+                deleteOfferByOfferID(offerID)
                 reject(new Error("Failed to create connection"));
             }
-            resolve(offerId);
+            resolve(offerID);
         }
     });   
 }
@@ -94,11 +94,22 @@ function createRequestService(
             offerId: offerId,
         };
         // send request to driver using SSE (notify the driver)
-        sseConn!.setHeader("Content-Type", "text/event-stream");
         sseConn!.write(`data: ${JSON.stringify(request)}\n\n`);
         // resolve the promise with the generated request ID
         resolve(reqID);
     });
+}
+
+function getAllRequestService(): Promise<Payload<requestModel[]>> {
+    return new Promise((resolve, reject) => {
+        let requests = getAllRequests();
+        if (requests.length > 0) {
+            resolve({ data: requests, success: true, message: "Requests fetched successfully" });
+        } else {
+            reject(new Error("Failed to get requests"));
+        }
+    });
+
 }
 
 function acceptRequest(offerId:string, requestId:string):Promise<string>{
@@ -184,5 +195,6 @@ export { createRequestService,
     updatePostiion,
     getDestinationData,
     getAllDestination,
-    getAllOfferService
+    getAllOfferService,
+    getAllRequestService
 }

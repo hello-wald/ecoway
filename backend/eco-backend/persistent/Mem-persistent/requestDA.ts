@@ -47,3 +47,12 @@ export function updateRequestDate(requestID: string, newDate: string): boolean {
     request.date = newDate;
     return true;
 }
+
+
+export function getAllRequests():requestModel[]{
+    let requests:requestModel[] = []
+    for (let req of RequestMap.values()){
+        requests.push(req)
+    }
+    return requests
+}
