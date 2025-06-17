@@ -26,11 +26,11 @@ export default function ProfileScreen() {
 	const { Colors } = useTheme();
 	const styles = createStyles(Colors);
 
-	const {logout} = useAuthStore();
+	const {user, logout} = useAuthStore();
 
 	const userProfile = {
-		name: "John Doe",
-		email: "john.doe@example.com",
+		name: user?.name,
+		email: user?.email,
 		avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
 		co2Saved: 124.5,
 		rides: 15,

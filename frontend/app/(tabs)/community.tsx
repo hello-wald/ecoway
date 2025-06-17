@@ -57,7 +57,7 @@ const LEADERBOARD_DATA = [
 const FORUM_TOPICS = [
 	{
 		id: 1,
-		title: "Tips for finding rides during rush hour",
+		title: "Tips for finding home during rush hour",
 		comments: 24,
 		likes: 38,
 	},

@@ -14,7 +14,6 @@ export default function TabLayout() {
 				tabBarStyle: {
 					height: Spacing.xxl * 2.25,
 					paddingTop: Spacing.sm,
-					// paddingBottom: Spacing.md,
 				},
 				tabBarLabelStyle: {
 					...Font.sm.medium
@@ -27,13 +26,6 @@ export default function TabLayout() {
 				options={{
 					title: 'Home',
 					tabBarIcon: ({ color, size }) => <Home size={size} color={color}/>,
-				}}
-			/>
-			<Tabs.Screen
-				name="rides"
-				options={{
-					title: 'Rides',
-					tabBarIcon: ({ color, size }) => <MapPin size={size} color={color}/>,
 				}}
 			/>
 			<Tabs.Screen

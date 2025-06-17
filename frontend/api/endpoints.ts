@@ -7,7 +7,7 @@ export const ENDPOINTS = {
 	},
 	// Future endpoints can be added here
 	// RIDES: {
-	//   LIST: `${API_BASE_URL}/rides`,
-	//   CREATE: `${API_BASE_URL}/rides`,
+	//   LIST: `${API_BASE_URL}/home`,
+	//   CREATE: `${API_BASE_URL}/home`,
 	// }
 } as const;

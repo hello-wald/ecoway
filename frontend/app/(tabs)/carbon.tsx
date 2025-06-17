@@ -1,5 +1,3 @@
-import { useTheme } from "@/theme/provider/theme-provider";
-import { Theme } from "@/theme/types/theme.types";
 import { LinearGradient } from "expo-linear-gradient";
 import { Award, BarChart2, Info, Leaf, TrendingUp } from "lucide-react-native";
 import React from "react";
@@ -11,6 +9,7 @@ import {
 	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { BorderRadius, Spacing, ThemeColors, useTheme } from "@/theme";
 
 // Mock data for emissions statistics
 const EMISSION_DATA = {
@@ -49,7 +48,7 @@ const ACHIEVEMENTS = [
 	{
 		id: 3,
 		title: "Regular Commuter",
-		description: "Complete 10 rides in a month",
+		description: "Complete 10 home in a month",
 		completed: true,
 	},
 	{
@@ -67,8 +66,8 @@ const ACHIEVEMENTS = [
 ];
 
 export default function CarbonScreen() {
-	const { theme } = useTheme();
-	const styles = createStyles(theme);
+	const { Colors } = useTheme();
+	const styles = createStyles(Colors);
 	// Find the maximum value for scaling the chart
 	const maxValue = Math.max(...MONTHLY_DATA.map((item) => item.value));
 
@@ -77,14 +76,14 @@ export default function CarbonScreen() {
 			<View style={styles.header}>
 				<Text style={styles.headerTitle}>Carbon Impact</Text>
 				<TouchableOpacity style={styles.infoButton}>
-					<Info size={20} color={theme.color.text} />
+					<Info size={20} color={Colors.text} />
 				</TouchableOpacity>
 			</View>
 
 			<ScrollView contentContainerStyle={styles.scrollContent}>
 				{/* Summary background */}
 				<LinearGradient
-					colors={theme.color.primaryGradient}
+					colors={Colors.primaryGradient}
 					style={styles.summaryCard}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 1, y: 0 }}
@@ -112,7 +111,7 @@ export default function CarbonScreen() {
 				<View style={styles.statsContainer}>
 					<View style={styles.statsCard}>
 						<View style={styles.statsIconContainer}>
-							<TrendingUp size={20} color={theme.color.primary} />
+							<TrendingUp size={20} color={Colors.primary} />
 						</View>
 						<Text style={styles.statsLabel}>This Month</Text>
 						<Text style={styles.statsValue}>
@@ -122,7 +121,7 @@ export default function CarbonScreen() {
 
 					<View style={styles.statsCard}>
 						<View style={styles.statsIconContainer}>
-							<BarChart2 size={20} color={theme.color.primary} />
+							<BarChart2 size={20} color={Colors.primary} />
 						</View>
 						<Text style={styles.statsLabel}>Rides Taken</Text>
 						<Text style={styles.statsValue}>
@@ -132,7 +131,7 @@ export default function CarbonScreen() {
 
 					<View style={styles.statsCard}>
 						<View style={styles.statsIconContainer}>
-							<Leaf size={20} color={theme.color.primary} />
+							<Leaf size={20} color={Colors.primary} />
 						</View>
 						<Text style={styles.statsLabel}>Avg. Saving</Text>
 						<Text style={styles.statsValue}>
@@ -150,8 +149,8 @@ export default function CarbonScreen() {
 								<View style={styles.chartBarContainer}>
 									<LinearGradient
 										colors={[
-											theme.color.secondary,
-											theme.color.primary,
+											Colors.secondary,
+											Colors.primary,
 										]}
 										style={[
 											styles.chartBar,
@@ -194,7 +193,7 @@ export default function CarbonScreen() {
 									color={
 										achievement.completed
 											? "#FFF"
-											: theme.color.textMuted
+											: Colors.textMuted
 									}
 								/>
 							</View>
@@ -226,29 +225,29 @@ export default function CarbonScreen() {
 	);
 }
 
-const createStyles = (theme: Theme) =>
+const createStyles = (Colors: ThemeColors) =>
 	StyleSheet.create({
 		container: {
 			flex: 1,
-			backgroundColor: theme.color.background,
+			backgroundColor: Colors.background,
 		},
 		header: {
 			flexDirection: "row",
 			justifyContent: "space-between",
 			alignItems: "center",
-			paddingHorizontal: theme.size.lg,
-			paddingVertical: theme.size.md,
+			paddingHorizontal: Spacing.lg,
+			paddingVertical: Spacing.md,
 		},
 		headerTitle: {
 			fontFamily: "Poppins-SemiBold",
 			fontSize: 22,
-			color: theme.color.text,
+			color: Colors.foreground,
 		},
 		infoButton: {
 			width: 40,
 			height: 40,
 			borderRadius: 20,
-			backgroundColor: theme.color.background,
+			backgroundColor: Colors.background,
 			justifyContent: "center",
 			alignItems: "center",
 			shadowColor: "#000",
@@ -258,13 +257,13 @@ const createStyles = (theme: Theme) =>
 			elevation: 2,
 		},
 		scrollContent: {
-			paddingHorizontal: theme.size.lg,
-			paddingBottom: theme.size.xl,
+			paddingHorizontal: Spacing.lg,
+			paddingBottom: Spacing.xl,
 		},
 		summaryCard: {
-			borderRadius: theme.br.lg,
-			padding: theme.size.lg,
-			marginBottom: theme.size.lg,
+			borderRadius: BorderRadius.lg,
+			padding: Spacing.lg,
+			marginBottom: Spacing.lg,
 		},
 		summaryContent: {
 			flexDirection: "row",
@@ -288,7 +287,7 @@ const createStyles = (theme: Theme) =>
 			fontFamily: "Poppins-Regular",
 			fontSize: 14,
 			color: "rgba(255, 255, 255, 0.9)",
-			marginTop: theme.size.xs,
+			marginTop: Spacing.xs,
 		},
 		iconContainer: {
 			backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -301,12 +300,12 @@ const createStyles = (theme: Theme) =>
 		statsContainer: {
 			flexDirection: "row",
 			justifyContent: "space-between",
-			marginBottom: theme.size.lg,
+			marginBottom: Spacing.lg,
 		},
 		statsCard: {
-			backgroundColor: theme.color.background,
-			borderRadius: theme.br.lg,
-			padding: theme.size.md,
+			backgroundColor: Colors.background,
+			borderRadius: BorderRadius.lg,
+			padding: Spacing.md,
 			width: "31%",
 			shadowColor: "#000",
 			shadowOffset: { width: 0, height: 2 },
@@ -322,30 +321,30 @@ const createStyles = (theme: Theme) =>
 			borderRadius: 20,
 			justifyContent: "center",
 			alignItems: "center",
-			marginBottom: theme.size.sm,
+			marginBottom: Spacing.sm,
 		},
 		statsLabel: {
 			fontFamily: "Poppins-Medium",
 			fontSize: 12,
-			color: theme.color.textMuted,
+			color: Colors.mutedForeground,
 			marginBottom: 2,
 		},
 		statsValue: {
 			fontFamily: "Poppins-SemiBold",
 			fontSize: 16,
-			color: theme.color.text,
+			color: Colors.foreground,
 		},
 		sectionTitle: {
 			fontFamily: "Poppins-SemiBold",
 			fontSize: 18,
-			color: theme.color.text,
-			marginBottom: theme.size.md,
+			color: Colors.foreground,
+			marginBottom: Spacing.md,
 		},
 		chartContainer: {
-			backgroundColor: theme.color.background,
-			borderRadius: theme.br.lg,
-			padding: theme.size.lg,
-			marginBottom: theme.size.lg,
+			backgroundColor: Colors.background,
+			borderRadius: BorderRadius.lg,
+			padding: Spacing.lg,
+			marginBottom: Spacing.lg,
 			shadowColor: "#000",
 			shadowOffset: { width: 0, height: 2 },
 			shadowOpacity: 0.1,
@@ -369,18 +368,18 @@ const createStyles = (theme: Theme) =>
 		},
 		chartBar: {
 			width: "100%",
-			borderRadius: theme.br.sm,
+			borderRadius: BorderRadius.sm,
 		},
 		chartLabel: {
 			fontFamily: "Poppins-Medium",
 			fontSize: 12,
-			color: theme.color.textMuted,
-			marginTop: theme.size.xs,
+			color: Colors.mutedForeground,
+			marginTop: Spacing.xs,
 		},
 		achievementsContainer: {
-			backgroundColor: theme.color.background,
-			borderRadius: theme.br.lg,
-			padding: theme.size.lg,
+			backgroundColor: Colors.background,
+			borderRadius: BorderRadius.lg,
+			padding: Spacing.lg,
 			shadowColor: "#000",
 			shadowOffset: { width: 0, height: 2 },
 			shadowOpacity: 0.1,
@@ -390,9 +389,9 @@ const createStyles = (theme: Theme) =>
 		achievementCard: {
 			flexDirection: "row",
 			alignItems: "center",
-			paddingVertical: theme.size.md,
+			paddingVertical: Spacing.md,
 			borderBottomWidth: 1,
-			borderBottomColor: theme.color.border,
+			borderBottomColor: Colors.border,
 		},
 		achievementIconContainer: {
 			width: 40,
@@ -400,10 +399,10 @@ const createStyles = (theme: Theme) =>
 			borderRadius: 20,
 			justifyContent: "center",
 			alignItems: "center",
-			marginRight: theme.size.md,
+			marginRight: Spacing.md,
 		},
 		achievementIconCompleted: {
-			backgroundColor: theme.color.success,
+			backgroundColor: Colors.success,
 		},
 		achievementIconPending: {
 			backgroundColor: "rgba(158, 158, 158, 0.2)",
@@ -414,21 +413,21 @@ const createStyles = (theme: Theme) =>
 		achievementTitle: {
 			fontFamily: "Poppins-Medium",
 			fontSize: 16,
-			color: theme.color.text,
+			color: Colors.foreground,
 		},
 		achievementDescription: {
 			fontFamily: "Poppins-Regular",
 			fontSize: 14,
-			color: theme.color.textMuted,
+			color: Colors.mutedForeground,
 		},
 		achievementStatus: {
 			fontFamily: "Poppins-Medium",
 			fontSize: 12,
 		},
 		achievementStatusCompleted: {
-			color: theme.color.success,
+			color: Colors.success,
 		},
 		achievementStatusPending: {
-			color: theme.color.textMuted,
+			color: Colors.mutedForeground,
 		},
 	});

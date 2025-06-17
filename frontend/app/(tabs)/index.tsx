@@ -1,45 +1,26 @@
-import React, { useState } from "react";
-import {
-	Image,
-	Platform,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-	FlatList,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Car, MapPin, Search, User as UserIcon } from "lucide-react-native";
-import { ThemeColors } from "@/theme/colors";
-import {
-	BorderRadius,
-	BorderWidth,
-	Font,
-	IconSize,
-	Shadow,
-	Spacing,
-	useTheme,
-} from "@/theme";
-import { Input } from "@/components/form/input";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useAuthStore } from "@/lib/store";
 import { PlacesAutocompleteInput } from "@/components/places-autocomplete-input";
 import { useLocation } from "@/hooks/useLocation";
+import { useAuthStore, useDestinationStore } from "@/lib/store";
+import { BorderRadius, BorderWidth, Font, IconSize, Spacing, useTheme, } from "@/theme";
+import { ThemeColors } from "@/theme/colors";
+import { Car, MapPin, User as UserIcon } from "lucide-react-native";
+import React from "react";
+import { FlatList, Platform, StyleSheet, Text, TouchableOpacity, View, } from "react-native";
 import MapView, { Circle, Marker } from "react-native-maps";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 
-// Mock data for available rides
+// Mock data for available home
 const AVAILABLE_RIDES = [
-	{ id: 1, latitude: 37.785834, longitude: -122.406417, seats: 2 },
-	{ id: 2, latitude: 37.787834, longitude: -122.408417, seats: 3 },
-	// {id: 3, latitude: 37.782834, longitude: -122.404417, seats: 2},
-	// {id: 4, latitude: 37.784834, longitude: -122.402417, seats: 4},
-	// {id: 5, latitude: 37.781834, longitude: -122.401417, seats: 5},
-	// {id: 6, latitude: 37.786834, longitude: -122.405417, seats: 6},
-	// {id: 7, latitude: 37.788834, longitude: -122.409417, seats: 7},
+	{ id: 101, latitude: -6.200100, longitude: 106.817000, seats: 3 },
+	{ id: 102, latitude: -6.201000, longitude: 106.815500, seats: 2 },
+	{ id: 103, latitude: -6.199800, longitude: 106.816300, seats: 4 },
+	{ id: 104, latitude: -6.200500, longitude: 106.816800, seats: 1 },
+	{ id: 105, latitude: -6.199900, longitude: 106.816900, seats: 5 },
+	{ id: 106, latitude: -6.200300, longitude: 106.817200, seats: 2 },
 ];
 
-// Mock data for recent rides
+// Mock data for recent home
 const RECENT_RIDES = [
 	{
 		id: 1,
@@ -84,7 +65,6 @@ export default function HomeScreen() {
 				}}
 				showsUserLocation
 			>
-				{/* User's current location */}
 				<Marker
 					coordinate={{
 						latitude: coords?.latitude || 37.78825,
@@ -93,7 +73,7 @@ export default function HomeScreen() {
 					pinColor={Colors.primary}
 				/>
 
-				{/* Available rides */}
+				{/* Available home */}
 				{AVAILABLE_RIDES.map((ride) => (
 					<React.Fragment key={ride.id}>
 						<Marker
@@ -103,7 +83,7 @@ export default function HomeScreen() {
 							}}
 						>
 							<View style={styles.carMarker}>
-								<Car size={12} color="#FFF" />
+								<Car size={12} color="#FFF"/>
 								<Text style={styles.markerText}>
 									{ride.seats}
 								</Text>
@@ -124,127 +104,145 @@ export default function HomeScreen() {
 		);
 	};
 
-	const onPlaceSelected = React.useCallback((place: any) => {
-		console.log(place);
-	}, []);
+	const onPlaceSelected = (data: any, details: any) => {
+		console.log("Selected place:", data, details);
+
+		console.log("data", data);
+		console.log("details", details);
+
+		if (!details || !details.geometry || !details.geometry.location) {
+			console.error("Missing location details.");
+			return;
+		}
+
+		const name = data.description || "";
+		const latitude = details.geometry.location.lat;
+		const longitude = details.geometry.location.lng;
+
+		useDestinationStore.getState().setDestinations({
+			name,
+			latitude,
+			longitude
+		});
+
+		router.push("/ride/destination");
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
-				<View style={styles.header}>
-					<Text style={styles.welcomeText}>Welcome {user?.name}</Text>
-					<TouchableOpacity style={styles.profileButton}>
-						<UserIcon
-							size={IconSize.sm}
-							color={Colors.foreground}
-						/>
-					</TouchableOpacity>
-				</View>
+			<View style={styles.header}>
+				<Text style={styles.welcomeText}>Welcome {user?.name}</Text>
+				<TouchableOpacity style={styles.profileButton}>
+					<UserIcon
+						size={IconSize.sm}
+						color={Colors.foreground}
+					/>
+				</TouchableOpacity>
+			</View>
 
-				<PlacesAutocompleteInput
-					onPlaceSelected={(data, details) => {
-						console.log("place selected:", data, details);
-					}}
-					containerStyle={styles.searchBar}
+			<PlacesAutocompleteInput
+				onPlaceSelected={(data, details) => {onPlaceSelected(data, details)}}
+				containerStyle={styles.searchBar}
+			/>
+
+			<View style={styles.mapContainer}>
+				<Text style={styles.sectionTitle}>
+					Your current location
+				</Text>
+				{renderMap()}
+			</View>
+
+			<View style={styles.recentRidesContainer}>
+				<Text style={styles.sectionTitle}>Recent Rides</Text>
+				<FlatList
+					data={RECENT_RIDES}
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					contentContainerStyle={styles.recentRidesScrollContent}
+					keyExtractor={(item) => item.id.toString()}
+					renderItem={({ item: ride }) => (
+						<View style={styles.rideCard}>
+							{/*<View style={styles.rideMap}>*/}
+							{/*<Image*/}
+							{/*	source={{*/}
+							{/*		uri: "",*/}
+							{/*	}}*/}
+							{/*	style={styles.rideMapImage}*/}
+							{/*/>*/}
+							{/*</View>*/}
+
+							<View style={styles.rideDetails}>
+								<View style={styles.rideLocationRow}>
+									<MapPin
+										size={16}
+										color={Colors.primary}
+									/>
+									<Text style={styles.rideLocationText}>
+										{ride.from}
+									</Text>
+								</View>
+
+								<View style={styles.rideLocationRow}>
+									<MapPin
+										size={16}
+										color={Colors.secondary}
+									/>
+									<Text style={styles.rideLocationText}>
+										{ride.to}
+									</Text>
+								</View>
+
+								<View style={styles.rideInfoRow}>
+									<View style={styles.rideInfoItem}>
+										<Text style={styles.rideInfoLabel}>
+											Date & Time
+										</Text>
+										<Text style={styles.rideInfoValue}>
+											{ride.date}, {ride.time}
+										</Text>
+									</View>
+								</View>
+
+								<View style={styles.rideInfoRow}>
+									<View style={styles.rideInfoItem}>
+										<Text style={styles.rideInfoLabel}>
+											Driver
+										</Text>
+										<Text style={styles.rideInfoValue}>
+											{ride.driver}
+										</Text>
+									</View>
+
+									<View style={styles.rideInfoItem}>
+										<Text style={styles.rideInfoLabel}>
+											Car seats
+										</Text>
+										<Text style={styles.rideInfoValue}>
+											{ride.seats}
+										</Text>
+									</View>
+								</View>
+
+								<View style={styles.rideInfoRow}>
+									<View style={styles.rideInfoItem}>
+										<Text style={styles.rideInfoLabel}>
+											Payment Status
+										</Text>
+										<Text
+											style={[
+												styles.rideInfoValue,
+												styles.paidStatus,
+											]}
+										>
+											{ride.status}
+										</Text>
+									</View>
+								</View>
+							</View>
+						</View>
+					)}
 				/>
-
-				<View style={styles.mapContainer}>
-					<Text style={styles.sectionTitle}>
-						Your current location
-					</Text>
-					{renderMap()}
-				</View>
-
-				{/*<View style={styles.recentRidesContainer}>*/}
-				{/*	<Text style={styles.sectionTitle}>Recent Rides</Text>*/}
-				{/*	<FlatList*/}
-				{/*		data={RECENT_RIDES}*/}
-				{/*		horizontal*/}
-				{/*		showsHorizontalScrollIndicator={false}*/}
-				{/*		contentContainerStyle={styles.recentRidesScrollContent}*/}
-				{/*		keyExtractor={(item) => item.id.toString()}*/}
-				{/*		renderItem={({ item: ride }) => (*/}
-				{/*			<View style={styles.rideCard}>*/}
-				{/*				<View style={styles.rideMap}>*/}
-				{/*				<Image*/}
-				{/*					source={{*/}
-				{/*						uri: "",*/}
-				{/*					}}*/}
-				{/*					style={styles.rideMapImage}*/}
-				{/*				/>*/}
-				{/*				</View>*/}
-
-				{/*				<View style={styles.rideDetails}>*/}
-				{/*					<View style={styles.rideLocationRow}>*/}
-				{/*						<MapPin*/}
-				{/*							size={16}*/}
-				{/*							color={Colors.primary}*/}
-				{/*						/>*/}
-				{/*						<Text style={styles.rideLocationText}>*/}
-				{/*							{ride.from}*/}
-				{/*						</Text>*/}
-				{/*					</View>*/}
-
-				{/*					<View style={styles.rideLocationRow}>*/}
-				{/*						<MapPin*/}
-				{/*							size={16}*/}
-				{/*							color={Colors.secondary}*/}
-				{/*						/>*/}
-				{/*						<Text style={styles.rideLocationText}>*/}
-				{/*							{ride.to}*/}
-				{/*						</Text>*/}
-				{/*					</View>*/}
-
-				{/*					<View style={styles.rideInfoRow}>*/}
-				{/*						<View style={styles.rideInfoItem}>*/}
-				{/*							<Text style={styles.rideInfoLabel}>*/}
-				{/*								Date & Time*/}
-				{/*							</Text>*/}
-				{/*							<Text style={styles.rideInfoValue}>*/}
-				{/*								{ride.date}, {ride.time}*/}
-				{/*							</Text>*/}
-				{/*						</View>*/}
-				{/*					</View>*/}
-
-				{/*					<View style={styles.rideInfoRow}>*/}
-				{/*						<View style={styles.rideInfoItem}>*/}
-				{/*							<Text style={styles.rideInfoLabel}>*/}
-				{/*								Driver*/}
-				{/*							</Text>*/}
-				{/*							<Text style={styles.rideInfoValue}>*/}
-				{/*								{ride.driver}*/}
-				{/*							</Text>*/}
-				{/*						</View>*/}
-
-				{/*						<View style={styles.rideInfoItem}>*/}
-				{/*							<Text style={styles.rideInfoLabel}>*/}
-				{/*								Car seats*/}
-				{/*							</Text>*/}
-				{/*							<Text style={styles.rideInfoValue}>*/}
-				{/*								{ride.seats}*/}
-				{/*							</Text>*/}
-				{/*						</View>*/}
-				{/*					</View>*/}
-
-				{/*					<View style={styles.rideInfoRow}>*/}
-				{/*						<View style={styles.rideInfoItem}>*/}
-				{/*							<Text style={styles.rideInfoLabel}>*/}
-				{/*								Payment Status*/}
-				{/*							</Text>*/}
-				{/*							<Text*/}
-				{/*								style={[*/}
-				{/*									styles.rideInfoValue,*/}
-				{/*									styles.paidStatus,*/}
-				{/*								]}*/}
-				{/*							>*/}
-				{/*								{ride.status}*/}
-				{/*							</Text>*/}
-				{/*						</View>*/}
-				{/*					</View>*/}
-				{/*				</View>*/}
-				{/*			</View>*/}
-				{/*		)}*/}
-				{/*	/>*/}
-				{/*</View>*/}
+			</View>
 		</SafeAreaView>
 	);
 }
@@ -253,8 +251,7 @@ const createStyles = (Colors: ThemeColors) =>
 	StyleSheet.create({
 		autocompleteContainer: {
 			marginBottom: Spacing.md,
-			zIndex: 1000, // Ensure it's above other elements
-			elevation: 1000, // For Android
+			zIndex: 1000,
 		},
 		container: {
 			flex: 1,
@@ -365,7 +362,6 @@ const createStyles = (Colors: ThemeColors) =>
 		rideLocationRow: {
 			flexDirection: "row",
 			alignItems: "center",
-			marginBottom: Spacing.xs,
 		},
 		rideLocationText: {
 			fontFamily: "Poppins-Medium",

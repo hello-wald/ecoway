@@ -1,2 +1,2 @@
 // Services exports
-export { AuthService } from './auth/auth.service';
+export { AuthService } from './auth.service';

@@ -29,7 +29,7 @@ export function PlacesAutocompleteInput({
 					language: "en",
 					components: "country:id",
 				}}
-				// fetchDetails={true}
+				fetchDetails={true}
 				enablePoweredByContainer={false}
 				nearbyPlacesAPI="GooglePlacesSearch"
 				debounce={400}
@@ -46,6 +46,17 @@ export function PlacesAutocompleteInput({
 							},
 						},
 					},
+					{
+						description: "Binus University",
+						geometry: {
+							location: {
+								lat: -6.200000,
+								lng: 106.816666,
+								latitude: -6.200000,
+								longitude: 106.816666,
+							},
+						},
+					}
 				]}
 				textInputProps={{
 					placeholderTextColor: Colors.mutedForeground,
@@ -70,13 +81,12 @@ export function PlacesAutocompleteInput({
 					},
 					description: {
 						color: Colors.foreground,
-						fontSize: 15,
-						fontFamily: "Poppins-Regular",
+						...Font.md.regular,
 						flex: 1,
 					},
 					predefinedPlacesDescription: {
 						color: Colors.primary,
-						fontFamily: "Poppins-Medium",
+						...Font.md.regular,
 					},
 				}}
 				renderLeftButton={() => (
