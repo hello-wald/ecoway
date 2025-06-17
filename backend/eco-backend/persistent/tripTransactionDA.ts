@@ -4,6 +4,7 @@ import { TripTransactionModel } from "../model/tripTransactionModel";
 const prisma = new PrismaClient();
 
 export class TripTransactionRepository {
+
   // Create a trip and return true if successful, false otherwise
   async createTrip(data: TripTransactionModel): Promise<boolean> {
     try {
