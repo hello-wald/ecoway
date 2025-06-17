@@ -1,6 +1,6 @@
-import { ThemeColors } from "@/theme/colors";
 import { StyleSheet } from "react-native";
-import { BorderRadius, Shadow} from "../outlines";
+import { ThemeColors } from "../colors";
+import { BorderRadius, Shadow } from "../outlines";
 import { Font } from "../text-style";
 import { Spacing } from "../sizing";
 

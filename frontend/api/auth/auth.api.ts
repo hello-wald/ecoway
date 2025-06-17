@@ -5,6 +5,7 @@ import { ApiResponse } from "@/types/api.types";
 import { handleApiCall } from "@/lib/utils";
 
 export const AuthApi = {
+
 	register: async (credentials: RegisterCredentials): Promise<ApiResponse<AuthData>> => {
 		return handleApiCall<AuthData>(() =>
 			ApiClient.post<ApiResponse<AuthData>>(

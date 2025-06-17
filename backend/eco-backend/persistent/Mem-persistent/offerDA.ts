@@ -1,66 +1,82 @@
-import "../../model/offerModel"
-import { OfferModel } from "../../model/offerModel"
-import { Location } from "../../model/locationModel"
+import "../../model/offerModel";
+import { OfferModel } from "../../model/offerModel";
+import { Location } from "../../model/locationModel";
+import { DestinationModel } from "../../model/destinationModel";
 // pair offer id and offer object
 
 const OfferMap: Map<string, any> = new Map();
 
-export function createOffer(driverID:string, location:Location, destinationID:string):string{
-    const offerID:string = generateOfferID(5)
-    const newOffer:OfferModel = {
-        offer_id: offerID,
-        driver_id:driverID,
-        destination_id: destinationID,
-        location: location
-    }
-    if (OfferMap.has(offerID)){
-        return "" // offer id already exists
-    }
-    OfferMap.set(offerID, newOffer)
-    return offerID
+export interface OfferResponse extends OfferModel {
+	driver_name: string;
 }
 
-export function getOfferByOfferID(offerID:string):OfferModel{
-    return OfferMap.get(offerID)
+export async function createOffer(
+	driverID: string,
+	location: Location,
+	destinationName: DestinationModel,
+	driverName: string
+): Promise<string> {
+	const offerID: string = generateOfferID(5);
+
+	const newOffer: OfferResponse = {
+		offer_id: offerID,
+		driver_id: driverID,
+		driver_name: driverName,
+		destination: destinationName,
+		location: location,
+	};
+
+	if (OfferMap.has(offerID)) {
+		return ""; // offer id already exists
+	}
+
+	OfferMap.set(offerID, newOffer);
+	return offerID;
 }
 
-export function deleteOfferByOfferID(offerID:string):Boolean{
-    return OfferMap.delete(offerID)
+export function getOfferByOfferID(offerID: string): OfferResponse {
+	return OfferMap.get(offerID);
 }
 
-export function updateOfferLocation(offerID:string, newLocation:Location):Boolean{
-    let offer:OfferModel = OfferMap.get(offerID)
-    if (!offer){
-        return false
-    }
-    offer.location = newLocation
-    return true
+export function deleteOfferByOfferID(offerID: string): Boolean {
+	return OfferMap.delete(offerID);
 }
 
-function generateOfferID(length: number): string{
-    let generatedID =""
-    for( let i =0; i< length; i++){
-        const randNum = Math.floor(Math.random() * 10)
-        generatedID+=randNum
-    }
-    return generatedID
-
+export function updateOfferLocation(
+	offerID: string,
+	newLocation: Location
+): Boolean {
+	let offer: OfferResponse = OfferMap.get(offerID);
+	if (!offer) {
+		return false;
+	}
+	offer.location = newLocation;
+	return true;
 }
 
-export function getOfferByDriverID(driverID:string):OfferModel[]{
-    let offers:OfferModel[] = []
-    for (let offer of OfferMap.values()){
-        if (offer.driver_id === driverID){
-            offers.push(offer)
-        }
-    }
-    return offers
+function generateOfferID(length: number): string {
+	let generatedID = "";
+	for (let i = 0; i < length; i++) {
+		const randNum = Math.floor(Math.random() * 10);
+		generatedID += randNum;
+	}
+	return generatedID;
 }
 
-export function getAllOffer():OfferModel[]{
-    let offers:OfferModel[] = []
-    for (let offer of OfferMap.values()){
-        offers.push(offer)
-    }
-    return offers
+export function getOfferByDriverID(driverID: string): OfferResponse[] {
+	let offers: OfferResponse[] = [];
+	for (let offer of OfferMap.values()) {
+		if (offer.driver_id === driverID) {
+			offers.push(offer);
+		}
+	}
+	return offers;
+}
+
+export function getAllOffer(): OfferResponse[] {
+	let offers: OfferResponse[] = [];
+	for (let offer of OfferMap.values()) {
+		offers.push(offer);
+	}
+	return offers;
 }

@@ -19,7 +19,7 @@ export interface ThemeColors {
 
   // Status colors
   success: string;
-  error: string;
+  danger: string;
 
   primaryGradient: string[];
 }
@@ -41,7 +41,7 @@ export const LightColors: ThemeColors = {
   shadow: '#101010',
 
   success: '#34C759',
-  error: '#FF3B30',
+  danger: '#FF3B30',
 
   primaryGradient: ["#0286FF", "#14F077"],
 }
@@ -63,7 +63,7 @@ export const DarkColors: ThemeColors = {
   shadow: '#00000080',
 
   success: '#34C759',
-  error: '#FF3B30',
+  danger: '#FF3B30',
 
   primaryGradient: ["#0286FF", "#14F077"],
 }

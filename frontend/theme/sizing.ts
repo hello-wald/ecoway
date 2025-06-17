@@ -10,6 +10,7 @@ export const Spacing = {
 }
 
 export const IconSize = {
+  xs: rw(4),
   sm: rw(5), // ~20px
   md: rw(6), // ~24px
   lg: rw(8), // ~32px

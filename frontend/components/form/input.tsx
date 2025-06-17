@@ -111,7 +111,7 @@ const createStyles = (Colors: ThemeColors) =>
 			borderColor: Colors.border,
 		},
 		inputContainerError: {
-			borderColor: Colors.error,
+			borderColor: Colors.danger,
 		},
 		inputIcon: {
 			marginRight: Spacing.sm * 1.5,
@@ -126,7 +126,7 @@ const createStyles = (Colors: ThemeColors) =>
 		},
 		errorText: {
 			...Font.sm.regular,
-			color: Colors.error,
+			color: Colors.danger,
 			marginTop: Spacing.xs,
 			marginLeft: Spacing.md,
 		},

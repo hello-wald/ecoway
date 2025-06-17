@@ -1,0 +1,142 @@
+import React, { useEffect, useState, useRef } from "react";
+import {
+	Alert,
+	Image,
+	Platform,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { LocateFixed } from "lucide-react-native";
+import {
+	BorderRadius,
+	createRideStyles,
+	Font,
+	IconSize,
+	Spacing,
+	useTheme,
+} from "@/theme";
+import { useLocation } from "@/hooks/useLocation";
+import { useDestinationStore } from "@/lib/store";
+import { GradientButton } from "@/components/buttons/gradient-button";
+import { router, useLocalSearchParams } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import MapView, { Marker } from "react-native-maps";
+import { SecondaryButton } from "@/components/buttons/secondary-button";
+import { RideRequest } from "@/types/ride.types";
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
+import Constants from "expo-constants";
+
+export default function FindScreen() {
+	const { Colors } = useTheme();
+	const styles = createRideStyles(Colors);
+
+	const { offerId } = useLocalSearchParams();
+
+	const { coords } = useLocation();
+	const { destination } = useDestinationStore();
+	const [origin, setOrigin] = useState("Current Location");
+	const [rideRequests, setRideRequests] = useState<RideRequest[]>([]);
+	const [hasNewRequest, setHasNewRequest] = useState(false);
+	const [eventSource, setEventSource] = useState<EventSource | null>(null);
+
+	const renderMap = () => {
+		if (Platform.OS === "web" || !coords) {
+			return (
+				<View style={[styles.map, styles.webMapPlaceholder]}>
+					<Text style={styles.webMapText}>Map View</Text>
+					<Text style={styles.webMapSubtext}>
+						Maps are only available on mobile devices
+					</Text>
+				</View>
+			);
+		}
+
+		return (
+			<MapView
+				provider="google"
+				style={styles.map}
+				region={{
+					latitude: coords.latitude,
+					longitude: coords.longitude,
+					latitudeDelta: 0.01,
+					longitudeDelta: 0.001,
+				}}
+				showsUserLocation
+			>
+				{/* User's current location */}
+				<Marker
+					coordinate={{
+						latitude: coords.latitude,
+						longitude: coords.longitude,
+					}}
+					title="Your Location"
+					description="This is your current location"
+				>
+					<View style={styles.userMarker}>
+						<Image
+							source={{
+								uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+							}}
+							style={styles.userMarkerImage}
+						/>
+					</View>
+				</Marker>
+			</MapView>
+		);
+	};
+
+	return (
+		<SafeAreaView style={styles.container}>
+			<View style={styles.header}>
+				<Text style={styles.headerTitle}>On the Road</Text>
+			</View>
+
+			<View style={styles.mapContainer}>
+				{renderMap()}
+
+				<TouchableOpacity style={styles.mapControlButton}>
+					<LocateFixed size={IconSize.md} color="#FFF" />
+				</TouchableOpacity>
+			</View>
+
+			<View style={styles.modalContainer}>
+				<Text style={styles.modalTitle}>
+					Heading to{" "}
+					<Text style={{ color: Colors.primary }}>
+						{destination?.name}
+					</Text>
+				</Text>
+
+				<View
+					style={{
+						backgroundColor: Colors.muted,
+						borderRadius: BorderRadius.md,
+						padding: Spacing.md,
+						marginBottom: Spacing.md,
+					}}
+				>
+					<Text
+						style={{
+							...Font.lg.medium,
+						}}
+					>
+						Passengers
+						{/* Button to redirect to passengers request or open a modal with the requests */}
+					</Text>
+				</View>
+
+				<GradientButton>Finish Ride</GradientButton>
+
+				<SecondaryButton
+					style={styles.cancelButton}
+					textStyle={styles.cancelButtonText}
+					onPress={() => router.replace("/(tabs)")}
+				>
+					Cancel
+				</SecondaryButton>
+			</View>
+		</SafeAreaView>
+	);
+}

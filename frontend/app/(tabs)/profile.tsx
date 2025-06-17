@@ -104,7 +104,7 @@ export default function ProfileScreen() {
 					style={styles.logoutButton}
 					onPress={logout}
 				>
-					<LogOut size={20} color={Colors.error} />
+					<LogOut size={20} color={Colors.danger} />
 					<Text style={styles.logoutText}>Log Out</Text>
 				</TouchableOpacity>
 
@@ -277,7 +277,7 @@ const createStyles = (Colors: ThemeColors) =>
 		logoutText: {
 			fontFamily: "Poppins-Medium",
 			fontSize: 16,
-			color: Colors.error,
+			color: Colors.danger,
 			marginLeft: Spacing.sm,
 		},
 		versionText: {

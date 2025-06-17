@@ -17,6 +17,7 @@ export const FontSize = {
   LARGE: rf(2),
   MEDIUM: rf(1.75),
   SMALL: rf(1.5),
+  CAPTION: rf(1.25),
 }
 
 export const Font = {
@@ -90,5 +91,9 @@ export const Font = {
       fontFamily: FontFamily.REGULAR,
     },
   },
+  caption: {
+    fontSize: FontSize.CAPTION,
+    fontFamily: FontFamily.MEDIUM,
+  }
 }
 

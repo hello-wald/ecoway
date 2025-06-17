@@ -1,16 +1,18 @@
 import React, { ReactNode } from "react";
-import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
+import { StyleSheet, Text, TextStyle, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
 import { BorderRadius, BorderWidth, Font, Spacing, useTheme } from "@/theme";
 import { ThemeColors } from "@/theme/colors";
 
 interface SecondaryButtonProps extends TouchableOpacityProps {
 	children: ReactNode;
 	style?: ViewStyle;
+	textStyle?: TextStyle;
 }
 
 export function SecondaryButton({
 																 children,
 																 style,
+																 textStyle,
 																 ...touchableProps
 															 }: SecondaryButtonProps) {
 	const { Colors } = useTheme();
@@ -18,7 +20,7 @@ export function SecondaryButton({
 
 	return (
 		<TouchableOpacity style={[styles.button, style]} {...touchableProps}>
-			<Text style={[styles.buttonText]}>{children}</Text>
+			<Text style={[styles.buttonText, textStyle]}>{children}</Text>
 		</TouchableOpacity>
 	);
 }

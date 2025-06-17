@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 export class DestinationRepository {
     async createDestination(data: DestinationModel): Promise<boolean> {
         try {
+          // @ts-ignore
           await prisma.msDestination.create({ data });
           return true;
         } catch (error) {
