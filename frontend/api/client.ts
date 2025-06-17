@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import { AUTH_TOKEN_KEY } from "@/lib/constants";
 
 const ApiClient = axios.create({
-	baseURL: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000/',
+	baseURL: process.env.EXPO_PUBLIC_API_URL || 'http://192.168.103.1:3000',
 	headers: {
 		'Content-Type': 'application/json',
 	},
