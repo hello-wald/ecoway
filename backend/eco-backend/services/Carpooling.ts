@@ -38,6 +38,11 @@ import express from "express";
 import { requestModel } from "../model/requestModel";
 import { Payload } from "../model/payload";
 import { UserRepository } from "../persistent/userDA";
+import { TripTransactionRepository } from "../persistent/tripTransactionDA";
+import { on } from "events";
+import { TripTransactionModel } from "../model/tripTransactionModel";
+
+const ttr = new TripTransactionRepository()
 
 function makeCarpoolOfferService(
 	driverId: string, // this is user id
@@ -214,9 +219,33 @@ function updatePostiion(
 	}
 }
 
-function endTrip(onGoingTransactionId: string): boolean {
-	return deleteOnGoingTransactionByID(onGoingTransactionId);
+async function endTrip(onGoingTransactionId: string): Promise<boolean> {
+	const ongoingTrip = getOnGoingTransactionByID(onGoingTransactionId);
+	if (ongoingTrip == undefined) {
+		return false;
+	}
+
+	const tripTransactionId = uuidv4();
+	const tripTransaction: TripTransactionModel = {
+		trip_id: tripTransactionId,
+		driver_id: ongoingTrip.driver_id,
+		customer_id: ongoingTrip.passenger_id,
+		destination_id: ongoingTrip.destination_id, // ✅ Corrected
+		trip_date: new Date(),
+		trip_point: 0,
+	};
+
+	try {
+		await ttr.createTrip(tripTransaction); // Assuming this returns Promise<void>
+		deleteOnGoingTransactionByID(onGoingTransactionId);
+		return true;
+	} catch (error) {
+		console.error("Failed to create trip:", error);
+		return false;
+	}
 }
+
+
 
 function getDestinationData(destinationID: string): DestinationModel {
 	const destination = getDestinationData(destinationID);
@@ -244,6 +273,18 @@ function declineRequest(requestId: string): boolean {
 	return deleteRequestByID(requestId);
 }
 
+function getTripTransactionByCustomerId(
+	customerId: string
+): Promise<TripTransactionModel[]> {
+	return ttr.getTripsByCustomerId(customerId);
+}
+
+function getTripTransactionByDriverId(
+	driverId: string
+): Promise<TripTransactionModel[]> {
+	return ttr.getTripsByDriverId(driverId);
+}
+
 export {
 	createRequestService,
 	getAllOfferByDriverID,
@@ -260,4 +301,6 @@ export {
 	getAllRequestService,
 	getRequestsByOffer,
 	declineRequest,
+	getTripTransactionByCustomerId,
+	getTripTransactionByDriverId,
 };

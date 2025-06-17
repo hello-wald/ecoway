@@ -14,10 +14,10 @@ import {
   getAllRequestService,
   getRequestsByOffer,
   declineRequest,
+  getTripTransactionByCustomerId,
+  getTripTransactionByDriverId,
 } from "../services/Carpooling"; // adjust path as needed
 import { Location } from "../model/locationModel";
-
-const router = express.Router();
 
 export async function handleCreateOffer(req: Request, res: Response): Promise<void> {
   const { driver_id } = req.body;
@@ -160,14 +160,38 @@ export async function handleUpdatePosition(req: Request, res: Response): Promise
 }
 
 export async function handleEndTransaction(req: Request, res: Response): Promise<void> {
-  const success = endTrip(req.params.transactionId);
-  if (success) {
-    res.status(200).json({ message: "Trip ended" });
-  } else {
-    res.status(400).json({ message: "Failed to end trip" });
+  try {
+    const success = await endTrip(req.params.transactionId);
+
+    if (success) {
+      res.status(200).json({ message: "Trip ended" });
+    } else {
+      res.status(400).json({ message: "Failed to end trip" });
+    }
+  } catch (error) {
+    console.error("Error ending trip:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function handleGetTripTransactionByCustomerId(req: Request, res: Response): Promise<void> {
+  const { customerId } = req.params;
+  try {
+    const trips = await getTripTransactionByCustomerId(customerId);
+    res.status(200).json(trips);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
+
+export async function handleGetTripTransactionByDriverId(req: Request, res: Response): Promise<void> {
+  const { driverId } = req.params;
+  try {
+    const trips = await getTripTransactionByDriverId(driverId);
+    res.status(200).json(trips);
+  } catch (error) {
+    res.status(500).json({ message: error });
   }
 }
 
 
-
-export default router;
