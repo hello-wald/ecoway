@@ -32,8 +32,8 @@ export default function DestinationScreen() {
 	const { destination } = useDestinationStore();
 	const [origin, setOrigin] = useState('Current Location');
 
-	const handleStartRide = () => {
-		const offerId = OfferService.createOffer({
+	const handleStartRide = async () => {
+		const offerId = await OfferService.createOffer({
 			driver_id: user!.id,
 			destination: {
 				name: destination!.name,

@@ -20,7 +20,7 @@ import { Location } from "../model/locationModel";
 const router = express.Router();
 
 export async function handleCreateOffer(req: Request, res: Response): Promise<void> {
-  const { driver_id} = req.body;
+  const { driver_id } = req.body;
   const latitude_float = Number(req.body.location.latitude);
   const longitude_float = Number(req.body.location.longitude);
   const destination_name = req.body.destination.name;
@@ -39,14 +39,14 @@ export async function handleCreateOffer(req: Request, res: Response): Promise<vo
   }
 
   try {
-    const offerId = await makeCarpoolOfferService(
+    const offer_id = await makeCarpoolOfferService(
       driver_id,
       location,
       destination,
       res
     );
 
-    res.status(201).json({ offerId });
+    res.status(201).json({ offer_id });
 
   } catch (error) {
     res.status(500).json({ message: error});

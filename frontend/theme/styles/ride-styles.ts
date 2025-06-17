@@ -103,5 +103,16 @@ export const createRideStyles = (Colors: ThemeColors) => StyleSheet.create({
 	},
 	cancelButtonText: {
 		color: Colors.danger,
-	}
+	},
+	noOffersContainer: {
+		padding: Spacing.lg,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	noOffersText: {
+		color: Colors.mutedForeground,
+		...Font.lg.semiBold,
+		textAlign: 'center',
+		marginTop: Spacing.md,
+	},
 });

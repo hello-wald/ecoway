@@ -115,7 +115,7 @@ export default function HomeScreen() {
 			return;
 		}
 
-		const name = data.description || "";
+		const name = data.structured_formatting.main_text || data.description;
 		const latitude = details.geometry.location.lat;
 		const longitude = details.geometry.location.lng;
 

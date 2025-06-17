@@ -1,20 +1,21 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Star } from "lucide-react-native";
 import { RideOffer } from "@/types/ride.types";
 import { Font, IconSize, Spacing, ThemeColors, useTheme } from "@/theme";
 
 interface DriverRowProps {
 	offer: RideOffer;
-	selected?: boolean;
+	selected: boolean;
+	onPress: () => void;
 }
 
-export const DriverRow = ({ offer, selected }: DriverRowProps) => {
+export const DriverRow = ({ offer, selected, onPress }: DriverRowProps) => {
 	const { Colors } = useTheme();
 	const styles = createStyle(Colors);
 
 	return (
-		<View style={[styles.card, selected && styles.selected]}>
+		<TouchableOpacity style={[styles.card, selected && styles.selected]} onPress={onPress}>
 			<View style={styles.left}>
 				<Image source={require('@/assets/images/ride/avatar.png')} style={styles.avatar}/>
 				<View>
@@ -27,14 +28,14 @@ export const DriverRow = ({ offer, selected }: DriverRowProps) => {
 						</Text>
 					</View>
 					<View style={styles.details}>
-						<Text style={styles.info}>To {offer.destination.name}</Text>
+						<Text style={styles.info}>To {offer.destination.destination_name}</Text>
 						<Text style={[styles.info, {marginHorizontal: Spacing.sm}]}> • </Text>
 						<Text style={styles.info}>4 Seats</Text>
 					</View>
 				</View>
 			</View>
-			<Image source={require('@/assets/images/ride/Car.png')} style={styles.car}/>
-		</View>
+			<Image source={require('@/assets/images/ride/car.png')} style={styles.car}/>
+		</TouchableOpacity>
 	);
 };
 
@@ -44,7 +45,8 @@ const createStyle = (Colors: ThemeColors) => StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "space-between",
 		backgroundColor: Colors.background,
-		padding: Spacing.sm,
+		paddingHorizontal: Spacing.lg,
+		paddingVertical: Spacing.md,
 		marginBottom: Spacing.md,
 	},
 	selected: {

@@ -1,21 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-import {
-	Alert,
-	Image,
-	Platform,
-	Text,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import React, { useState } from "react";
+import { Alert, Image, Platform, Text, TouchableOpacity, View, } from "react-native";
 import { LocateFixed } from "lucide-react-native";
-import {
-	BorderRadius,
-	createRideStyles,
-	Font,
-	IconSize,
-	Spacing,
-	useTheme,
-} from "@/theme";
+import { BorderRadius, createRideStyles, Font, IconSize, Spacing, useTheme, } from "@/theme";
 import { useLocation } from "@/hooks/useLocation";
 import { useDestinationStore } from "@/lib/store";
 import { GradientButton } from "@/components/buttons/gradient-button";
@@ -24,9 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { Marker } from "react-native-maps";
 import { SecondaryButton } from "@/components/buttons/secondary-button";
 import { RideRequest } from "@/types/ride.types";
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
-import Constants from "expo-constants";
+import { OfferService } from "@/services/offer.service";
 
 export default function FindScreen() {
 	const { Colors } = useTheme();
@@ -40,6 +24,16 @@ export default function FindScreen() {
 	const [rideRequests, setRideRequests] = useState<RideRequest[]>([]);
 	const [hasNewRequest, setHasNewRequest] = useState(false);
 	const [eventSource, setEventSource] = useState<EventSource | null>(null);
+
+	const handleCancel = async () => {
+		console.log("offer id", offerId);
+		const success = await OfferService.cancelOffer(offerId as string);
+		if (success) {
+			router.push("/(tabs)");
+		} else {
+			Alert.alert("Error", "Failed to cancel the ride offer.");
+		}
+	}
 
 	const renderMap = () => {
 		if (Platform.OS === "web" || !coords) {
@@ -97,7 +91,7 @@ export default function FindScreen() {
 				{renderMap()}
 
 				<TouchableOpacity style={styles.mapControlButton}>
-					<LocateFixed size={IconSize.md} color="#FFF" />
+					<LocateFixed size={IconSize.md} color="#FFF"/>
 				</TouchableOpacity>
 			</View>
 
@@ -114,6 +108,7 @@ export default function FindScreen() {
 						backgroundColor: Colors.muted,
 						borderRadius: BorderRadius.md,
 						padding: Spacing.md,
+						marginTop: Spacing.sm,
 						marginBottom: Spacing.md,
 					}}
 				>
@@ -132,7 +127,7 @@ export default function FindScreen() {
 				<SecondaryButton
 					style={styles.cancelButton}
 					textStyle={styles.cancelButtonText}
-					onPress={() => router.replace("/(tabs)")}
+					onPress={handleCancel}
 				>
 					Cancel
 				</SecondaryButton>
