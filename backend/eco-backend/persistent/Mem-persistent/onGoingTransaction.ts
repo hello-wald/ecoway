@@ -66,3 +66,13 @@ export function updatePassengerLocation(transactionID: string, newLocation: Loca
     transaction.passenger_location = newLocation;
     return true;
 }
+
+export function getOnGoingTransactionByDriverId(driverId: string): onGoingTransactionModel[] {
+    const transactions: onGoingTransactionModel[] = [];
+    for (const transaction of OnGoingTransactionMap.values()) {
+        if (transaction.driver_id === driverId) {
+            transactions.push(transaction);
+        }
+    }
+    return transactions;
+}

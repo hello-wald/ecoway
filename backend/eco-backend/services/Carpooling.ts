@@ -41,7 +41,9 @@ import { UserRepository } from "../persistent/userDA";
 import { TripTransactionRepository } from "../persistent/tripTransactionDA";
 import { on } from "events";
 import { TripTransactionModel } from "../model/tripTransactionModel";
+import { get } from "http";
 
+const userRepo = new UserRepository();
 const ttr = new TripTransactionRepository()
 
 function makeCarpoolOfferService(
@@ -257,16 +259,26 @@ function getAllDestination(): DestinationModel[] {
 	return destinations;
 }
 
-function getRequestsByOffer(offerId: string): Promise<Payload<requestModel[]>> {
-	return new Promise((resolve, reject) => {
-		let requests = getRequestsByOfferID(offerId);
-		resolve({
-			data: requests,
-			success: true,
-			message: "Requests fetched successfully",
-		});
-	});
+function getRequestsByOffer(offerId: string): Promise<Payload<any[]>> {
+  return new Promise((resolve, reject) => {
+    const requests = getRequestsByOfferID(offerId);
+
+    const enrichedRequests = requests.map((request) => {
+      const user = userRepo.getUserById(request.user_id);
+      return {
+        ...request,
+        user, 
+      };
+    });
+
+    resolve({
+      data: enrichedRequests,
+      success: true,
+      message: "Requests with user data fetched successfully",
+    });
+  });
 }
+
 
 function declineRequest(requestId: string): boolean {
 	// delete request by id
@@ -283,6 +295,12 @@ function getTripTransactionByDriverId(
 	driverId: string
 ): Promise<TripTransactionModel[]> {
 	return ttr.getTripsByDriverId(driverId);
+}
+
+function getOnGoingTransactionByDriverId(
+	driverId: string
+): onGoingTransactionModel[] {
+	return getOnGoingTransactionByDriverId(driverId);
 }
 
 export {
@@ -303,4 +321,5 @@ export {
 	declineRequest,
 	getTripTransactionByCustomerId,
 	getTripTransactionByDriverId,
+	getOnGoingTransactionByDriverId,
 };
