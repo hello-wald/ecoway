@@ -18,6 +18,7 @@ import {
   getTripTransactionByDriverId,
 } from "../services/Carpooling"; // adjust path as needed
 import { Location } from "../model/locationModel";
+import { sseConnections } from "../persistent/Mem-persistent/sseConnectionDA";
 
 export async function handleCreateOffer(req: Request, res: Response): Promise<void> {
   const { driver_id } = req.body;
@@ -195,3 +196,22 @@ export async function handleGetTripTransactionByDriverId(req: Request, res: Resp
 }
 
 
+export async function handleGetEvents(req: Request, res: Response): Promise<void> {
+  const offerId = req.params.offerId;
+
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+
+  sseConnections.set(offerId, res);
+
+  const keepAlive = setInterval(() => {
+    res.write(":\n\n"); 
+  }, 15000);
+
+  req.on("close", () => {
+    clearInterval(keepAlive);
+    sseConnections.delete(offerId);
+  });
+}

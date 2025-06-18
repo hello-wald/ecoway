@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { upload } from '../controller/userController';
-import { handleAcceptOffer, handleCreateOffer, handleDeclineRequest, handleDeleteOffer, handleEndTransaction, handleGetAllOffers, handleGetAllRequests, handleGetOfferByDriverId, handleGetOfferById, handleGetRequestsByOfferId, handleGetTripTransactionByCustomerId, handleGetTripTransactionByDriverId, handleRequestOffer, handleUpdatePosition } from '../controller/carpoolController';
+import { handleAcceptOffer, handleCreateOffer, handleDeclineRequest, handleDeleteOffer, handleEndTransaction, handleGetAllOffers, handleGetAllRequests, handleGetEvents, handleGetOfferByDriverId, handleGetOfferById, handleGetRequestsByOfferId, handleGetTripTransactionByCustomerId, handleGetTripTransactionByDriverId, handleRequestOffer, handleUpdatePosition } from '../controller/carpoolController';
 
 const router = express.Router();
 
@@ -19,6 +19,7 @@ router.post('/position', upload.none(), handleUpdatePosition)
 router.delete('/end/:transactionId', handleEndTransaction);
 router.get('/history/:driverId', handleGetTripTransactionByDriverId);
 router.get('/history/:customerId', handleGetTripTransactionByCustomerId)
+router.get('/events/:offerId', handleGetEvents)
 
 
 export default router;
