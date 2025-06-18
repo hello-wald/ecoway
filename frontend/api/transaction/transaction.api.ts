@@ -24,4 +24,12 @@ export const TransactionApi = {
 			)
 		);
 	},
+
+	getTransactionsByDriver: async (driverId: string): Promise<ApiResponse<[]>> => {
+		return handleApiCall<OngoingTransaction[]>(() =>
+			ApiClient.get<ApiResponse<OngoingTransaction[]>>(
+				ENDPOINTS.TRANSACTION.GET_BY_DRIVER(driverId)
+			)
+		);
+	}
 }

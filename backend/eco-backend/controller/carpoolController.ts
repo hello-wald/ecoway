@@ -188,9 +188,10 @@ export async function handleGetTripTransactionByCustomerId(req: Request, res: Re
 }
 
 export async function handleGetTripTransactionByDriverId(req: Request, res: Response): Promise<void> {
-  const { driverId } = req.params;
+  const driverId = req.params.driverId;
   try {
     const trips = await getTripTransactionByDriverId(driverId);
+    console.log('trips',trips);
     res.status(200).json(trips);
   } catch (error) {
     res.status(500).json({ message: error });

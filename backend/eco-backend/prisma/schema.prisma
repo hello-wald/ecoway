@@ -36,7 +36,6 @@ model TripTransaction {
   trip_date      DateTime
   trip_point     Int
   customer       MsUser        @relation("CustomerTrips", fields: [customer_id], references: [user_id])
-  destination    MsDestination @relation(fields: [destination_id], references: [destination_id])
   driver         MsUser        @relation("DriverTrips", fields: [driver_id], references: [user_id])
 }
 
@@ -45,5 +44,4 @@ model MsDestination {
   destination_name String
   latitude         Float
   longitude        Float
-  trips            TripTransaction[]
 }

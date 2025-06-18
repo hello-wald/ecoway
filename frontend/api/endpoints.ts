@@ -20,6 +20,10 @@ export const ENDPOINTS = {
 		GET_BY_OFFER: (offerId: string) => `carpool/request/${offerId}`,
 		GET_BY_PASSENGER: (passengerId: string) => `carpool/ongoing/transactions/passenger/${passengerId}`,
 	},
+	TRANSACTION: {
+		GET_BY_DRIVER: (driverId: string) => `carpool/history/d/${driverId}`,
+		GET_BY_PASSENGER: (passengerId: string) => `carpool/history/c/${passengerId}`,
+	},
 	// RIDES: {
 	//   LIST: `${API_BASE_URL}/home`,
 	//   CREATE: `${API_BASE_URL}/home`,

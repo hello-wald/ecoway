@@ -23,7 +23,6 @@ export class TripTransactionRepository {
       include: {
         customer: true,
         driver: true,
-        destination: true,
       },
     });
   }
@@ -34,7 +33,6 @@ export class TripTransactionRepository {
       include: {
         customer: true,
         driver: true,
-        destination: true,
       },
     });
   }
@@ -44,23 +42,25 @@ export class TripTransactionRepository {
     customer_id: string
   ): Promise<TripTransactionModel[]> {
     return await prisma.tripTransaction.findMany({
-      where: { customer_id },
+      where: { customer_id: customer_id.trim() },
       include: {
         driver: true,
-        destination: true,
       },
     });
   }
 
   // Get trips by driver ID, including customer and destination
   async getTripsByDriverId(driver_id: string): Promise<TripTransactionModel[]> {
-    return await prisma.tripTransaction.findMany({
-      where: { driver_id },
+    console.log('the driver id', driver_id);
+    const result = await prisma.tripTransaction.findMany({
+      where: { driver_id: driver_id.trim() },
       include: {
         customer: true,
-        destination: true,
       },
     });
+
+    console.log('the result', result);
+    return result;
   }
 
   // Update a trip and return true if successful, false otherwise

@@ -17,8 +17,8 @@ router.get('/request/:offerId', handleGetRequestsByOfferId)
 router.delete('/decline/:requestId', handleDeclineRequest)
 router.post('/position', upload.none(), handleUpdatePosition)
 router.delete('/end/:transactionId', handleEndTransaction);
-router.get('/history/:driverId', handleGetTripTransactionByDriverId);
-router.get('/history/:customerId', handleGetTripTransactionByCustomerId)
+router.get('/history/d/:driverId', handleGetTripTransactionByDriverId);
+router.get('/history/c/:customerId', handleGetTripTransactionByCustomerId)
 router.get('/events/:offerId', handleGetEvents)
 router.get('/ongoing/transactions/driver/:driverId', handleGetOnGoingTransactionByDriverId);
 router.get('/ongoing/transactions/passenger/:passengerId', handleGetOnGoingTransactionByPassengerId);

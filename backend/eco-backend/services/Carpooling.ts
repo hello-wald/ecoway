@@ -296,11 +296,12 @@ function getTripTransactionByCustomerId(
 	return ttr.getTripsByCustomerId(customerId);
 }
 
-function getTripTransactionByDriverId(
-	driverId: string
-): Promise<TripTransactionModel[]> {
-	return ttr.getTripsByDriverId(driverId);
+async function getTripTransactionByDriverId(driverId: string): Promise<TripTransactionModel[]> {
+	const res = await ttr.getTripsByDriverId(driverId);
+	console.log('res in service', res);
+	return res;
 }
+
 
 function getOnGoingTransactionByDriver(
 	driverId: string
