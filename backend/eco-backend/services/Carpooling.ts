@@ -30,7 +30,9 @@ import { Location } from "../model/locationModel";
 import {
 	createOnGoingTransaction,
 	deleteOnGoingTransactionByID,
+	getOnGoingTransactionByDriverId,
 	getOnGoingTransactionByID,
+	getOnGoingTransactionByPassengerId,
 } from "../persistent/Mem-persistent/onGoingTransaction";
 import { onGoingTransactionModel } from "../model/onGoingTransactionModel";
 import { DestinationModel } from "../model/destinationModel";
@@ -297,10 +299,16 @@ function getTripTransactionByDriverId(
 	return ttr.getTripsByDriverId(driverId);
 }
 
-function getOnGoingTransactionByDriverId(
+function getOnGoingTransactionByDriver(
 	driverId: string
 ): onGoingTransactionModel[] {
 	return getOnGoingTransactionByDriverId(driverId);
+}
+
+function getOnGoingTransactionByPassenger(
+	PassengerId: string
+): onGoingTransactionModel[] {
+	return getOnGoingTransactionByPassengerId(PassengerId);
 }
 
 export {
@@ -321,5 +329,6 @@ export {
 	declineRequest,
 	getTripTransactionByCustomerId,
 	getTripTransactionByDriverId,
-	getOnGoingTransactionByDriverId,
+	getOnGoingTransactionByDriver,
+	getOnGoingTransactionByPassenger,
 };
