@@ -36,7 +36,7 @@ export const OfferService = {
 	async finishOffer(offerId: string) {
 		try {
 			const result = await OfferApi.finishOffer(offerId);
-
+			console.log('fin res', result);
 			if (result.success) {
 				return true;
 			} else {

@@ -3,6 +3,7 @@ import { Ride, RideRequest } from "@/types/ride.types";
 import { handleApiCall } from "@/lib/utils";
 import { ApiClient } from "../client";
 import { ENDPOINTS } from "../endpoints";
+import { AcceptRequestData, OngoingTransaction } from "@/types/transaction.types";
 
 export const RequestApi = {
 	createRequest: async (
@@ -16,9 +17,17 @@ export const RequestApi = {
 		);
 	},
 
-	acceptRequest: async (ride: Ride): Promise<ApiResponse<string>> => {
+	acceptRequest: async (ride: AcceptRequestData): Promise<ApiResponse<string>> => {
 		return handleApiCall<string>(() =>
 			ApiClient.post<ApiResponse<string>>(ENDPOINTS.REQUEST.ACCEPT, ride)
+		);
+	},
+
+	declineRequest: async (requestId: string): Promise<ApiResponse<string>> => {
+		return handleApiCall<string>(() =>
+			ApiClient.delete<ApiResponse<string>>(
+				ENDPOINTS.REQUEST.DECLINE(requestId)
+			)
 		);
 	},
 

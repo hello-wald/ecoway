@@ -34,7 +34,7 @@ export function useRequestPolling(
 							setHasNewRequest(true);
 						}
 
-						console.log('requests poll', requests);
+						console.log(requests)
 						setRideRequests(requests);
 					}
 				} catch (err) {

@@ -262,17 +262,19 @@ function getAllDestination(): DestinationModel[] {
 }
 
 function getRequestsByOffer(offerId: string): Promise<Payload<any[]>> {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const requests = getRequestsByOfferID(offerId);
 
 
-    const enrichedRequests = requests.map((request) => {
-      const user = userRepo.getUserById(request.user_id);
-      return {
-        ...request,
-        user, 
-      };
-    });
+		const enrichedRequests = await Promise.all(
+			requests.map(async (request) => {
+				const user = await userRepo.getUserById(request.user_id);
+				return {
+					...request,
+					user,
+				};
+			})
+		);
 
     resolve({
       data: enrichedRequests,

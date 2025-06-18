@@ -10,13 +10,15 @@ export const ENDPOINTS = {
 		LIST: "carpool/offers",
 		CANCEL: (offerId: string) => `carpool/cancel/${offerId}`,
 		DETAIL: (offerId: string) => `carpooling/offer/${offerId}`,
-		FINISH: (offerId: string) => `carpool/finish/${offerId}`,
+		FINISH: (transactionId: string) => `carpool/end/${transactionId }`,
 	},
 	// Rider endpoints
 	REQUEST: {
 		CREATE: "carpool/request",
 		ACCEPT: "carpool/accept",
+		DECLINE: (requestId: string) => `carpool/decline/${requestId}`,
 		GET_BY_OFFER: (offerId: string) => `carpool/request/${offerId}`,
+		GET_BY_PASSENGER: (passengerId: string) => `carpool/ongoing/transactions/passenger/${passengerId}`,
 	},
 	// RIDES: {
 	//   LIST: `${API_BASE_URL}/home`,

@@ -1,6 +1,7 @@
 import { RequestApi } from "@/api";
 import { RideRequest, Ride } from "@/types/ride.types";
 import { ApiClient } from "@/api/client";
+import { AcceptRequestData } from "@/types/transaction.types";
 
 export const RequestService = {
 	async createRequest(offerId: string, userId: string) {
@@ -11,7 +12,6 @@ export const RequestService = {
 			};
 			const result = await RequestApi.createRequest(request);
 
-			console.log("create req res", result);
 			if (result.requestId) {
 				return {
 					success: true,
@@ -30,17 +30,17 @@ export const RequestService = {
 		}
 	},
 
-	async acceptRequest(ride: Ride) {
+	async acceptRequest(requestId: string, offerId: string) {
 		try {
-			const result = await RequestApi.acceptRequest(ride);
-			if (result && result.data) {
-				// The server returns an onTransactionId for the accepted ride
+			const data: AcceptRequestData = {
+				requestId,
+				offerId,
+			};
+			const result = await RequestApi.acceptRequest(data);
+			if (result && result.onTransactionId) {
 				return {
 					success: true,
-					onTransactionId:
-						typeof result.data === "string"
-							? result.data
-							: result.data.onTransactionId || "",
+					onTransactionId: result.onTransactionId,
 				};
 			}
 			return { success: false };
@@ -52,10 +52,9 @@ export const RequestService = {
 
 	async declineRequest(requestId: string) {
 		try {
-			const response = await ApiClient.delete(
-				`/carpool/decline/${requestId}`
-			);
-			return response.data.success || false;
+			const result = await RequestApi.declineRequest(requestId);
+			console.log('decline res', result);
+			return result.success;
 		} catch (error) {
 			console.error("Error declining request:", error);
 			return false;

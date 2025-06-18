@@ -139,7 +139,7 @@ export async function handleDeclineRequest(req: Request, res: Response): Promise
   try {
     const success = await declineRequest(requestId);
     if (success) {
-      res.status(200).json({ message: "Request declined" });
+      res.status(200).json({ success: true });
     } else {
       res.status(404).json({ message: "Request not found" });
     }
@@ -167,13 +167,13 @@ export async function handleEndTransaction(req: Request, res: Response): Promise
     const success = await endTrip(req.params.transactionId);
 
     if (success) {
-      res.status(200).json({ message: "Trip ended" });
+      res.status(200).json({ message: "Trip ended", success: true });
     } else {
-      res.status(400).json({ message: "Failed to end trip" });
+      res.status(400).json({ message: "Failed to end trip", success: false });
     }
   } catch (error) {
     console.error("Error ending trip:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", success: false });
   }
 }
 
