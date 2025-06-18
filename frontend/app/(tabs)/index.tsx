@@ -42,7 +42,7 @@ export default function HomeScreen() {
 	const { coords } = useLocation();
 
 	const renderMap = () => {
-		if (Platform.OS === "web") {
+		if (Platform.OS === "web" || !coords) {
 			return (
 				<View style={[styles.map, styles.webMapPlaceholder]}>
 					<Text style={styles.webMapText}>Map View</Text>
@@ -58,17 +58,17 @@ export default function HomeScreen() {
 				provider="google"
 				style={styles.map}
 				region={{
-					latitude: coords?.latitude || 37.78825,
-					longitude: coords?.longitude || -122.4324,
-					latitudeDelta: 0.0922,
-					longitudeDelta: 0.0421,
+					latitude: coords.latitude,
+					longitude: coords.longitude,
+					latitudeDelta: 0.01,
+					longitudeDelta: 0.01,
 				}}
 				showsUserLocation
 			>
 				<Marker
 					coordinate={{
-						latitude: coords?.latitude || 37.78825,
-						longitude: coords?.longitude || -122.4324,
+						latitude: coords.latitude,
+						longitude: coords.longitude,
 					}}
 					pinColor={Colors.primary}
 				/>
@@ -115,7 +115,7 @@ export default function HomeScreen() {
 			return;
 		}
 
-		const name = data.structured_formatting.main_text || data.description;
+		const name = data.structured_formatting?.main_text || data.description;
 		const latitude = details.geometry.location.lat;
 		const longitude = details.geometry.location.lng;
 
@@ -152,97 +152,97 @@ export default function HomeScreen() {
 				{renderMap()}
 			</View>
 
-			<View style={styles.recentRidesContainer}>
-				<Text style={styles.sectionTitle}>Recent Rides</Text>
-				<FlatList
-					data={RECENT_RIDES}
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					contentContainerStyle={styles.recentRidesScrollContent}
-					keyExtractor={(item) => item.id.toString()}
-					renderItem={({ item: ride }) => (
-						<View style={styles.rideCard}>
-							{/*<View style={styles.rideMap}>*/}
-							{/*<Image*/}
-							{/*	source={{*/}
-							{/*		uri: "",*/}
-							{/*	}}*/}
-							{/*	style={styles.rideMapImage}*/}
-							{/*/>*/}
-							{/*</View>*/}
+			{/*<View style={styles.recentRidesContainer}>*/}
+			{/*	<Text style={styles.sectionTitle}>Recent Rides</Text>*/}
+			{/*	<FlatList*/}
+			{/*		data={RECENT_RIDES}*/}
+			{/*		horizontal*/}
+			{/*		showsHorizontalScrollIndicator={false}*/}
+			{/*		contentContainerStyle={styles.recentRidesScrollContent}*/}
+			{/*		keyExtractor={(item) => item.id.toString()}*/}
+			{/*		renderItem={({ item: ride }) => (*/}
+			{/*			<View style={styles.rideCard}>*/}
+			{/*				<View style={styles.rideMap}>*/}
+			{/*				<Image*/}
+			{/*					source={{*/}
+			{/*						uri: "",*/}
+			{/*					}}*/}
+			{/*					style={styles.rideMapImage}*/}
+			{/*				/>*/}
+			{/*				</View>*/}
 
-							<View style={styles.rideDetails}>
-								<View style={styles.rideLocationRow}>
-									<MapPin
-										size={16}
-										color={Colors.primary}
-									/>
-									<Text style={styles.rideLocationText}>
-										{ride.from}
-									</Text>
-								</View>
+			{/*				<View style={styles.rideDetails}>*/}
+			{/*					<View style={styles.rideLocationRow}>*/}
+			{/*						<MapPin*/}
+			{/*							size={16}*/}
+			{/*							color={Colors.primary}*/}
+			{/*						/>*/}
+			{/*						<Text style={styles.rideLocationText}>*/}
+			{/*							{ride.from}*/}
+			{/*						</Text>*/}
+			{/*					</View>*/}
 
-								<View style={styles.rideLocationRow}>
-									<MapPin
-										size={16}
-										color={Colors.secondary}
-									/>
-									<Text style={styles.rideLocationText}>
-										{ride.to}
-									</Text>
-								</View>
+			{/*					<View style={styles.rideLocationRow}>*/}
+			{/*						<MapPin*/}
+			{/*							size={16}*/}
+			{/*							color={Colors.secondary}*/}
+			{/*						/>*/}
+			{/*						<Text style={styles.rideLocationText}>*/}
+			{/*							{ride.to}*/}
+			{/*						</Text>*/}
+			{/*					</View>*/}
 
-								<View style={styles.rideInfoRow}>
-									<View style={styles.rideInfoItem}>
-										<Text style={styles.rideInfoLabel}>
-											Date & Time
-										</Text>
-										<Text style={styles.rideInfoValue}>
-											{ride.date}, {ride.time}
-										</Text>
-									</View>
-								</View>
+			{/*					<View style={styles.rideInfoRow}>*/}
+			{/*						<View style={styles.rideInfoItem}>*/}
+			{/*							<Text style={styles.rideInfoLabel}>*/}
+			{/*								Date & Time*/}
+			{/*							</Text>*/}
+			{/*							<Text style={styles.rideInfoValue}>*/}
+			{/*								{ride.date}, {ride.time}*/}
+			{/*							</Text>*/}
+			{/*						</View>*/}
+			{/*					</View>*/}
 
-								<View style={styles.rideInfoRow}>
-									<View style={styles.rideInfoItem}>
-										<Text style={styles.rideInfoLabel}>
-											Driver
-										</Text>
-										<Text style={styles.rideInfoValue}>
-											{ride.driver}
-										</Text>
-									</View>
+			{/*					<View style={styles.rideInfoRow}>*/}
+			{/*						<View style={styles.rideInfoItem}>*/}
+			{/*							<Text style={styles.rideInfoLabel}>*/}
+			{/*								Driver*/}
+			{/*							</Text>*/}
+			{/*							<Text style={styles.rideInfoValue}>*/}
+			{/*								{ride.driver}*/}
+			{/*							</Text>*/}
+			{/*						</View>*/}
 
-									<View style={styles.rideInfoItem}>
-										<Text style={styles.rideInfoLabel}>
-											Car seats
-										</Text>
-										<Text style={styles.rideInfoValue}>
-											{ride.seats}
-										</Text>
-									</View>
-								</View>
+			{/*						<View style={styles.rideInfoItem}>*/}
+			{/*							<Text style={styles.rideInfoLabel}>*/}
+			{/*								Car seats*/}
+			{/*							</Text>*/}
+			{/*							<Text style={styles.rideInfoValue}>*/}
+			{/*								{ride.seats}*/}
+			{/*							</Text>*/}
+			{/*						</View>*/}
+			{/*					</View>*/}
 
-								<View style={styles.rideInfoRow}>
-									<View style={styles.rideInfoItem}>
-										<Text style={styles.rideInfoLabel}>
-											Payment Status
-										</Text>
-										<Text
-											style={[
-												styles.rideInfoValue,
-												styles.paidStatus,
-											]}
-										>
-											{ride.status}
-										</Text>
-									</View>
-								</View>
-							</View>
-						</View>
-					)}
-				/>
-			</View>
+			{/*					<View style={styles.rideInfoRow}>*/}
+			{/*						<View style={styles.rideInfoItem}>*/}
+			{/*							<Text style={styles.rideInfoLabel}>*/}
+			{/*								Payment Status*/}
+			{/*							</Text>*/}
+			{/*							<Text*/}
+			{/*								style={[*/}
+			{/*									styles.rideInfoValue,*/}
+			{/*									styles.paidStatus,*/}
+			{/*								]}*/}
+			{/*							>*/}
+			{/*								{ride.status}*/}
+			{/*							</Text>*/}
+			{/*						</View>*/}
+			{/*					</View>*/}
+			{/*				</View>*/}
+			{/*			</View>*/}
+			{/*		)}*/}
+			{/*	/>*/}
+			{/*</View>*/}
 		</SafeAreaView>
 	);
 }

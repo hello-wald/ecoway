@@ -1,11 +1,12 @@
 import { RideOfferRequest } from "@/types/ride.types";
 import { OfferApi } from "@/api";
+import { RequestService } from "./request.service";
+import { useAuthStore } from "@/lib/store";
 
 export const OfferService = {
 
 	async createOffer(offer: RideOfferRequest) {
 		const result = await OfferApi.createOffer(offer);
-
 		if (result.offer_id) {
 			return result.offer_id;
 		} else {

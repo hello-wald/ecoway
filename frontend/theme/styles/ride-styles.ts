@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { BorderRadius, Shadow} from "../outlines";
+import { BorderRadius, BorderWidth, Shadow } from "../outlines";
 import { Font } from "../text-style";
 import { Spacing } from "../sizing";
 import { ThemeColors } from "../colors";
@@ -65,6 +65,16 @@ export const createRideStyles = (Colors: ThemeColors) => StyleSheet.create({
 		paddingHorizontal: 8,
 		paddingVertical: 4,
 		borderRadius: BorderRadius.full,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: Spacing.xs,
+	},
+	selectedCarMarker: {
+		backgroundColor: "#FFF",
+		borderWidth: BorderWidth.thin,
+		borderColor: Colors.primary,
+		borderRadius: BorderRadius.full,
 	},
 	markerText: {
 		color: '#FFF',
@@ -93,7 +103,7 @@ export const createRideStyles = (Colors: ThemeColors) => StyleSheet.create({
 	modalTitle: {
 		...Font.h6,
 		color: Colors.foreground,
-		marginBottom: Spacing.sm,
+		marginBottom: Spacing.md,
 	},
 	findRideButton: {
 		marginTop: Spacing.md,
@@ -114,5 +124,48 @@ export const createRideStyles = (Colors: ThemeColors) => StyleSheet.create({
 		...Font.lg.semiBold,
 		textAlign: 'center',
 		marginTop: Spacing.md,
+	},
+	modalOverlay: {
+		flex: 1,
+		backgroundColor: "rgba(0, 0, 0, 0.5)",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	modalContent: {
+		width: "80%",
+		backgroundColor: Colors.background,
+		borderRadius: BorderRadius.md,
+		padding: Spacing.lg,
+		alignItems: "center",
+	},
+	modalSuccess: {
+		alignItems: "center",
+	},
+	modalError: {
+		alignItems: "center",
+	},
+	popupTitle: {
+		...Font.h4,
+		textAlign: "center",
+		marginVertical: Spacing.sm,
+		color: Colors.foreground,
+	},
+	popupText: {
+		...Font.md.medium,
+		textAlign: 'center',
+		color: Colors.mutedForeground,
+		marginBottom: Spacing.md,
+	},
+	modalButton: {
+		backgroundColor: Colors.primary,
+		borderRadius: BorderRadius.md,
+		paddingVertical: Spacing.sm,
+		paddingHorizontal: Spacing.lg,
+		marginTop: Spacing.md,
+	},
+	modalButtonText: {
+		color: Colors.background,
+		fontWeight: "600",
+		fontSize: 16,
 	},
 });

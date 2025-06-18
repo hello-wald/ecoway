@@ -3,7 +3,7 @@ import { Destination, Location } from "@/types/destination.types";
 export interface RideOfferRequest {
 	driver_id: string;
 	destination: Destination;
-	location: Location
+	location: Location;
 }
 
 export interface RideOffer {
@@ -17,6 +17,8 @@ export interface RideOffer {
 export interface RideRequest {
 	offerId: string;
 	userId: string;
+	requestId?: string;
+	date?: Date;
 }
 
 export interface Ride {

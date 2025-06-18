@@ -33,6 +33,9 @@ export default function DestinationScreen() {
 	const [origin, setOrigin] = useState('Current Location');
 
 	const handleStartRide = async () => {
+		console.log("Starting Ride");
+
+
 		const offerId = await OfferService.createOffer({
 			driver_id: user!.id,
 			destination: {
@@ -45,6 +48,7 @@ export default function DestinationScreen() {
 				longitude: coords!.longitude,
 			}
 		})
+		console.log('offerid', offerId);
 		router.push(`/ride/driving/${offerId}`);
 	}
 
@@ -65,8 +69,8 @@ export default function DestinationScreen() {
 				region={{
 					latitude: coords.latitude,
 					longitude: coords.longitude,
-					latitudeDelta: 0.0922,
-					longitudeDelta: 0.0421,
+					latitudeDelta: 0.005,
+					longitudeDelta: 0.005,
 				}}
 				showsUserLocation
 			>
@@ -81,7 +85,7 @@ export default function DestinationScreen() {
 				>
 					<View style={styles.userMarker}>
 						<Image
-							source={{ uri: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg' }}
+							source={require('@/assets/images/ride/avatar.png')}
 							style={styles.userMarkerImage}
 						/>
 					</View>

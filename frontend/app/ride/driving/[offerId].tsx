@@ -1,7 +1,21 @@
 import React, { useState } from "react";
-import { Alert, Image, Platform, Text, TouchableOpacity, View, } from "react-native";
+import {
+	Alert,
+	Image,
+	Platform,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import { LocateFixed } from "lucide-react-native";
-import { BorderRadius, createRideStyles, Font, IconSize, Spacing, useTheme, } from "@/theme";
+import {
+	BorderRadius,
+	createRideStyles,
+	Font,
+	IconSize,
+	Spacing,
+	useTheme,
+} from "@/theme";
 import { useLocation } from "@/hooks/useLocation";
 import { useDestinationStore } from "@/lib/store";
 import { GradientButton } from "@/components/buttons/gradient-button";
@@ -33,6 +47,16 @@ export default function FindScreen() {
 		} else {
 			Alert.alert("Error", "Failed to cancel the ride offer.");
 		}
+	};
+
+	const handleFinish = async () => {
+		console.log("Finishing Ride");
+		// const success = await OfferService.finishOffer(offerId as string);
+		// if (success) {
+		// 	router.push("/(tabs)");
+		// } else {
+		// 	Alert.alert("Error", "Failed to finish the ride.");
+		// }
 	}
 
 	const renderMap = () => {
@@ -54,8 +78,8 @@ export default function FindScreen() {
 				region={{
 					latitude: coords.latitude,
 					longitude: coords.longitude,
-					latitudeDelta: 0.01,
-					longitudeDelta: 0.001,
+					latitudeDelta: 0.005,
+					longitudeDelta: 0.005,
 				}}
 				showsUserLocation
 			>
@@ -70,9 +94,7 @@ export default function FindScreen() {
 				>
 					<View style={styles.userMarker}>
 						<Image
-							source={{
-								uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-							}}
+							source={require("@/assets/images/ride/avatar.png")}
 							style={styles.userMarkerImage}
 						/>
 					</View>
@@ -91,7 +113,7 @@ export default function FindScreen() {
 				{renderMap()}
 
 				<TouchableOpacity style={styles.mapControlButton}>
-					<LocateFixed size={IconSize.md} color="#FFF"/>
+					<LocateFixed size={IconSize.md} color="#FFF" />
 				</TouchableOpacity>
 			</View>
 
