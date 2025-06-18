@@ -128,7 +128,7 @@ export async function handleGetRequestsByOfferId(req: Request, res: Response): P
   const { offerId } = req.params;
   try {
     const requests = await getRequestsByOffer(offerId);
-    res.status(200).json(requests);
+    res.status(200).json(requests); 
   } catch (error) {
     res.status(500).json({ message: error });
   }
