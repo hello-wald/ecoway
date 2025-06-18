@@ -3,13 +3,12 @@ import { RideRequest, Ride } from "@/types/ride.types";
 import { ApiClient } from "@/api/client";
 
 export const RequestService = {
-
 	async createRequest(offerId: string, userId: string) {
 		try {
 			const request: RideRequest = {
 				offerId,
 				userId,
-			}
+			};
 			const result = await RequestApi.createRequest(request);
 
 			console.log("create req res", result);
@@ -19,7 +18,11 @@ export const RequestService = {
 					requestId: result.requestId,
 				};
 			} else {
-				throw new Error(`Error creating request: ${result.message || 'unknown error'}`);
+				throw new Error(
+					`Error creating request: ${
+						result.message || "unknown error"
+					}`
+				);
 			}
 		} catch (error) {
 			console.error("Failed to create request:", error);
@@ -61,10 +64,8 @@ export const RequestService = {
 
 	async getRequestsByOfferId(offerId: string) {
 		try {
-			const response = await ApiClient.get(
-				`/carpool/requests/${offerId}`
-			);
-			return response.data.data || [];
+			const result = await RequestApi.getRequestsByOfferId(offerId);
+			return result.data || [];
 		} catch (error) {
 			console.error("Error getting requests:", error);
 			return [];

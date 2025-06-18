@@ -221,7 +221,7 @@ export async function handleGetEvents(req: Request, res: Response): Promise<void
 export async function handleGetOnGoingTransactionByDriverId(req: Request, res: Response): Promise<void> {
   const { driverId } = req.params;
   try {
-    const ongoingTransactions = await getOnGoingTransactionByDriverId(driverId);
+    const ongoingTransactions = getOnGoingTransactionByDriverId(driverId);
     res.status(200).json(ongoingTransactions);
   } catch (error) {
     res.status(500).json({ message: error });
