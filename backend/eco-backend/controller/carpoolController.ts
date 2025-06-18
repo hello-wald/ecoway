@@ -16,6 +16,7 @@ import {
   declineRequest,
   getTripTransactionByCustomerId,
   getTripTransactionByDriverId,
+  getOnGoingTransactionByPassenger,
 } from "../services/Carpooling"; // adjust path as needed
 import { Location } from "../model/locationModel";
 import { sseConnections } from "../persistent/Mem-persistent/sseConnectionDA";
@@ -221,6 +222,16 @@ export async function handleGetOnGoingTransactionByDriverId(req: Request, res: R
   const { driverId } = req.params;
   try {
     const ongoingTransactions = getOnGoingTransactionByDriverId(driverId);
+    res.status(200).json(ongoingTransactions);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
+
+export async function handleGetOnGoingTransactionByPassengerId(req: Request, res: Response): Promise<void> {
+  const { passengerId } = req.params;
+  try {
+    const ongoingTransactions = await getOnGoingTransactionByPassenger(passengerId);
     res.status(200).json(ongoingTransactions);
   } catch (error) {
     res.status(500).json({ message: error });
