@@ -12,6 +12,7 @@ import MapView, { Circle, Marker } from 'react-native-maps';
 import { OrDivider } from "@/components/form/or-divider";
 import { SecondaryButton } from "@/components/buttons/secondary-button";
 import { OfferService } from "@/services/offer.service";
+import { OutlineButton } from "@/components/buttons/outline-button";
 
 // Mock data for available home
 const AVAILABLE_RIDES = [

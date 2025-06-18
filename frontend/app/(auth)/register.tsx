@@ -13,12 +13,13 @@ import {
 } from "react-native";
 import { Lock, Mail, User } from "lucide-react-native";
 import { createAuthStyles, IconSize, useTheme } from "@/theme";
-import { GoogleButton } from "@/components/buttons/google-button";
+import { OutlineButton } from "@/components/buttons/outline-button";
 import { OrDivider } from "@/components/form/or-divider";
 import { GradientButton } from "@/components/buttons/gradient-button";
 import { Input } from "@/components/form/input";
 import { useAuthForm } from "@/hooks";
 import { AuthService } from "@/services";
+import { GoogleLogo } from "@/components/icons/GoogleLogo";
 
 export default function SignUpScreen() {
 	const { Colors } = useTheme();
@@ -103,9 +104,12 @@ export default function SignUpScreen() {
 
 							<OrDivider/>
 
-							<GoogleButton
+							<OutlineButton
 								onPress={() => router.push("/login")}
-							/>
+							>
+								<GoogleLogo size={IconSize.md}/>
+								<Text style={authStyles.googleText}>Sign In with Google</Text>
+							</OutlineButton>
 						</View>
 
 						<View style={authStyles.footer}>

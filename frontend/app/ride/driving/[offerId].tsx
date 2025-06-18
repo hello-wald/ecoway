@@ -25,6 +25,7 @@ import MapView, { Marker } from "react-native-maps";
 import { SecondaryButton } from "@/components/buttons/secondary-button";
 import { RideRequest } from "@/types/ride.types";
 import { OfferService } from "@/services/offer.service";
+import { OutlineButton } from "@/components/buttons/outline-button";
 
 export default function FindScreen() {
 	const { Colors } = useTheme();
@@ -146,13 +147,13 @@ export default function FindScreen() {
 
 				<GradientButton>Finish Ride</GradientButton>
 
-				<SecondaryButton
+				<OutlineButton
 					style={styles.cancelButton}
 					textStyle={styles.cancelButtonText}
 					onPress={handleCancel}
 				>
 					Cancel
-				</SecondaryButton>
+				</OutlineButton>
 			</View>
 		</SafeAreaView>
 	);

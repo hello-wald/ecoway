@@ -56,4 +56,9 @@ export const createAuthStyles = (Colors: ThemeColors) => StyleSheet.create({
 		color: Colors.primary,
 		...Font.lg.semiBold,
 	},
+	googleText: {
+		marginLeft: Spacing.sm,
+		color: Colors.foreground,
+		...Font.lg.semiBold,
+	},
 });
