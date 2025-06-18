@@ -21,5 +21,4 @@ router.get('/history/:driverId', handleGetTripTransactionByDriverId);
 router.get('/history/:customerId', handleGetTripTransactionByCustomerId)
 router.get('/events/:offerId', handleGetEvents)
 
-
 export default router;

@@ -53,7 +53,9 @@ export default function FindScreen() {
 
 		setLoading(true);
 		try {
+			console.log("Selecting rides...");
 			const result = await RequestService.createRequest(selectedOfferId, user.id);
+			console.log('sel res', result);
 
 			setRequestSuccess(result.success);
 			if (!result.success) {

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Alert, Image, Platform, Text, TouchableOpacity, View, } from "react-native";
 import { LocateFixed } from "lucide-react-native";
 import { BorderRadius, createRideStyles, Font, IconSize, Spacing, useTheme, } from "@/theme";
 import { useLocation } from "@/hooks/useLocation";
 import { useDestinationStore } from "@/lib/store";
 import { GradientButton } from "@/components/buttons/gradient-button";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { Marker } from "react-native-maps";
 import { OfferService } from "@/services/offer.service";
@@ -24,19 +24,33 @@ export default function FindScreen() {
 	// const [hasNewRequest, setHasNewRequest] = useState(false);
 	// const [eventSource, setEventSource] = useState<EventSource | null>(null);
 
-	const eventSource = new EventSource(`http://localhost:3000/events/${offerId}`);
+	useFocusEffect(
+		useCallback(() => {
+			let isActive = true;
 
-	eventSource.onmessage = (event) => {
-		const data = JSON.parse(event.data);
-		console.log("🚘 New Request Received:", data);
-		// Now instead of calling getOfferByDriverIDService,
-		// you directly update the UI with ⁠ data ⁠
-	}
+			const poll = async () => {
+				try {
+					const response = await fetch(`http://localhost:3000/carpool/request/${offerId}`);
+					if (!response.ok) throw new Error("Failed to fetch");
+					const data = await response.json();
 
-	eventSource.onerror = (event) => {
-		console.error("EventSource error:", event);
-		// Handle error, maybe close the connection or show an alert
-	}
+					if (isActive) {
+						console.log("🚘 New Request Received (polling):", data);
+						// update state here
+					}
+				} catch (err) {
+					console.error("Polling error:", err);
+				}
+			};
+
+			const interval = setInterval(poll, 5000);
+
+			return () => {
+				isActive = false;
+				clearInterval(interval);
+			};
+		}, [offerId])
+	);
 
 	const handleCancel = async () => {
 		console.log("offer id", offerId);
