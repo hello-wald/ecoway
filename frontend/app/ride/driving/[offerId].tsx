@@ -1,29 +1,13 @@
 import React, { useState } from "react";
-import {
-	Alert,
-	Image,
-	Platform,
-	Text,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import { Alert, Image, Platform, Text, TouchableOpacity, View, } from "react-native";
 import { LocateFixed } from "lucide-react-native";
-import {
-	BorderRadius,
-	createRideStyles,
-	Font,
-	IconSize,
-	Spacing,
-	useTheme,
-} from "@/theme";
+import { BorderRadius, createRideStyles, Font, IconSize, Spacing, useTheme, } from "@/theme";
 import { useLocation } from "@/hooks/useLocation";
 import { useDestinationStore } from "@/lib/store";
 import { GradientButton } from "@/components/buttons/gradient-button";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { Marker } from "react-native-maps";
-import { SecondaryButton } from "@/components/buttons/secondary-button";
-import { RideRequest } from "@/types/ride.types";
 import { OfferService } from "@/services/offer.service";
 import { OutlineButton } from "@/components/buttons/outline-button";
 
@@ -36,9 +20,23 @@ export default function FindScreen() {
 	const { coords } = useLocation();
 	const { destination } = useDestinationStore();
 	const [origin, setOrigin] = useState("Current Location");
-	const [rideRequests, setRideRequests] = useState<RideRequest[]>([]);
-	const [hasNewRequest, setHasNewRequest] = useState(false);
-	const [eventSource, setEventSource] = useState<EventSource | null>(null);
+	// const [rideRequests, setRideRequests] = useState<RideRequest[]>([]);
+	// const [hasNewRequest, setHasNewRequest] = useState(false);
+	// const [eventSource, setEventSource] = useState<EventSource | null>(null);
+
+	const eventSource = new EventSource(`http://localhost:3000/events/${offerId}`);
+
+	eventSource.onmessage = (event) => {
+		const data = JSON.parse(event.data);
+		console.log("🚘 New Request Received:", data);
+		// Now instead of calling getOfferByDriverIDService,
+		// you directly update the UI with ⁠ data ⁠
+	}
+
+	eventSource.onerror = (event) => {
+		console.error("EventSource error:", event);
+		// Handle error, maybe close the connection or show an alert
+	}
 
 	const handleCancel = async () => {
 		console.log("offer id", offerId);
@@ -114,7 +112,7 @@ export default function FindScreen() {
 				{renderMap()}
 
 				<TouchableOpacity style={styles.mapControlButton}>
-					<LocateFixed size={IconSize.md} color="#FFF" />
+					<LocateFixed size={IconSize.md} color="#FFF"/>
 				</TouchableOpacity>
 			</View>
 
