@@ -4,7 +4,6 @@ import { RequestService } from "./request.service";
 import { useAuthStore } from "@/lib/store";
 
 export const OfferService = {
-
 	async createOffer(offer: RideOfferRequest) {
 		const result = await OfferApi.createOffer(offer);
 		if (result.offer_id) {
@@ -20,7 +19,7 @@ export const OfferService = {
 	},
 
 	async cancelOffer(offerId: string) {
-		console.log('cancel id', offerId);
+		console.log("cancel id", offerId);
 		const result = await OfferApi.cancelOffer(offerId);
 
 		if (result.success) {
@@ -31,6 +30,21 @@ export const OfferService = {
 	},
 
 	async getRides() {
+		// Implement when needed
+	},
 
-	}
-}
+	async finishOffer(offerId: string) {
+		try {
+			const result = await OfferApi.finishOffer(offerId);
+
+			if (result.success) {
+				return true;
+			} else {
+				throw new Error(result.message || "Failed to finish offer");
+			}
+		} catch (error) {
+			console.error("Error finishing offer:", error);
+			return false;
+		}
+	},
+};

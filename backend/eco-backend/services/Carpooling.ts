@@ -263,6 +263,7 @@ function getRequestsByOffer(offerId: string): Promise<Payload<any[]>> {
   return new Promise((resolve, reject) => {
     const requests = getRequestsByOfferID(offerId);
 
+
     const enrichedRequests = requests.map((request) => {
       const user = userRepo.getUserById(request.user_id);
       return {

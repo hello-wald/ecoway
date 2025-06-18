@@ -5,8 +5,9 @@ import { ApiClient } from "../client";
 import { ENDPOINTS } from "../endpoints";
 
 export const OfferApi = {
-
-	createOffer: async (offer: RideOfferRequest): Promise<ApiResponse<RideOffer>> => {
+	createOffer: async (
+		offer: RideOfferRequest
+	): Promise<ApiResponse<RideOffer>> => {
 		return handleApiCall<RideOffer>(() =>
 			ApiClient.post<ApiResponse<RideOffer>>(
 				ENDPOINTS.OFFER.CREATE,
@@ -17,9 +18,7 @@ export const OfferApi = {
 
 	getOffers: async (): Promise<ApiResponse<RideOffer[]>> => {
 		return handleApiCall<RideOffer[]>(() =>
-			ApiClient.get<ApiResponse<RideOffer[]>>(
-				ENDPOINTS.OFFER.LIST
-			)
+			ApiClient.get<ApiResponse<RideOffer[]>>(ENDPOINTS.OFFER.LIST)
 		);
 	},
 
@@ -29,6 +28,14 @@ export const OfferApi = {
 				ENDPOINTS.OFFER.CANCEL(offerId)
 			)
 		);
-	}
+	},
 
-}
+	finishOffer: async (offerId: string): Promise<ApiResponse<boolean>> => {
+		return handleApiCall<boolean>(() =>
+			ApiClient.post<ApiResponse<boolean>>(
+				ENDPOINTS.OFFER.FINISH(offerId),
+				{}
+			)
+		);
+	},
+};

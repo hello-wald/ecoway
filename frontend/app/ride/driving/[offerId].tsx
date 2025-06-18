@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Image, Platform, Text, TouchableOpacity, View, } from "react-native";
 import { LocateFixed } from "lucide-react-native";
 import { BorderRadius, createRideStyles, Font, IconSize, Spacing, useTheme, } from "@/theme";
 import { useLocation } from "@/hooks/useLocation";
 import { useDestinationStore } from "@/lib/store";
 import { GradientButton } from "@/components/buttons/gradient-button";
-import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { Marker } from "react-native-maps";
 import { OfferService } from "@/services/offer.service";
 import { OutlineButton } from "@/components/buttons/outline-button";
+import { useRequestPolling } from "@/hooks";
 
 export default function FindScreen() {
 	const { Colors } = useTheme();
@@ -23,34 +24,7 @@ export default function FindScreen() {
 	// const [rideRequests, setRideRequests] = useState<RideRequest[]>([]);
 	// const [hasNewRequest, setHasNewRequest] = useState(false);
 	// const [eventSource, setEventSource] = useState<EventSource | null>(null);
-
-	useFocusEffect(
-		useCallback(() => {
-			let isActive = true;
-
-			const poll = async () => {
-				try {
-					const response = await fetch(`http://localhost:3000/carpool/request/${offerId}`);
-					if (!response.ok) throw new Error("Failed to fetch");
-					const data = await response.json();
-
-					if (isActive) {
-						console.log("🚘 New Request Received (polling):", data);
-						// update state here
-					}
-				} catch (err) {
-					console.error("Polling error:", err);
-				}
-			};
-
-			const interval = setInterval(poll, 5000);
-
-			return () => {
-				isActive = false;
-				clearInterval(interval);
-			};
-		}, [offerId])
-	);
+	const { rideRequests, hasNewRequest, clearNewRequestFlag } = useRequestPolling(offerId as string);
 
 	const handleCancel = async () => {
 		console.log("offer id", offerId);
