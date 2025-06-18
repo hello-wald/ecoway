@@ -19,6 +19,7 @@ import {
 } from "../services/Carpooling"; // adjust path as needed
 import { Location } from "../model/locationModel";
 import { sseConnections } from "../persistent/Mem-persistent/sseConnectionDA";
+import { getOnGoingTransactionByDriverId } from "../persistent/Mem-persistent/onGoingTransaction";
 
 export async function handleCreateOffer(req: Request, res: Response): Promise<void> {
   const { driver_id } = req.body;
@@ -214,4 +215,14 @@ export async function handleGetEvents(req: Request, res: Response): Promise<void
     clearInterval(keepAlive);
     sseConnections.delete(offerId);
   });
+}
+
+export async function handleGetOnGoingTransactionByDriverId(req: Request, res: Response): Promise<void> {
+  const { driverId } = req.params;
+  try {
+    const ongoingTransactions = await getOnGoingTransactionByDriverId(driverId);
+    res.status(200).json(ongoingTransactions);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
 }
