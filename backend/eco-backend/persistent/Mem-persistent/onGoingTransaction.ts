@@ -76,3 +76,13 @@ export function getOnGoingTransactionByDriverId(driverId: string): onGoingTransa
     }
     return transactions;
 }
+
+export function getOnGoingTransactionByPassengerId(passengerId: string): onGoingTransactionModel[] {
+    const transactions: onGoingTransactionModel[] = [];
+    for (const transaction of OnGoingTransactionMap.values()) {
+        if (transaction.passenger_id === passengerId) {
+            transactions.push(transaction);
+        }
+    }
+    return transactions;
+}
