@@ -26,28 +26,28 @@ destination efficiently.
 ### Authentication & Onboarding
 
 <div>
-<img src="./screenshots/onboarding.jpeg" alt="Onboarding" width="30%"/>
-<img src="./screenshots/sign-in.jpeg" alt="Login" width="30%"/>
-<img src="./screenshots/sign-up.jpeg" alt="Registration" width="30%"/>
+<img src="./screenshots/onboarding.jpeg" alt="Onboarding" width="24%"/>
+<img src="./screenshots/sign-in.jpeg" alt="Login" width="24%"/>
+<img src="./screenshots/sign-up.jpeg" alt="Registration" width="24%"/>
 </div>
 
 ### Ride Search & Requests
 
 <div>
-<img src="./screenshots/search-autocomplete-1.jpeg" alt="Search Autocomplete" width="30%"/>
-<img src="./screenshots/find-ride.jpeg" alt="Find Ride" width="30%"/>
-<img src="./screenshots/choose-ride-available.jpeg" alt="Choose Ride" width="30%"/>
+<img src="./screenshots/search-autocomplete-1.jpeg" alt="Search Autocomplete" width="24%"/>
+<img src="./screenshots/find-ride.jpeg" alt="Find Ride" width="24%"/>
+<img src="./screenshots/choose-ride-available.jpeg" alt="Choose Ride" width="24%"/>
+<img src="./screenshots/request-join-ride.jpeg" alt="Request Join Ride" width="24%"/>
 </div>
 <div>
-<img src="./screenshots/request-join-ride.jpeg" alt="Request Join Ride" width="30%"/>
-<img src="./screenshots/passenger-request-to-join.jpeg" alt="Driver Receives Request" width="30%"/>
-<img src="./screenshots/accept-passenger-request.jpeg" alt="Driver Accepts Ride" width="30%"/>
+<img src="./screenshots/passenger-request-to-join.jpeg" alt="Driver Receives Request" width="24%"/>
+<img src="./screenshots/accept-passenger-request.jpeg" alt="Driver Accepts Ride" width="24%"/>
 </div>
 
 ### Ongoing Trip
 <div>
-<img src="./screenshots/ride-with-passenger.jpeg" alt="Ride with Passenger" width="30%"/>
-<img src="./screenshots/ride-ongoing-no-passengers.jpeg" alt="Ride without Passengers" width="30%"/>
+<img src="./screenshots/ride-with-passenger.jpeg" alt="Ride with Passenger" width="24%"/>
+<img src="./screenshots/ride-ongoing-no-passengers.jpeg" alt="Ride without Passengers" width="24%"/>
 </div>
 
 ## ✨ Features
@@ -192,9 +192,9 @@ eas build --platform android
 
 This project is licensed under the GNU General Public License (GPL) License - see the [LICENSE](LICENSE) file for details.
 
----
-<div align="center">
-<b>Built with ❤️ for a sustainable future 🌍</b>
+<br />
 
+<div align="center">
+<b>Built with ❤️ for a sustainable future 🌍</b> <br />
 <i>Developed as Software Engineering Project (2025)</i>
 </div>
