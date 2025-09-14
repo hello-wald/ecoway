@@ -25,23 +25,30 @@ destination efficiently.
 
 ### Authentication & Onboarding
 
+<div>
 <img src="./screenshots/onboarding.jpeg" alt="Onboarding" width="30%"/>
 <img src="./screenshots/sign-in.jpeg" alt="Login" width="30%"/>
 <img src="./screenshots/sign-up.jpeg" alt="Registration" width="30%"/>
+</div>
 
 ### Ride Search & Requests
 
+<div>
 <img src="./screenshots/search-autocomplete-1.jpeg" alt="Search Autocomplete" width="30%"/>
 <img src="./screenshots/find-ride.jpeg" alt="Find Ride" width="30%"/>
 <img src="./screenshots/choose-ride-available.jpeg" alt="Choose Ride" width="30%"/>
+</div>
+<div>
 <img src="./screenshots/request-join-ride.jpeg" alt="Request Join Ride" width="30%"/>
 <img src="./screenshots/passenger-request-to-join.jpeg" alt="Driver Receives Request" width="30%"/>
 <img src="./screenshots/accept-passenger-request.jpeg" alt="Driver Accepts Ride" width="30%"/>
+</div>
 
 ### Ongoing Trip
-
+<div>
 <img src="./screenshots/ride-with-passenger.jpeg" alt="Ride with Passenger" width="30%"/>
 <img src="./screenshots/ride-ongoing-no-passengers.jpeg" alt="Ride without Passengers" width="30%"/>
+</div>
 
 ## ✨ Features
 
