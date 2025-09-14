@@ -196,5 +196,6 @@ This project is licensed under the GNU General Public License (GPL) License - se
 
 <div align="center">
 <b>Built with ❤️ for a sustainable future 🌍</b> <br />
+— <br />
 <i>Developed as Software Engineering Project (2025)</i>
 </div>
