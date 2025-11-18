@@ -26,7 +26,7 @@ export default function ProfileScreen() {
 	const { Colors } = useTheme();
 	const styles = createStyles(Colors);
 
-	const {user, logout} = useAuthStore();
+	const { user, logout } = useAuthStore();
 
 	const userProfile = {
 		name: user?.name,

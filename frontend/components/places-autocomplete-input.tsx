@@ -24,6 +24,7 @@ export function PlacesAutocompleteInput({
 			<GooglePlacesAutocomplete
 				placeholder={placeholder}
 				onPress={(data, details = null) => onPlaceSelected(data, details)}
+				timeout={20000}
 				query={{
 					key: process.env.EXPO_PUBLIC_MAPS_API_KEY,
 					language: "en",
