@@ -1,19 +1,21 @@
 import 'react-native-get-random-values';
-import { useEffect } from 'react';
-import { SplashScreen, Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useFonts } from 'expo-font';
-import LoadingScreen from '@/components/loading';
+import { useEffect } from "react";
+import { SplashScreen, Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import LoadingScreen from "@/components/loading";
 import { useFrameworkReady } from "@/hooks/useFrameworkReady";
-import { ThemeProvider } from '@/theme';
+import { useFirebaseAuthListener } from "@/hooks";
+import { ThemeProvider } from "@/theme";
 import { useAuthStore } from "@/lib/store";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
 	useFrameworkReady();
+	useFirebaseAuthListener();
 
-	const { isAuthenticated } = useAuthStore();
+	const { isAuthenticated, isAuthReady } = useAuthStore();
 
 	const [fontsLoaded] = useFonts({
 		'PJS-Regular': require("@/assets/fonts/PlusJakartaSans-Regular.ttf"),
@@ -23,12 +25,12 @@ export default function RootLayout() {
 	});
 
 	useEffect(() => {
-		if (fontsLoaded) {
+		if (fontsLoaded && isAuthReady) {
 			SplashScreen.hideAsync();
 		}
-	}, [fontsLoaded]);
+	}, [fontsLoaded, isAuthReady]);
 
-	if (!fontsLoaded) {
+	if (!fontsLoaded || !isAuthReady) {
 		return <LoadingScreen/>;
 	}
 

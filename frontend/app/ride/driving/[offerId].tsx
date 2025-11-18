@@ -14,7 +14,6 @@ import { useRequestPolling } from "@/hooks";
 import { RideRequest } from "@/types/ride.types";
 import { RequestService } from "@/services/request.service";
 import { BaseModal } from "@/components/modal";
-import { TransactionApi } from "@/api";
 import { TransactionService } from "@/services";
 
 export default function DrivingScreen() {
@@ -29,7 +28,7 @@ export default function DrivingScreen() {
 	const [requestModalVisible, setRequestModalVisible] = useState(false);
 	const [latestRequest, setLatestRequest] = useState<RideRequest | null>(null);
 	const { rideRequests, hasNewRequest, clearNewRequestFlag } = useRequestPolling(offerId as string);
-	const [passengers, setPassengers] = useState<any[]>([]);
+	const [passengers, setPassengers] = useState<RideRequest[]>([]);
 
 	useEffect(() => {
 		console.log("rideRequests", rideRequests);
@@ -39,13 +38,13 @@ export default function DrivingScreen() {
 			setRequestModalVisible(true);
 			clearNewRequestFlag();
 		}
-	}, [hasNewRequest, rideRequests]);
+	}, [hasNewRequest, rideRequests, clearNewRequestFlag]);
 
 	const handleAccept = async () => {
 		if (!latestRequest) return;
 		const {success, onTransactionId} = await RequestService.acceptRequest(latestRequest.request_id, latestRequest.offer_id);
 		if (success && onTransactionId) {
-			setPassengers([...passengers, latestRequest]);
+			setPassengers((prev) => [...prev, latestRequest]);
 			setTransactionId(onTransactionId);
 			setRequestModalVisible(false);
 		}
@@ -53,7 +52,10 @@ export default function DrivingScreen() {
 
 	const handleDeny = async () => {
 		if (!latestRequest) return;
-		await RequestService.declineRequest(latestRequest.request_id);
+		await RequestService.declineRequest(
+			latestRequest.request_id,
+			latestRequest.offer_id
+		);
 		setRequestModalVisible(false);
 	};
 
@@ -179,10 +181,10 @@ export default function DrivingScreen() {
 								/>
 								<View style={{alignItems: "flex-start"}}>
 									<Text style={styles.passengerName}>
-										{passenger.user?.user_name || "Unknown User"}
+										{passenger.user?.name || "Unknown User"}
 									</Text>
 									<Text style={styles.passengerEmail}>
-										{passenger.user?.user_email || "Unknown User"}
+										{passenger.user?.email || "Unknown User"}
 									</Text>
 								</View>
 							</View>
@@ -215,8 +217,8 @@ export default function DrivingScreen() {
 			<BaseModal
 				visible={requestModalVisible}
 				onClose={() => setRequestModalVisible(false)}
-				title={`${latestRequest?.user?.user_name || 'Unknown User'} wants to join`}
-				message={`A new ride request has been received from ${latestRequest?.user?.user_name || 'Unknown User'}.`}
+				title={`${latestRequest?.user?.name || 'Unknown User'} wants to join`}
+				message={`A new ride request has been received from ${latestRequest?.user?.name || 'Unknown User'}.`}
 			>
 				<GradientButton
 					style={{ width: '100%', marginBottom: Spacing.sm }}

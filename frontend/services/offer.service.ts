@@ -1,49 +1,95 @@
-import { RideOfferRequest } from "@/types/ride.types";
-import { OfferApi } from "@/api";
-import { RequestService } from "./request.service";
+import {
+	addDoc,
+	collection,
+	doc,
+	getDocs,
+	query,
+	serverTimestamp,
+	updateDoc,
+	where,
+} from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
+import { RideOffer, RideOfferRequest } from "@/types/ride.types";
 import { useAuthStore } from "@/lib/store";
+
+const OFFER_COLLECTION = "offers";
 
 export const OfferService = {
 	async createOffer(offer: RideOfferRequest) {
-		const result = await OfferApi.createOffer(offer);
-		if (result.offer_id) {
-			return result.offer_id;
-		} else {
-			throw new Error("Failed to create offer");
+		const currentUser = useAuthStore.getState().user;
+		const driverId = currentUser?.id ?? auth.currentUser?.uid;
+
+		if (!driverId) {
+			throw new Error("You need to be signed in to create an offer");
 		}
+
+		const offerRef = await addDoc(collection(db, OFFER_COLLECTION), {
+			driver_id: driverId,
+			driver_name: currentUser?.name ?? "",
+			destination: offer.destination,
+			location: offer.location,
+			status: "open",
+			createdAt: serverTimestamp(),
+			updatedAt: serverTimestamp(),
+		});
+
+		return offerRef.id;
 	},
 
-	async getOffers() {
-		const result = await OfferApi.getOffers();
-		return result || [];
+	async getOffers(): Promise<RideOffer[]> {
+		const q = query(
+			collection(db, OFFER_COLLECTION),
+			where("status", "==", "open")
+		);
+		const snapshot = await getDocs(q);
+
+		return snapshot.docs.map((docSnap) => {
+			const data = docSnap.data();
+			const destination = data.destination ?? {};
+
+			return {
+				offer_id: docSnap.id,
+				driver_id: data.driver_id,
+				driver_name: data.driver_name ?? "",
+				destination: {
+					name:
+						destination.name ?? destination.destination_name ?? "",
+					destination_name:
+						destination.destination_name ?? destination.name ?? "",
+					latitude: destination.latitude ?? 0,
+					longitude: destination.longitude ?? 0,
+				},
+				location: {
+					latitude: data.location?.latitude ?? 0,
+					longitude: data.location?.longitude ?? 0,
+				},
+				status: data.status,
+			} as RideOffer;
+		});
 	},
 
 	async cancelOffer(offerId: string) {
-		console.log("cancel id", offerId);
-		const result = await OfferApi.cancelOffer(offerId);
-
-		if (result.success) {
+		try {
+			await updateDoc(doc(db, OFFER_COLLECTION, offerId), {
+				status: "cancelled",
+				updatedAt: serverTimestamp(),
+			});
 			return true;
-		} else {
-			throw new Error(result.message || "Failed to cancel offer");
+		} catch (error) {
+			console.error("Failed to cancel offer", error);
+			return false;
 		}
-	},
-
-	async getRides() {
-		// Implement when needed
 	},
 
 	async finishOffer(offerId: string) {
 		try {
-			const result = await OfferApi.finishOffer(offerId);
-			console.log('fin res', result);
-			if (result.success) {
-				return true;
-			} else {
-				throw new Error(result.message || "Failed to finish offer");
-			}
+			await updateDoc(doc(db, OFFER_COLLECTION, offerId), {
+				status: "completed",
+				updatedAt: serverTimestamp(),
+			});
+			return true;
 		} catch (error) {
-			console.error("Error finishing offer:", error);
+			console.error("Failed to finish offer", error);
 			return false;
 		}
 	},

@@ -38,7 +38,7 @@ export function useRequestPolling(
 						setRideRequests(requests);
 					}
 				} catch (err) {
-					console.error("Polling error:", err);x
+					console.error("Polling error:", err);
 				}
 			};
 

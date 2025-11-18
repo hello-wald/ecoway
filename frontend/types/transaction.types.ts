@@ -1,10 +1,15 @@
+import { Location } from "@/types/destination.types";
+
 export interface OngoingTransaction {
-	on_transaction_id: string
-	driver_id:string
-	passenger_id:string
-	destination_id: string
-	driver_location: Location
-	passenger_location: Location
+	on_transaction_id: string;
+	driver_id: string;
+	passenger_id: string;
+	destination_id?: string;
+	driver_location?: Location | null;
+	passenger_location?: Location | null;
+	offer_id?: string;
+	request_id?: string;
+	createdAt?: Date;
 }
 
 export interface TripTransaction {
@@ -17,6 +22,6 @@ export interface TripTransaction {
 }
 
 export interface AcceptRequestData {
-	offerId: string
-	requestId: string
+	offerId: string;
+	requestId: string;
 }

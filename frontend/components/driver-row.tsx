@@ -28,7 +28,9 @@ export const DriverRow = ({ offer, selected, onPress }: DriverRowProps) => {
 						</Text>
 					</View>
 					<View style={styles.details}>
-						<Text style={styles.info}>To {offer.destination.destination_name}</Text>
+						<Text style={styles.info}>
+							To {offer.destination.destination_name ?? offer.destination.name}
+						</Text>
 						<Text style={[styles.info, {marginHorizontal: Spacing.sm}]}> • </Text>
 						<Text style={styles.info}>4 Seats</Text>
 					</View>

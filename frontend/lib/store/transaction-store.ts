@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
-interface TransactionStore	{
+interface TransactionStore {
 	transactionId: string | null;
-	setTransactionId: (id: string) => void;
+	setTransactionId: (id: string | null) => void;
 }
 
 export const useTransactionStore = create<TransactionStore>((set) => ({
 	transactionId: null,
-	setTransactionId: (id: string) => set({ transactionId: id }),
+	setTransactionId: (id) => set({ transactionId: id }),
 }));
